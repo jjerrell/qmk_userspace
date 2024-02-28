@@ -1,6 +1,7 @@
 /* Copyright 2020 ZSA Technology Labs, Inc <@zsa>
  * Copyright 2020 Jack Humbert <jack.humb@gmail.com>
  * Copyright 2020 Christopher Courtney, aka Drashna Jael're  (@drashna) <drashna@live.com>
+ * Copyright 2024 Jacob Jerrell <@jjerrell>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,4 +19,11 @@
 
 #pragma once
 
-#define ORYX_CONFIGURATOR
+#undef PRODUCT
+#define PRODUCT "Moonlander Mark I - Modified by <@jjerrell>"
+
+#define MOONLANDER_USER_LEDS
+
+#ifdef AUDIO_ENABLE
+#    define STARTUP_SONG SONG(WORKMAN_SOUND)
+#endif
