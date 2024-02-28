@@ -1,4 +1,5 @@
 /* Copyright 2015-2021 Jack Humbert
+ * Copyright 2021-2024 Jacob Jerrell <@jjerrell>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,12 +17,29 @@
 
 #pragma once
 
+#ifdef KEYBOARD_planck_ez_glow
+#    undef PRODUCT
+#    define PRODUCT "Planck EZ Glow - Modified by <@jjerrell>"
+#endif
+
+#define LEADER_NO_TIMEOUT
+
+// Get some keycodes and functionality for free See qmk_firmware/keyboards/planck/ez/ez.c
+#define ORYX_CONFIGURATOR
+#define PLANCK_EZ_USER_LEDS
+
+#define CUSTOM_RGB_INDICATORS
+
+/*
+ * Default Planck config
+ */
+
 #ifdef AUDIO_ENABLE
 #    define STARTUP_SONG SONG(PLANCK_SOUND)
 // #define STARTUP_SONG SONG(NO_SOUND)
 
 #    define DEFAULT_LAYER_SONGS \
-        { SONG(QWERTY_SOUND), SONG(COLEMAK_SOUND), SONG(DVORAK_SOUND) }
+        { SONG(WORKMAN_SOUND) }
 #endif
 
 /*
