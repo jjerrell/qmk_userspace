@@ -24,9 +24,10 @@
 #define LYR_TGL TOGGLE_LAYER_COLOR
 
 enum planck_keycodes {
-  BACKLIT = SAFE_RANGE,
+    BACKLIT = SAFE_RANGE,
 };
 
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    /* Default - Workman layout
     * ,-----------------------------------------------------------------------------------.
@@ -102,6 +103,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   float plover_song[][2]     = SONG(PLOVER_SOUND);
   float plover_gb_song[][2]  = SONG(PLOVER_GOODBYE_SOUND);
 #endif
+// clang-format on
 
 layer_state_t layer_state_set_keymap(layer_state_t state) {
     planck_ez_right_led_level(10);
@@ -126,33 +128,33 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
 }
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case LYR_TGL:
-      if (record->event.pressed) {
-          // extending TOGGLE_LAYER_COLOR to also toggle rgb_matrix
-          rgb_matrix_toggle_noeeprom();
-      }
-      // keep processing for normal funtionality
-      break;
-    case BACKLIT:
-      if (record->event.pressed) {
-        register_code(KC_RSFT);
-        #ifdef BACKLIGHT_ENABLE
-          backlight_step();
-        #endif
-        #ifdef KEYBOARD_planck_rev5
-          writePinLow(E6);
-        #endif
-      } else {
-        unregister_code(KC_RSFT);
-        #ifdef KEYBOARD_planck_rev5
-          writePinHigh(E6);
-        #endif
-      }
-      return false;
-      break;
-  }
-  return true;
+    switch (keycode) {
+        case LYR_TGL:
+            if (record->event.pressed) {
+                // extending TOGGLE_LAYER_COLOR to also toggle rgb_matrix
+                rgb_matrix_toggle_noeeprom();
+            }
+            // keep processing for normal funtionality
+            break;
+        case BACKLIT:
+            if (record->event.pressed) {
+                register_code(KC_RSFT);
+#ifdef BACKLIGHT_ENABLE
+                backlight_step();
+#endif
+#ifdef KEYBOARD_planck_rev5
+                writePinLow(E6);
+#endif
+            } else {
+                unregister_code(KC_RSFT);
+#ifdef KEYBOARD_planck_rev5
+                writePinHigh(E6);
+#endif
+            }
+            return false;
+            break;
+    }
+    return true;
 }
 
 bool rgb_indicators_process_keymap(uint8_t led_min, uint8_t led_max) {
@@ -194,42 +196,42 @@ bool rgb_indicators_process_keymap(uint8_t led_min, uint8_t led_max) {
     return true;
 }
 
-bool muse_mode = false;
-uint8_t last_muse_note = 0;
-uint16_t muse_counter = 0;
-uint8_t muse_offset = 70;
-uint16_t muse_tempo = 50;
+bool     muse_mode      = false;
+uint8_t  last_muse_note = 0;
+uint16_t muse_counter   = 0;
+uint8_t  muse_offset    = 70;
+uint16_t muse_tempo     = 50;
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
-  if (muse_mode) {
-    if (IS_LAYER_ON(_RAISE)) {
-      if (clockwise) {
-        muse_offset++;
-      } else {
-        muse_offset--;
-      }
+    if (muse_mode) {
+        if (IS_LAYER_ON(_RAISE)) {
+            if (clockwise) {
+                muse_offset++;
+            } else {
+                muse_offset--;
+            }
+        } else {
+            if (clockwise) {
+                muse_tempo += 1;
+            } else {
+                muse_tempo -= 1;
+            }
+        }
     } else {
-      if (clockwise) {
-        muse_tempo+=1;
-      } else {
-        muse_tempo-=1;
-      }
+        if (clockwise) {
+#ifdef MOUSEKEY_ENABLE
+            tap_code(KC_MS_WH_DOWN);
+#else
+            tap_code(KC_PGDN);
+#endif
+        } else {
+#ifdef MOUSEKEY_ENABLE
+            tap_code(KC_MS_WH_UP);
+#else
+            tap_code(KC_PGUP);
+#endif
+        }
     }
-  } else {
-    if (clockwise) {
-      #ifdef MOUSEKEY_ENABLE
-        tap_code(KC_MS_WH_DOWN);
-      #else
-        tap_code(KC_PGDN);
-      #endif
-    } else {
-      #ifdef MOUSEKEY_ENABLE
-        tap_code(KC_MS_WH_UP);
-      #else
-        tap_code(KC_PGUP);
-      #endif
-    }
-  }
     return true;
 }
 
@@ -241,12 +243,16 @@ bool dip_switch_update_user(uint8_t index, bool active) {
 #endif
             if (active) {
 #ifdef AUDIO_ENABLE
-                if (play_sound) { PLAY_SONG(plover_song); }
+                if (play_sound) {
+                    PLAY_SONG(plover_song);
+                }
 #endif
                 layer_on(_ADJUST);
             } else {
 #ifdef AUDIO_ENABLE
-                if (play_sound) { PLAY_SONG(plover_gb_song); }
+                if (play_sound) {
+                    PLAY_SONG(plover_gb_song);
+                }
 #endif
                 layer_off(_ADJUST);
             }
@@ -287,11 +293,11 @@ void matrix_scan_keymap(void) {
 }
 
 bool music_mask_user(uint16_t keycode) {
-  switch (keycode) {
-    case _RAISE:
-    case _LOWER:
-      return false;
-    default:
-      return true;
-  }
+    switch (keycode) {
+        case _RAISE:
+        case _LOWER:
+            return false;
+        default:
+            return true;
+    }
 }

@@ -23,12 +23,10 @@
 #include "layouts.h"
 #include "led_custom.h"
 
-
 enum custom_keycodes {
     VRSN = SAFE_RANGE,
 };
 
-// clang-format off
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_WORKMAN] = KEYMAP_moonlander_modifiers(
@@ -72,9 +70,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
         switch (keycode) {
-        case VRSN:
-            SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-            return false;
+            case VRSN:
+                SEND_STRING(QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+                return false;
         }
     }
     return true;
@@ -96,7 +94,7 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
             ML_LED_R1(true);
             break;
         default:
-            
+
             break;
     }
     return state;

@@ -70,7 +70,7 @@ __attribute__((weak)) bool process_record_secrets(uint16_t keycode, keyrecord_t 
     return true;
 }
 
-/* 
+/*
     Fixes an issue with shifted keycodes being wrapped with MOD_T functions on the _RAISE layers.
     See https://docs.qmk.fm/#/mod_tap?id=intercepting-mod-taps for more info
 */
@@ -207,7 +207,6 @@ bool process_autocorrect_user(uint16_t *keycode, keyrecord_t *record, uint8_t *t
 
     return true;
 }
-
 
 // layer states
 __attribute__((weak)) layer_state_t layer_state_set_keymap(layer_state_t state) {

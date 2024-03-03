@@ -87,7 +87,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             _______, _______, _______,     _______, _______, _______
     )
 };
-
 // clang-format on
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
@@ -177,12 +176,12 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
     return state;
 };
 
-/* 
+/*
     Setup to light up a combination of the 3 leds to indicate which modifiers are active.
     Note that if a layer change occurs, this will not override any changes from the resulting layer.
 */
 void matrix_scan_keymap(void) {
-    uint8_t modifiers = get_mods();
+    uint8_t modifiers        = get_mods();
     uint8_t layer_is_default = layer_state_is(_WORKMAN) || layer_state_is(_QWERTY);
 
     if (modifiers && layer_is_default) {
