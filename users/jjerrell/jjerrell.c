@@ -16,8 +16,64 @@
 // along with qmk_firmware.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "jjerrell.h"
+#include "keycode_config.h"
+#include QMK_KEYBOARD_H
+#include "audio.h"
 
+keymap_config_t keymap_config;
 uint16_t copy_paste_timer = 0;
+
+
+
+// Work/Home Mode
+float work_on[][2] = SONG(NOT_FANFARE);
+float work_off[][2] = SONG(NOT_STARTREK);
+
+
+
+typedef union {
+  uint32_t raw;
+  struct {
+    bool     rgb_layer_change :1;
+  };
+} user_config_t;
+
+user_config_t user_config;
+
+__attribute__((weak)) bool work_mode_is_active_keymap(os_variant_t os, layer_state_t state) { return false; }
+bool work_mode_is_active_user(os_variant_t os, layer_state_t state) {
+    if (work_mode_is_active_keymap(os, state)) {
+        return true;
+    } else {
+        switch (get_highest_layer(state)) {
+            case _HOME:
+                return false;
+                break;
+            default:
+                return true;
+                break;
+        }
+    }
+
+}
+
+// TODO: OS detection reads
+
+
+__attribute__((weak)) bool work_mode_alert_keymap(os_variant_t os, layer_state_t state) { return false; }
+void work_mode_alert_user(os_variant_t os, layer_state_t state) {
+    if (work_mode_is_active_user(os, state) && !work_mode_alert_keymap(os, state)) {
+#ifdef AUDIO_ENABLE
+    // Play sound
+        PLAY_SONG(work_on);
+#endif
+    } else {
+#ifdef AUDIO_ENABLE
+    // Play home sound
+        PLAY_SONG(work_off);
+#endif
+    }
+}
 
 // Matrix scan
 __attribute__((weak)) void matrix_scan_keymap(void) {}
@@ -54,7 +110,11 @@ void leader_end_user(void) {
     if (!(leader_end_keymap() || leader_end_secret())) {
         if (leader_sequence_one_key(KC_R)) {
             // Rebuild / Run
-            SEND_STRING(SS_LGUI("r"));
+            if (keymap_config.swap_lctl_lgui) {
+                SEND_STRING(SS_LCTL("r"));
+            } else {
+                SEND_STRING(SS_LGUI("r"));
+            }
         } else if (leader_sequence_two_keys(KC_B, KC_D)) {
             // Build info
             send_string_with_delay_P(PSTR(QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION " Built at: " QMK_BUILDDATE), TAP_CODE_DELAY);
@@ -71,7 +131,7 @@ __attribute__((weak)) bool process_record_secrets(uint16_t keycode, keyrecord_t 
     return true;
 }
 
-/* 
+/*
     Fixes an issue with shifted keycodes being wrapped with MOD_T functions on the _RAISE layers.
     See https://docs.qmk.fm/#/mod_tap?id=intercepting-mod-taps for more info
 */
@@ -104,6 +164,8 @@ bool process_record_mod_intercept(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    os_variant_t detected_os = detected_host_os();
+
     if (process_record_keymap(keycode, record) && process_record_secrets(keycode, record) && process_record_mod_intercept(keycode, record)) {
         switch (keycode) {
             case KC_ARROW:
@@ -131,6 +193,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 } else {
                     // Tap, paste
                     SEND_STRING(SS_LGUI("v"));
+                }
+                return false;
+            case WK_TGLE:
+                if (record->event.pressed) {
+                    switch (get_highest_layer(layer_state)) {
+                        case _WORKMAN:
+                            set_single_default_layer(_HOME);
+                            layer_move(_HOME);
+                            work_mode_alert_user(detected_os, layer_state);
+                            break;
+                        case _HOME:
+                            set_single_default_layer(_WORKMAN);
+                            layer_move(_WORKMAN);
+                            work_mode_alert_user(detected_os, layer_state);
+                            break;
+                    }
+                }
+            case WK_ALRT:
+                if (record->event.pressed) {
+                    work_mode_alert_user(detected_os, layer_state);
                 }
                 return false;
             default:
@@ -219,6 +301,23 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     state = update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
     return layer_state_set_keymap(state);
 }
+
+// bool process_detected_host_os_user(os_variant_t detected_os) {
+//     switch (detected_os) {
+//         case OS_MACOS:
+//         case OS_IOS:
+//             set_single_default_layer(_WORKMAN);
+//             break;
+//         case OS_WINDOWS:
+//         case OS_LINUX:
+//         case OS_UNSURE:
+//             set_single_default_layer(_HOME);
+//             break;
+//     }
+
+
+//     return true;
+// }
 
 __attribute__((weak)) void housekeeping_task_keymap(void) {}
 

@@ -43,7 +43,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _________________WORKMN_L1_________________, KC_ARROW, KC_MINS, _________________WORKMN_R1_________________,
         _________________WORKMN_L2_________________, KC_LPRN,  KC_RPRN, _________________WORKMN_R2_________________,
         _________________WORKMN_L3_________________, KC_LBRC,  KC_RBRC, _________________WORKMN_R3_________________,
-        QK_LEAD, KC_HYPR, XXXXXXX, CW_TOGG, KC_BSPC,      KC_SPC,       KC_ENT, RGB_TOG, LYR_TGL, KC_MEH, LED_LEVEL
+        QK_LEAD, KC_HYPR, XXXXXXX, CW_TOGG, KC_BSPC,      KC_SPC,       KC_ENT, RGB_TOG, WK_TGLE, WK_ALRT, LED_LEVEL
+    ),
+    // TODO: Win/Linux-safe modifier wrapper
+    [_HOME] = KEYMAP_planck_win_modifiers(
+        _________________WORKMN_L1_________________, KC_ARROW, KC_MINS, _________________WORKMN_R1_________________,
+        _________________WORKMN_L2_________________, KC_LPRN,  KC_RPRN, _________________WORKMN_R2_________________,
+        _________________WORKMN_L3_________________, KC_LBRC,  KC_RBRC, _________________WORKMN_R3_________________,
+        QK_LEAD, KC_HYPR, XXXXXXX, CW_TOGG, KC_BSPC,      KC_SPC,       KC_ENT, RGB_TOG, WK_TGLE, WK_ALRT, LED_LEVEL
     ),
     /* Lower - Nav/Select/Nums
     * ,-----------------------------------------------------------------------------------.

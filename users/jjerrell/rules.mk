@@ -17,9 +17,10 @@ LEADER_ENABLE = yes
 EXTRAKEY_ENABLE = yes
 AUTOCORRECT_ENABLE = yes
 CAPS_WORD_ENABLE = yes
+OS_DETECTION_ENABLE = yes
 
 # space savers
-LTO_ENABLE = yes
+# LTO_ENABLE = yes
 
 # reduce firmware size -- enable where needed
 CONSOLE_ENABLE = no

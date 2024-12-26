@@ -25,3 +25,49 @@ void moonlander_led_all(bool status) {
     ML_LED_R2(status);
     ML_LED_R3(status);
 }
+
+void game_mode_led_indication(void) {
+    uint8_t indication_loop = 0;
+
+    while (game_mode_notify(indication_loop)) {
+        indication_loop++;
+    }
+
+    indication_loop = 0;
+}
+
+bool game_mode_notify(uint8_t indicator_loop) {
+    switch (indicator_loop) {
+        case 0:
+            ML_LED_L1(true);
+            ML_LED_L2(false);
+            ML_LED_L3(false);
+            ML_LED_R1(false);
+            ML_LED_R2(false);
+            ML_LED_R3(true);
+            return true;
+            break;
+        case 1:
+            ML_LED_L1(false);
+            ML_LED_R3(false);
+            ML_LED_L2(true);
+            ML_LED_R2(true);
+            return true;
+            break;
+        case 2:
+            ML_LED_L2(false);
+            ML_LED_R2(false);
+            ML_LED_L3(true);
+            ML_LED_R1(true);
+            return true;
+            break;
+        case 3:
+            ML_LED_L3(false);
+            ML_LED_R1(false);
+            return true;
+            break;
+        default:
+            return false;
+            break;
+    }
+}

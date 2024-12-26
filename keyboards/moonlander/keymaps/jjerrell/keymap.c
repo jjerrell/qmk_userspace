@@ -24,7 +24,6 @@
 #include "layouts.h"
 #include "led_custom.h"
 
-
 enum custom_keycodes {
     VRSN = SAFE_RANGE,
 };
@@ -37,8 +36,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  _________________WORKMN_L1_________________, KC_LPRN,     KC_RPRN, _________________WORKMN_R1_________________, KC_BSLS,
         CW_TOGG, _________________WORKMN_L2_________________, KC_LBRC,     KC_RBRC, _________________WORKMN_R2_________________, KC_QUOT,
         KC_LSFT, _________________WORKMN_L3_________________,                       _________________WORKMN_R3_________________, KC_RSFT,
-        QK_LEAD, XXXXXXX, XXXXXXX, KC_UP, KC_LEFT,            XXXXXXX,     XXXXXXX,         KC_RIGHT, KC_DOWN, XXXXXXX, XXXXXXX, KC_GAME,
-                                             KC_SPC, KC_BSPC, QK_LEAD,     CW_TOGG, KC_TAB, KC_ENTER
+        QK_LEAD, XXXXXXX, XXXXXXX, KC_UP, KC_LEFT,            XXXXXXX,     XXXXXXX,         KC_RIGHT, KC_DOWN, XXXXXXX, XXXXXXX, WK_ALRT,
+                                             KC_SPC, KC_BSPC, QK_LEAD,     WK_TGLE, KC_TAB, KC_ENTER
+    ),
+
+    [_HOME] = KEYMAP_moonlander_win_modifiers(
+        KC_ESC,  _________________NUMBERS_L_________________, KC_ARROW,    KC_MINS, _________________NUMBERS_R_________________, KC_EQL,
+        KC_TAB,  _________________WORKMN_L1_________________, KC_LPRN,     KC_RPRN, _________________WORKMN_R1_________________, KC_BSLS,
+        CW_TOGG, _________________WORKMN_L2_________________, KC_LBRC,     KC_RBRC, _________________WORKMN_R2_________________, KC_QUOT,
+        KC_LSFT, _________________WORKMN_L3_________________,                       _________________WORKMN_R3_________________, KC_RSFT,
+        QK_LEAD, XXXXXXX, XXXXXXX, KC_UP, KC_LEFT,            XXXXXXX,     KC_GAME,         KC_RIGHT, KC_DOWN, XXXXXXX, XXXXXXX, WK_ALRT,
+                                             KC_SPC, KC_BSPC, QK_LEAD,     WK_TGLE, KC_TAB, KC_ENTER
     ),
 
     [_LOWER] = KEYMAP_moonlander_modifiers(
@@ -47,7 +55,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _________________LOWER_L2__________________, _______,    _______, _________________LOWER_R2__________________, _______,
         _______, _________________LOWER_L3__________________,                      _________________LOWER_R3__________________, _______,
         _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          _______,    _______,          _____________LOWER_R4_____________, _______,
-                                            _______, KC_BSPC, _______,    _______, KC_TAB,  KC_ENTER 
+                                            _______, KC_BSPC, _______,    _______, KC_TAB,  KC_ENTER
     ),
 
     [_RAISE] = KEYMAP_moonlander_modifiers(
@@ -66,20 +74,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            VRSN, _________________ADJUST_L3_________________,                      _________________ADJUST_R3_________________, _______,
         _______, _______, _______, _______, _______,          _______,    _______,          _______, _______, _______, _______, _______,
                                             _______, _______, _______,    _______, _______, _______
+    ),
+    [_GAME] = KEYMAP_moonlander(
+        KC_ESC,  _________________NUMBERS_L_________________, KC_Y,        XXXXXXX, _________________NUMBERS_L_________________, XXXXXXX,
+        KC_TAB,  KC_M,    _________________QWERTY_L1_________________,     XXXXXXX, _________________QWERTY_R1_________________, XXXXXXX,
+        KC_EQL,  KC_N,    _________________QWERTY_L2_________________,     XXXXXXX, _________________QWERTY_R2_________________, KC_QUOT,
+        KC_LSFT, _________________QWERTY_L3_________________,                       _________________QWERTY_R3_________________, KC_M,
+        KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, KC_LALT,          KC_ESC,      KC_GAME,       XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, KC_N,
+                                             KC_SPC, KC_BSPC, KC_R,        XXXXXXX, XXXXXXX, KC_ENT
     )
 };
 // clang-format on
-
-bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
-    if (record->event.pressed) {
-        switch (keycode) {
-        case VRSN:
-            SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-            return false;
-        }
-    }
-    return true;
-}
 
 layer_state_t layer_state_set_keymap(layer_state_t state) {
     moonlander_led_all(false);
@@ -96,8 +101,10 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
             ML_LED_L3(true);
             ML_LED_R1(true);
             break;
+        case _GAME:
+            game_mode_led_indication();
+            break;
         default:
-            
             break;
     }
     return state;

@@ -26,3 +26,5 @@
 #define ML_LED_R3(status) ML_LED_6((bool)status)
 
 void moonlander_led_all(bool status);
+void game_mode_led_indication(void);
+bool game_mode_notify(uint8_t indicator_loop);
