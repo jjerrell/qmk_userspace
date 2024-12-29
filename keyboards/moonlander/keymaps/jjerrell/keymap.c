@@ -24,11 +24,6 @@
 #include "layouts.h"
 #include "led_custom.h"
 
-enum custom_keycodes {
-    VRSN = SAFE_RANGE,
-};
-
-// clang-format off
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_WORKMAN] = KEYMAP_moonlander_modifiers(
@@ -71,14 +66,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______, _______,
         _______, _________________ADJUST_L1_________________, _______,    _______, _________________ADJUST_R1_________________, _______,
         _______, _________________ADJUST_L2_________________, _______,    _______, _________________ADJUST_R2_________________, _______,
-           VRSN, _________________ADJUST_L3_________________,                      _________________ADJUST_R3_________________, _______,
+        _______, _________________ADJUST_L3_________________,                      _________________ADJUST_R3_________________, _______,
         _______, _______, _______, _______, _______,          _______,    _______,          _______, _______, _______, _______, _______,
                                             _______, _______, _______,    _______, _______, _______
     ),
     [_GAME] = KEYMAP_moonlander(
         KC_ESC,  _________________NUMBERS_L_________________, KC_Y,        XXXXXXX, _________________NUMBERS_L_________________, XXXXXXX,
-        KC_TAB,  KC_M,    _________________QWERTY_L1_________________,     XXXXXXX, _________________QWERTY_R1_________________, XXXXXXX,
-        KC_EQL,  KC_N,    _________________QWERTY_L2_________________,     XXXXXXX, _________________QWERTY_R2_________________, KC_QUOT,
+        KC_TAB,  _________________QWERTY_L1_________________, KC_M,        XXXXXXX, _________________QWERTY_R1_________________, XXXXXXX,
+        KC_EQL,  _________________QWERTY_L2_________________, KC_N,        XXXXXXX, _________________QWERTY_R2_________________, KC_QUOT,
         KC_LSFT, _________________QWERTY_L3_________________,                       _________________QWERTY_R3_________________, KC_M,
         KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, KC_LALT,          KC_ESC,      KC_GAME,       XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, KC_N,
                                              KC_SPC, KC_BSPC, KC_R,        XXXXXXX, XXXXXXX, KC_ENT
@@ -108,4 +103,18 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
             break;
     }
     return state;
+}
+
+bool work_mode_alert_keymap(layer_state_t state) {
+    switch (get_highest_layer(state)) {
+        case _WORKMAN:
+            game_mode_led_indication();
+            break;
+            // TODO
+        case _HOME:
+            game_mode_led_indication();
+            break;
+            // TODO
+    }
+    return true;
 }
