@@ -20,7 +20,7 @@ CAPS_WORD_ENABLE = yes
 OS_DETECTION_ENABLE = yes
 
 # space savers
-# LTO_ENABLE = yes
+LTO_ENABLE = yes
 
 # reduce firmware size -- enable where needed
 CONSOLE_ENABLE = no

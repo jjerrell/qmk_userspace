@@ -70,7 +70,9 @@ bool rgb_indicators_process_modifiers_user(uint8_t active_mods, uint8_t layer) {
 
 bool rgb_indicators_process_layer_user(uint8_t layer, uint8_t active_mods) {
     switch (layer) {
-        case 0:
+        case _WORKMAN:
+        case _HOME:
+        case _QWERTY:
             return rgb_indicators_process_modifiers_user(active_mods, layer);
             break;
         case _LOWER:

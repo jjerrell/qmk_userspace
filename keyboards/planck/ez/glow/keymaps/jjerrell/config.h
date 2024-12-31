@@ -30,6 +30,8 @@
 
 #define CUSTOM_RGB_INDICATORS
 
+// #define ENABLE_STARTUP_SOUND
+
 /*
  * Default Planck config
  */

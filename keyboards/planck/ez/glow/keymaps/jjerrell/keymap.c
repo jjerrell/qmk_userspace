@@ -43,14 +43,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _________________WORKMN_L1_________________, KC_ARROW, KC_MINS, _________________WORKMN_R1_________________,
         _________________WORKMN_L2_________________, KC_LPRN,  KC_RPRN, _________________WORKMN_R2_________________,
         _________________WORKMN_L3_________________, KC_LBRC,  KC_RBRC, _________________WORKMN_R3_________________,
-        QK_LEAD, KC_HYPR, XXXXXXX, CW_TOGG, KC_BSPC,      KC_SPC,       KC_ENT, RGB_TOG, WK_TGLE, WK_ALRT, LED_LEVEL
+        QK_LEAD, KC_GAME, XXXXXXX, KC_HYPR, KC_BSPC,      KC_SPC,       KC_ENT, RGB_TOG, LYR_TGL, DF_HOME, LED_LEVEL
     ),
-    // TODO: Win/Linux-safe modifier wrapper
     [_HOME] = KEYMAP_planck_win_modifiers(
         _________________WORKMN_L1_________________, KC_ARROW, KC_MINS, _________________WORKMN_R1_________________,
         _________________WORKMN_L2_________________, KC_LPRN,  KC_RPRN, _________________WORKMN_R2_________________,
         _________________WORKMN_L3_________________, KC_LBRC,  KC_RBRC, _________________WORKMN_R3_________________,
-        QK_LEAD, KC_HYPR, XXXXXXX, CW_TOGG, KC_BSPC,      KC_SPC,       KC_ENT, RGB_TOG, WK_TGLE, WK_ALRT, LED_LEVEL
+        QK_LEAD, KC_GAME, XXXXXXX, KC_HYPR, KC_BSPC,      KC_SPC,       KC_ENT, RGB_TOG, LYR_TGL, DF_WORK, LED_LEVEL
     ),
     /* Lower - Nav/Select/Nums
     * ,-----------------------------------------------------------------------------------.
@@ -101,7 +100,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _________________ADJUST_L1_________________, _______, _______, _________________ADJUST_R1_________________,
         _________________ADJUST_L2_________________, _______, _______, _________________ADJUST_R2_________________,
         _________________ADJUST_L3_________________, _______, _______, _________________ADJUST_R3_________________,
-        _______, _______, _______, _______, _______,     XXXXXXX,      _______, _______, _______, _______, _______
+        _______, _______, _______, _______, _______,      KC_SPC,      _______, _______, _______, _______, _______
+    ),
+    [_GAME] = KEYMAP_ortho_4x12(
+        KC_ESC,  _________________QWERTY_L1_________________, _________________QWERTY_R1_________________, KC_BSPC,
+        KC_TAB,  _________________QWERTY_L2_________________, _________________QWERTY_R2_________________, KC_ENT,
+        KC_LSFT, _________________QWERTY_L3_________________, _________________QWERTY_R3_________________, KC_DEL,
+        KC_LCTL, KC_GAME, KC_LGUI, KC_LALT, KC_PGDN,  KC_SPC, XXXXXXX, KC_PGUP, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT
     )
 };
 
@@ -165,15 +170,24 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 bool rgb_indicators_process_keymap(uint8_t led_min, uint8_t led_max) {
     rgb_matrix_set_color_all(RGB_OFF);
     switch (get_highest_layer(layer_state)) {
-        case 0:
+        case _WORKMAN:
+        case _QWERTY:
             // Thumb keys
             rgb_matrix_set_color(40, RGB_WHITE);
             rgb_matrix_set_color(42, RGB_WHITE);
+            return true;
+            break;
+        case _HOME:
+            // Thumb keys
+            rgb_matrix_set_color(40, HSV_GREEN);
+            rgb_matrix_set_color(42, HSV_GREEN);
+            return true;
             break;
         case _LOWER:
             // Thumb keys
             rgb_matrix_set_color(40, RGB_OFF);
             rgb_matrix_set_color(42, RGB_RED);
+            return true;
             break;
         case _RAISE:
             // light up the alpha key ranges
@@ -193,12 +207,36 @@ bool rgb_indicators_process_keymap(uint8_t led_min, uint8_t led_max) {
             // Thumb keys
             rgb_matrix_set_color(40, RGB_RED);
             rgb_matrix_set_color(42, RGB_OFF);
+            return true;
             break;
         case _ADJUST:
             rgb_matrix_set_color_all(RGB_RED);
+            return true;
+            break;
+        case _GAME:
+            // Thumb keys
+            rgb_matrix_set_color(40, RGB_BLUE);
+            rgb_matrix_set_color(42, RGB_BLUE);
+            // Esc & Tab
+            rgb_matrix_set_color(0, RGB_RED);
+            rgb_matrix_set_color(12, HSV_AZURE);
+            // Reload
+            rgb_matrix_set_color(4, RGB_RED);
+            // Mods
+            rgb_matrix_set_color(24, RGB_ORANGE);
+            rgb_matrix_set_color(36, RGB_ORANGE);
+            rgb_matrix_set_color(39, RGB_ORANGE);
+            // Arrow keys
+            rgb_matrix_set_color(2, RGB_GREEN);
+            rgb_matrix_set_color(13, RGB_GREEN);
+            rgb_matrix_set_color(14, RGB_GREEN);
+            rgb_matrix_set_color(15, RGB_GREEN);
+            return false;
+            break;
+        default:
+            return true;
             break;
     }
-    return true;
 }
 
 bool muse_mode = false;
