@@ -40,31 +40,19 @@ enum userspace_keycodes {
     KC_MAKE,            // Runs the keyboard's make command
     KC_VRSN,            // Print QMK Firmware and board info
     KC_CCCV,
-    // Work mode
-    WK_ALRT,
-    WK_TGLE,
     USER_SAFE_RANGE
 };
-
-#define WORK_MODE_UNSET 0
-#define WORK_MODE_ON    1
-#define WORK_MODE_OFF   2
 // clang-format on
 
 #define KC_QWERTY DF(_QWERTY)
 #define KC_WRKMAN DF(_WORKMAN)
 
+#define DF_HOME DF(_HOME)
+#define DF_WORK KC_WRKMAN
+
 #define KC_GAME TG(_GAME)
 #define KC_LOWR MO(_LOWER)
 #define KC_RISE MO(_RAISE)
-
-// Work mode functions
-
-// Returns true if the keymap can determine work mode is active
-bool work_mode_is_active_keymap(layer_state_t state);
-
-// Can be used to override default userspace alerting by returning false
-bool work_mode_alert_keymap(layer_state_t state);
 
 // Keymap and other callbacks
 void matrix_scan_keymap(void);

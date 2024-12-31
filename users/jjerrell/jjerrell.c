@@ -23,73 +23,6 @@
 keymap_config_t keymap_config;
 uint16_t        copy_paste_timer = 0;
 
-// Work/Home Mode
-float work_on[][2]  = SONG(NOT_FANFARE);
-float work_off[][2] = SONG(NOT_STARTREK);
-
-typedef union {
-    uint32_t raw;
-    struct {
-        uint8_t work_mode :2; // work_modes: UNSET, ON, OFF
-    };
-} user_config_t;
-
-user_config_t user_config;
-
-__attribute__((weak)) bool work_mode_is_active_keymap(layer_state_t state) {
-    return false;
-}
-bool work_mode_is_active_user(layer_state_t state) {
-    if (work_mode_is_active_keymap(state)) {
-        return true;
-    } else {
-        switch (user_config.work_mode) {
-            case WORK_MODE_OFF:
-                return false;
-                break;
-            case WORK_MODE_ON:
-            case WORK_MODE_UNSET:
-                return true;
-                break;
-            default:
-                return true;
-                break;
-        }
-    }
-}
-
-__attribute__((weak)) bool work_mode_alert_keymap(layer_state_t state) {
-    return false;
-}
-void work_mode_alert_user(layer_state_t state) {
-    if (work_mode_is_active_user(state) && !work_mode_alert_keymap(state)) {
-#ifdef AUDIO_ENABLE
-        PLAY_SONG(work_on);
-#endif
-    } else {
-#ifdef AUDIO_ENABLE
-        PLAY_SONG(work_off);
-#endif
-    }
-}
-
-void layer_toggle_work_mode(layer_state_t state) {
-    switch (get_highest_layer(layer_state)) {
-        case _WORKMAN:
-            user_config.work_mode = WORK_MODE_ON;
-            set_single_default_layer(_HOME);
-            layer_move(_HOME);
-            work_mode_alert_user(layer_state);
-            break;
-        case _HOME:
-            user_config.work_mode = WORK_MODE_OFF;
-            set_single_default_layer(_WORKMAN);
-            layer_move(_WORKMAN);
-            work_mode_alert_user(layer_state);
-            break;
-    }
-}
-
 // Matrix scan
 __attribute__((weak)) void matrix_scan_keymap(void) {}
 __attribute__((weak)) void matrix_scan_secret(void) {}
@@ -125,10 +58,14 @@ void leader_end_user(void) {
     if (!(leader_end_keymap() || leader_end_secret())) {
         if (leader_sequence_one_key(KC_R)) {
             // Rebuild / Run
-            if (keymap_config.swap_lctl_lgui) {
-                SEND_STRING(SS_LCTL("r"));
-            } else {
-                SEND_STRING(SS_LGUI("r"));
+            switch (detected_host_os()) {
+                case OS_MACOS:
+                case OS_IOS:
+                    SEND_STRING(SS_LGUI("r"));
+                    break;
+                default:
+                    SEND_STRING(SS_LCTL("r"));
+                    break;
             }
         } else if (leader_sequence_two_keys(KC_B, KC_D)) {
             // Build info
@@ -202,20 +139,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     copy_paste_timer = timer_read();
                 } else if (timer_elapsed(copy_paste_timer) > TAPPING_TERM) {
                     // Hold, copy
-                    SEND_STRING(SS_LGUI("c"));
+                    switch (detected_host_os()) {
+                        case OS_LINUX:
+                        case OS_WINDOWS:
+                        case OS_UNSURE:
+                            SEND_STRING(SS_LCTL("c"));
+                            break;
+                        default:
+                            SEND_STRING(SS_LGUI("c"));
+                            break;
+                    }
                 } else {
                     // Tap, paste
-                    SEND_STRING(SS_LGUI("v"));
-                }
-                return false;
-            case WK_TGLE:
-                if (record->event.pressed) {
-                    layer_toggle_work_mode(layer_state);
-                }
-                return false;
-            case WK_ALRT:
-                if (record->event.pressed) {
-                    work_mode_alert_user(layer_state);
+                    switch (detected_host_os()) {
+                        case OS_LINUX:
+                        case OS_WINDOWS:
+                        case OS_UNSURE:
+                            SEND_STRING(SS_LCTL("v"));
+                            break;
+                        default:
+                            SEND_STRING(SS_LGUI("v"));
+                            break;
+                    }
                 }
                 return false;
             default:
@@ -302,34 +247,6 @@ __attribute__((weak)) layer_state_t layer_state_set_keymap(layer_state_t state) 
 layer_state_t layer_state_set_user(layer_state_t state) {
     state = update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
     return layer_state_set_keymap(state);
-}
-
-bool process_detected_host_os_user(os_variant_t detected_os) {
-    if (user_config.work_mode == WORK_MODE_UNSET) {
-        switch (detected_os) {
-            case OS_MACOS:
-            case OS_IOS:
-                user_config.work_mode = WORK_MODE_ON;
-                break;
-            case OS_WINDOWS:
-            case OS_LINUX:
-            case OS_UNSURE:
-                user_config.work_mode = WORK_MODE_OFF;
-                break;
-        }
-        layer_toggle_work_mode(layer_state);
-        return false;
-    }
-
-    return true;
-}
-
-void keyboard_post_init_user(void) {
-    // Call the keymap level matrix init.
-    // keyboard_post_init_keymap(void);
-
-    // Read the user config from EEPROM
-    user_config.raw = eeconfig_read_user();
 }
 
 __attribute__((weak)) void housekeeping_task_keymap(void) {}
