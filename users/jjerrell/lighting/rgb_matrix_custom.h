@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Jerrell, Jacob <@jjerrell>
+// Copyright (C) 2025 Jerrell, Jacob <@jjerrell>
 //
 // This file is part of qmk_firmware.
 //
@@ -15,24 +15,27 @@
 // You should have received a copy of the GNU General Public License
 // along with qmk_firmware.  If not, see <http://www.gnu.org/licenses/>.
 
+#pragma once
+#include QMK_KEYBOARD_H
 #include "jjerrell.h"
 
-bool rgb_indicators_process_keymap(uint8_t led_min, uint8_t led_max);
-bool rgb_indicators_process_layer_user(uint8_t layer, uint8_t active_mods);
-bool rgb_indicators_process_modifiers_keymap(uint8_t active_mods, uint8_t layer);
-bool rgb_indicators_process_modifiers_user(uint8_t active_mods, uint8_t layer);
+const uint8_t RGB_LIST_ARROWS[4];
+const uint8_t RGB_LIST_NUMPAD[10];
+const uint8_t RGB_LIST_MODIFIERS[8];
 
-// clang-format off
 #define INDEX_LSFT   0
 #define INDEX_RSFT   1
-#define INDEX_CWORD  2
 
-#define INDEX_LCMD   3
-#define INDEX_RCMD   4
+#define INDEX_LCMD   2
+#define INDEX_RCMD   3
 
-#define INDEX_LOPT   5
-#define INDEX_ROPT   6
+#define INDEX_LOPT   4
+#define INDEX_ROPT   5
 
-#define INDEX_LCTL   7
-#define INDEX_RCTL   8
-// clang-format on
+#define INDEX_LCTL   6
+#define INDEX_RCTL   7
+
+bool rgb_indicators_process_layer_keymap(uint8_t layer, uint8_t active_mods);
+bool rgb_indicators_process_layer_user(uint8_t layer, uint8_t active_mods);
+
+void keyboard_post_init_keymap(void);

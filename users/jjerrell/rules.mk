@@ -1,7 +1,7 @@
 SRC += $(USER_PATH)/jjerrell.c
 
 ifneq ($(strip $(RGB_MATRIX_ENABLE)), no)
-	SRC += $(USER_PATH)/lighting/rgb_custom.c
+	SRC += $(USER_PATH)/lighting/rgb_matrix_custom.c
 endif
 
 ifneq ($(strip $(NO_SECRETS)), yes)

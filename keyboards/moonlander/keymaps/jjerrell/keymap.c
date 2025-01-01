@@ -79,10 +79,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 // clang-format on
-void keyboard_post_init_user(void) {
-    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
-    rgb_matrix_sethsv_noeeprom(HSV_OFF);
-}
+
+const uint8_t RGB_LIST_ARROWS[] = {
+    12,
+    16,
+    17,
+    22
+};
+
+const uint8_t RGB_LIST_NUMPAD[] = {
+    47,
+    48,
+    49,
+    52,
+    53,
+    54,
+    57,
+    58,
+    59,
+    60
+};
+
+/* Order is important. This list will be explicitly accessed by index */
+const uint8_t RGB_LIST_MODIFIERS[] = {
+    // shift
+    12,
+    48,
+    // command
+    17,
+    53,
+    // option/alt
+    22,
+    58,
+    // control
+    8,
+    44
+};
 
 void moonlander_led_all(bool status) {
     ML_LED_L1(status);
@@ -125,7 +157,7 @@ void set_thumbs_rgb(uint8_t rl, uint8_t gl, uint8_t bl, uint8_t rr, uint8_t gr, 
     rgb_matrix_set_color(71, rr, gr, br);
 }
 
-bool rgb_indicators_process_keymap(uint8_t led_min, uint8_t led_max) {
+bool rgb_indicators_process_layer_keymap(uint8_t led_min, uint8_t led_max) {
     rgb_matrix_set_color_all(RGB_OFF);
     switch (get_highest_layer(layer_state)) {
         case _WORKMAN:
@@ -171,10 +203,10 @@ bool rgb_indicators_process_keymap(uint8_t led_min, uint8_t led_max) {
             rgb_matrix_set_color(7, RGB_GREEN);
             rgb_matrix_set_color(12, RGB_GREEN);
             rgb_matrix_set_color(17, RGB_GREEN);
-            return true;
+            return false;
             break;
         default:
-            return false;
+            return true;
             break;
     }
 }

@@ -110,6 +110,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
+const uint8_t RGB_LIST_ARROWS[] = {
+    2,
+    13,
+    14,
+    15
+};
+
+const uint8_t RGB_LIST_NUMPAD[] = {
+    8,
+    9,
+    10,
+    20,
+    21,
+    22,
+    32,
+    33,
+    34,
+    43
+};
+
+/* Order is important. This list will be explicitly accessed by index */
+const uint8_t RGB_LIST_MODIFIERS[] = {
+    // shift
+    13,
+    22,
+    // command
+    14,
+    21,
+    // option/alt
+    15,
+    20,
+    // control
+    24,
+    35
+};
+
 #ifdef AUDIO_ENABLE
   float plover_song[][2]     = SONG(PLOVER_SOUND);
   float plover_gb_song[][2]  = SONG(PLOVER_GOODBYE_SOUND);
@@ -167,7 +203,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-bool rgb_indicators_process_keymap(uint8_t led_min, uint8_t led_max) {
+bool rgb_indicators_process_layer_keymap(uint8_t led_min, uint8_t led_max) {
     rgb_matrix_set_color_all(RGB_OFF);
     switch (get_highest_layer(layer_state)) {
         case _WORKMAN:
@@ -190,27 +226,9 @@ bool rgb_indicators_process_keymap(uint8_t led_min, uint8_t led_max) {
             return true;
             break;
         case _RAISE:
-            // light up the alpha key ranges
-            for (uint16_t i = 0; i <= 46; i++) {
-                switch (i) {
-                    case 0 ... 4:
-                    case 7 ... 16:
-                    case 19 ... 28:
-                    case 31 ... 35:
-                        rgb_matrix_set_color(i, RGB_MAGENTA);
-                        break;
-                    default:
-                        rgb_matrix_set_color(i, RGB_OFF);
-                        break;
-                }
-            }
             // Thumb keys
             rgb_matrix_set_color(40, RGB_RED);
             rgb_matrix_set_color(42, RGB_OFF);
-            return true;
-            break;
-        case _ADJUST:
-            rgb_matrix_set_color_all(RGB_RED);
             return true;
             break;
         case _GAME:
