@@ -22,7 +22,6 @@
 #include "keycode_config.h"
 #include "audio.h"
 #include "wrappers.h"
-#include "lighting/rgb_custom.h"
 
 // clang-format off
 enum userspace_layers {
@@ -58,7 +57,6 @@ enum userspace_keycodes {
 
 // Keymap and other callbacks
 void matrix_scan_keymap(void);
-void matrix_scan_secret(void);
 
 void leader_start_keymap(void);
 void leader_start_secret(void);
@@ -67,9 +65,7 @@ bool leader_end_keymap(void);
 bool leader_end_secret(void);
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record);
-bool process_record_secrets(uint16_t keycode, keyrecord_t *record);
 
-bool rgb_matrix_indicators_advanced_keymap(uint8_t led_min, uint8_t led_max);
 layer_state_t layer_state_set_keymap(layer_state_t state);
 
 void housekeeping_task_keymap(void);

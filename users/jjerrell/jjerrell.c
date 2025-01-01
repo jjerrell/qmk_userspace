@@ -22,12 +22,8 @@ uint16_t        copy_paste_timer = 0;
 
 // Matrix scan
 __attribute__((weak)) void matrix_scan_keymap(void) {}
-__attribute__((weak)) void matrix_scan_secret(void) {}
 
 void matrix_scan_user(void) {
-#ifndef NO_SECRETS
-    matrix_scan_secret();
-#endif
     matrix_scan_keymap();
 }
 
@@ -44,15 +40,15 @@ void leader_start_user(void) {
 
 // Leader end
 __attribute__((weak)) bool leader_end_keymap(void) {
-    return false;
+    return true;
 }
 __attribute__((weak)) bool leader_end_secret(void) {
-    return false;
+    return true;
 }
 
 void leader_end_user(void) {
     // only run the process if the keymap or secret implementation did not find a match
-    if (!(leader_end_keymap() || leader_end_secret())) {
+    if (leader_end_keymap() && leader_end_secret()) {
         if (leader_sequence_one_key(KC_R)) {
             // Rebuild / Run
             switch (detected_host_os()) {
@@ -73,10 +69,6 @@ void leader_end_user(void) {
 
 // Process record
 __attribute__((weak)) bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
-    return true;
-}
-
-__attribute__((weak)) bool process_record_secrets(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
@@ -113,7 +105,7 @@ bool process_record_mod_intercept(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (process_record_keymap(keycode, record) && process_record_secrets(keycode, record) && process_record_mod_intercept(keycode, record)) {
+    if (process_record_keymap(keycode, record) && process_record_mod_intercept(keycode, record)) {
         switch (keycode) {
             case KC_ARROW:
                 if (record->event.pressed) {

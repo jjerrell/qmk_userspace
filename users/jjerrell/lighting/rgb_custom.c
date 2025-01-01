@@ -17,6 +17,81 @@
 
 #include "rgb_custom.h"
 
+const uint8_t RGB_LIST_ARROWS[] = {
+#if defined(KEYBOARD_planck_ez_glow)
+    2,
+    13,
+    14,
+    15
+#elif defined(KEYBOARD_moonlander)
+    12,
+    16,
+    17,
+    22
+#endif
+};
+
+const uint8_t RGB_LIST_NUMPAD[] = {
+#if defined(KEYBOARD_planck_ez_glow)
+    8,
+    9,
+    10,
+    20,
+    21,
+    22,
+    32,
+    33,
+    34,
+    43
+#elif defined(KEYBOARD_moonlander)
+    47,
+    48,
+    49,
+    52,
+    53,
+    54,
+    57,
+    58,
+    59,
+    60
+#endif
+};
+
+/* Order is important. This list will be explicitly accessed by index */
+const uint8_t RGB_LIST_MODIFIERS[] = {
+#if defined(KEYBOARD_planck_ez_glow)
+    // shift
+    13, // 0
+    22, // 1
+    // caps word
+    39,
+    // command
+    14,
+    21,
+    // option/alt
+    15,
+    20,
+    // control
+    24,
+    35
+#elif defined(KEYBOARD_moonlander)
+    // shift
+    12,
+    48,
+    // caps word
+    2,
+    // command
+    17,
+    53,
+    // option/alt
+    22,
+    58,
+    // control
+    8,
+    44
+#endif
+};
+
 __attribute__((weak)) bool rgb_indicators_process_keymap(uint8_t led_min, uint8_t led_max) {
     rgb_matrix_set_color_all(RGB_OFF);
     return true;
