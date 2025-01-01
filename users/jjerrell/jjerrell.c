@@ -16,9 +16,6 @@
 // along with qmk_firmware.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "jjerrell.h"
-#include "keycode_config.h"
-#include QMK_KEYBOARD_H
-#include "audio.h"
 
 keymap_config_t keymap_config;
 uint16_t        copy_paste_timer = 0;

@@ -17,16 +17,18 @@
 
 #pragma once
 #include QMK_KEYBOARD_H
-
 #include "version.h"
 #include "leader.h"
+#include "keycode_config.h"
+#include "audio.h"
 #include "wrappers.h"
+#include "lighting/rgb_custom.h"
 
 // clang-format off
 enum userspace_layers {
     _WORKMAN,
-    _HOME,
     _QWERTY,
+    _HOME,
     _LOWER,
     _RAISE,
     _ADJUST,
@@ -47,8 +49,8 @@ enum userspace_keycodes {
 #define KC_QWERTY DF(_QWERTY)
 #define KC_WRKMAN DF(_WORKMAN)
 
-#define DF_HOME DF(_HOME)
-#define DF_WORK KC_WRKMAN
+#define DF_HOME TO(_HOME)
+#define DF_WORK TO(_WORKMAN)
 
 #define KC_GAME TG(_GAME)
 #define KC_LOWR MO(_LOWER)
