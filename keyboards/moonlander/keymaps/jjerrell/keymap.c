@@ -79,6 +79,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 // clang-format on
+void keyboard_post_init_user(void) {
+    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+    rgb_matrix_sethsv_noeeprom(HSV_OFF);
+}
+
+void moonlander_led_all(bool status) {
+    ML_LED_L1(status);
+    ML_LED_L2(status);
+    ML_LED_L3(status);
+    ML_LED_R1(status);
+    ML_LED_R2(status);
+    ML_LED_R3(status);
+}
 
 layer_state_t layer_state_set_keymap(layer_state_t state) {
     moonlander_led_all(false);

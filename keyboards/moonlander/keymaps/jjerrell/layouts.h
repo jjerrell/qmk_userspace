@@ -17,8 +17,6 @@
  * along with qmk_firmware.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "jjerrell.h"
-
 #define KEYMAP_moonlander(...) LAYOUT_moonlander(__VA_ARGS__)
 
 // clang-format off
