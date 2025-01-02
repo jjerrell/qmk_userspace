@@ -10,6 +10,11 @@
 *.bin
 *.uf2
 
+# clangd
+compile_commands.json
+.clangd/
+.cache/
+
 # Other
 **secrets**.*
 user_song_list.h
