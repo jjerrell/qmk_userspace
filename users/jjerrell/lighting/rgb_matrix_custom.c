@@ -24,8 +24,8 @@ __attribute__((weak)) bool rgb_indicators_process_layer_keymap(uint8_t layer, ui
 
 bool rgb_indicators_process_layer_user(uint8_t layer, uint8_t active_mods) {
     if (rgb_indicators_process_layer_keymap(layer, active_mods)) {
-        rgb_t default_color = (rgb_t){RGB_GREEN}; // Default to GOLD
-
+        // Set the default color for modifier layer indicators
+        rgb_t default_color = (rgb_t){RGB_GREEN};
         switch (layer) {
             case _WORKMAN:
                 default_color = (rgb_t){RGB_GREEN};
@@ -38,6 +38,7 @@ bool rgb_indicators_process_layer_user(uint8_t layer, uint8_t active_mods) {
                 break;
         }
 
+        // Handle re-usable layer indication
         switch (layer) {
             case _WORKMAN:
             case _HOME:
