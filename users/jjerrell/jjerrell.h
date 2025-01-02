@@ -20,8 +20,10 @@
 #include "version.h"
 #include "leader.h"
 #include "keycode_config.h"
-#include "audio.h"
 #include "wrappers.h"
+#ifdef AUDIO_ENABLE
+#include "audio.h"
+#endif
 
 // clang-format off
 enum userspace_layers {

@@ -1,6 +1,6 @@
 SRC += $(USER_PATH)/jjerrell.c
 
-ifneq ($(strip $(RGB_MATRIX_ENABLE)), no)
+ifeq ($(strip $(RGB_MATRIX_ENABLE)), yes)
 	SRC += $(USER_PATH)/lighting/rgb_matrix_custom.c
 endif
 
