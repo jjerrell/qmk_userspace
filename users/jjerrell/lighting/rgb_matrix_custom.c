@@ -24,12 +24,26 @@ __attribute__((weak)) bool rgb_indicators_process_layer_keymap(uint8_t layer, ui
 
 bool rgb_indicators_process_layer_user(uint8_t layer, uint8_t active_mods) {
     if (rgb_indicators_process_layer_keymap(layer, active_mods)) {
+        rgb_t default_color = (rgb_t){RGB_GREEN}; // Default to GOLD
+
+        switch (layer) {
+            case _WORKMAN:
+                default_color = (rgb_t){RGB_GREEN};
+                break;
+            case _HOME:
+                default_color = (rgb_t){RGB_BLUE};
+                break;
+            case _QWERTY:
+                default_color = (rgb_t){RGB_RED};
+                break;
+        }
+
         switch (layer) {
             case _WORKMAN:
             case _HOME:
             case _QWERTY:
                 for (uint8_t i = 0; i < ARRAY_SIZE(RGB_LIST_MODIFIERS); i++) {
-                    rgb_matrix_set_color(RGB_LIST_MODIFIERS[i], RGB_GOLD);
+                    rgb_matrix_set_color(RGB_LIST_MODIFIERS[i], default_color.r, default_color.g, default_color.b);
                 }
 
                 // process modifiers
