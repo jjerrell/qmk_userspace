@@ -1,5 +1,9 @@
 SRC += $(USER_PATH)/jjerrell.c
 
+ifeq ($(strip $(RGB_MATRIX_ENABLE)), yes)
+	SRC += $(USER_PATH)/lighting/rgb_matrix_custom.c
+endif
+
 ifneq ($(strip $(NO_SECRETS)), yes)
     ifneq ("$(wildcard $(USER_PATH)/secrets.c)","")
         SRC += secrets.c
@@ -9,14 +13,11 @@ ifneq ($(strip $(NO_SECRETS)), yes)
     endif
 endif
 
-ifeq ($(strip $(RGB_MATRIX_ENABLE)), yes)
-    SRC += $(USER_PATH)/lighting/rgb_custom.c
-endif
-
 LEADER_ENABLE = yes
 EXTRAKEY_ENABLE = yes
 AUTOCORRECT_ENABLE = yes
 CAPS_WORD_ENABLE = yes
+OS_DETECTION_ENABLE = yes
 
 # space savers
 LTO_ENABLE = yes

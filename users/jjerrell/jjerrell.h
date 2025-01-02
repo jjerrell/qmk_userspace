@@ -17,15 +17,19 @@
 
 #pragma once
 #include QMK_KEYBOARD_H
-
 #include "version.h"
 #include "leader.h"
+#include "keycode_config.h"
 #include "wrappers.h"
+#ifdef AUDIO_ENABLE
+#include "audio.h"
+#endif
 
 // clang-format off
 enum userspace_layers {
     _WORKMAN,
-    _QWERTY = 0,
+    _QWERTY,
+    _HOME,
     _LOWER,
     _RAISE,
     _ADJUST,
@@ -46,13 +50,15 @@ enum userspace_keycodes {
 #define KC_QWERTY DF(_QWERTY)
 #define KC_WRKMAN DF(_WORKMAN)
 
+#define DF_HOME TO(_HOME)
+#define DF_WORK TO(_WORKMAN)
+
 #define KC_GAME TG(_GAME)
 #define KC_LOWR MO(_LOWER)
 #define KC_RISE MO(_RAISE)
 
 // Keymap and other callbacks
 void matrix_scan_keymap(void);
-void matrix_scan_secret(void);
 
 void leader_start_keymap(void);
 void leader_start_secret(void);
@@ -61,9 +67,7 @@ bool leader_end_keymap(void);
 bool leader_end_secret(void);
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record);
-bool process_record_secrets(uint16_t keycode, keyrecord_t *record);
 
-bool rgb_matrix_indicators_advanced_keymap(uint8_t led_min, uint8_t led_max);
 layer_state_t layer_state_set_keymap(layer_state_t state);
 
 void housekeeping_task_keymap(void);

@@ -17,16 +17,13 @@
 
 #include "jjerrell.h"
 
-uint16_t copy_paste_timer = 0;
+keymap_config_t keymap_config;
+uint16_t        copy_paste_timer = 0;
 
 // Matrix scan
 __attribute__((weak)) void matrix_scan_keymap(void) {}
-__attribute__((weak)) void matrix_scan_secret(void) {}
 
 void matrix_scan_user(void) {
-#ifndef NO_SECRETS
-    matrix_scan_secret();
-#endif
     matrix_scan_keymap();
 }
 
@@ -43,18 +40,26 @@ void leader_start_user(void) {
 
 // Leader end
 __attribute__((weak)) bool leader_end_keymap(void) {
-    return false;
+    return true;
 }
 __attribute__((weak)) bool leader_end_secret(void) {
-    return false;
+    return true;
 }
 
 void leader_end_user(void) {
     // only run the process if the keymap or secret implementation did not find a match
-    if (!(leader_end_keymap() || leader_end_secret())) {
+    if (leader_end_keymap() && leader_end_secret()) {
         if (leader_sequence_one_key(KC_R)) {
             // Rebuild / Run
-            SEND_STRING(SS_LGUI("r"));
+            switch (detected_host_os()) {
+                case OS_MACOS:
+                case OS_IOS:
+                    SEND_STRING(SS_LGUI("r"));
+                    break;
+                default:
+                    SEND_STRING(SS_LCTL("r"));
+                    break;
+            }
         } else if (leader_sequence_two_keys(KC_B, KC_D)) {
             // Build info
             send_string_with_delay_P(PSTR(QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION " Built at: " QMK_BUILDDATE), TAP_CODE_DELAY);
@@ -67,11 +72,7 @@ __attribute__((weak)) bool process_record_keymap(uint16_t keycode, keyrecord_t *
     return true;
 }
 
-__attribute__((weak)) bool process_record_secrets(uint16_t keycode, keyrecord_t *record) {
-    return true;
-}
-
-/* 
+/*
     Fixes an issue with shifted keycodes being wrapped with MOD_T functions on the _RAISE layers.
     See https://docs.qmk.fm/#/mod_tap?id=intercepting-mod-taps for more info
 */
@@ -104,7 +105,7 @@ bool process_record_mod_intercept(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (process_record_keymap(keycode, record) && process_record_secrets(keycode, record) && process_record_mod_intercept(keycode, record)) {
+    if (process_record_keymap(keycode, record) && process_record_mod_intercept(keycode, record)) {
         switch (keycode) {
             case KC_ARROW:
                 if (record->event.pressed) {
@@ -127,10 +128,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     copy_paste_timer = timer_read();
                 } else if (timer_elapsed(copy_paste_timer) > TAPPING_TERM) {
                     // Hold, copy
-                    SEND_STRING(SS_LGUI("c"));
+                    switch (detected_host_os()) {
+                        case OS_LINUX:
+                        case OS_WINDOWS:
+                        case OS_UNSURE:
+                            SEND_STRING(SS_LCTL("c"));
+                            break;
+                        default:
+                            SEND_STRING(SS_LGUI("c"));
+                            break;
+                    }
                 } else {
                     // Tap, paste
-                    SEND_STRING(SS_LGUI("v"));
+                    switch (detected_host_os()) {
+                        case OS_LINUX:
+                        case OS_WINDOWS:
+                        case OS_UNSURE:
+                            SEND_STRING(SS_LCTL("v"));
+                            break;
+                        default:
+                            SEND_STRING(SS_LGUI("v"));
+                            break;
+                    }
                 }
                 return false;
             default:
@@ -208,7 +227,6 @@ bool process_autocorrect_user(uint16_t *keycode, keyrecord_t *record, uint8_t *t
 
     return true;
 }
-
 
 // layer states
 __attribute__((weak)) layer_state_t layer_state_set_keymap(layer_state_t state) {
