@@ -25,16 +25,16 @@
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_WORKMAN] = KEYMAP_moonlander_modifiers(
-        KC_ESC,  _________________NUMBERS_L_________________, KC_ARROW,    KC_MINS, _________________NUMBERS_R_________________, KC_EQL,
+        KC_GRV,  _________________NUMBERS_L_________________, KC_ARROW,    KC_MINS, _________________NUMBERS_R_________________, KC_EQL,
         KC_TAB,  _________________WORKMN_L1_________________, KC_LPRN,     KC_RPRN, _________________WORKMN_R1_________________, KC_BSLS,
         CW_TOGG, _________________WORKMN_L2_________________, KC_LBRC,     KC_RBRC, _________________WORKMN_R2_________________, KC_QUOT,
         KC_LSFT, _________________WORKMN_L3_________________,                       _________________WORKMN_R3_________________, KC_RSFT,
-        QK_LEAD, XXXXXXX, XXXXXXX, KC_UP, KC_LEFT,            XXXXXXX,     KC_GAME,         KC_RIGHT, KC_DOWN, XXXXXXX, XXXXXXX, XXXXXXX,
+        QK_LEAD, XXXXXXX, XXXXXXX, KC_UP, KC_LEFT,            XXXXXXX,     XXXXXXX,         KC_RIGHT, KC_DOWN, XXXXXXX, XXXXXXX, XXXXXXX,
                                              KC_SPC, KC_BSPC, QK_LEAD,     DF_HOME, KC_TAB, KC_ENTER
     ),
 
-    [_HOME] = KEYMAP_moonlander_win_modifiers(
-        KC_ESC,  _________________NUMBERS_L_________________, KC_ARROW,    KC_MINS, _________________NUMBERS_R_________________, KC_EQL,
+    [_HOME] = KEYMAP_moonlander_modifiers(
+        KC_GRV,  _________________NUMBERS_L_________________, KC_ARROW,    KC_MINS, _________________NUMBERS_R_________________, KC_EQL,
         KC_TAB,  _________________WORKMN_L1_________________, KC_LPRN,     KC_RPRN, _________________WORKMN_R1_________________, KC_BSLS,
         CW_TOGG, _________________WORKMN_L2_________________, KC_LBRC,     KC_RBRC, _________________WORKMN_R2_________________, KC_QUOT,
         KC_LSFT, _________________WORKMN_L3_________________,                       _________________WORKMN_R3_________________, KC_RSFT,
@@ -74,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  _________________QWERTY_L1_________________, XXXXXXX,     XXXXXXX, _________________QWERTY_R1_________________, KC_BSLS,
         KC_EQL,  _________________QWERTY_L2_________________, XXXXXXX,     XXXXXXX, _________________QWERTY_R2_________________, KC_QUOT,
         KC_LSFT, _________________QWERTY_L3_________________,                       _________________QWERTY_R3_________________, XXXXXXX,
-        KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, KC_LALT,          KC_ESC,      KC_GAME,       XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX,
+        KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, KC_LALT,          KC_ENT,      KC_GAME,       XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX,
                                              KC_SPC, KC_PGDN, KC_PGUP,     XXXXXXX, XXXXXXX, KC_ENT
     )
 };
