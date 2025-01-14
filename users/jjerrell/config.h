@@ -28,6 +28,8 @@
 #   define RGBLIGHT_TIMEOUT 6000  // ms to wait until rgblight time out
 #endif // RGB_MATRIX_ENABLE
 
+#define PREVENT_STUCK_MODIFIERS
+
 // Space savers
 #undef LOCKING_SUPPORT_ENABLE
 #undef LOCKING_RESYNC_ENABLE
