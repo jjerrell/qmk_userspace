@@ -21,12 +21,6 @@
 #endif
 #include "layouts.h"
 
-#define LYR_TGL TOGGLE_LAYER_COLOR
-
-enum planck_keycodes {
-  BACKLIT = SAFE_RANGE,
-};
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    /* Default - Workman layout
     * ,-----------------------------------------------------------------------------------.
@@ -43,13 +37,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _________________WORKMN_L1_________________, KC_ARROW, KC_MINS, _________________WORKMN_R1_________________,
         _________________WORKMN_L2_________________, KC_LPRN,  KC_RPRN, _________________WORKMN_R2_________________,
         _________________WORKMN_L3_________________, KC_LBRC,  KC_RBRC, _________________WORKMN_R3_________________,
-        QK_LEAD, KC_GAME, XXXXXXX, KC_HYPR, KC_BSPC,      KC_SPC,       KC_ENT, RGB_TOG, LYR_TGL, DF_HOME, LED_LEVEL
+        QK_LEAD, KC_GAME, XXXXXXX, KC_HYPR, KC_BSPC,      KC_SPC,       KC_ENT, RGB_TOG, XXXXXXX, DF_HOME, LED_LEVEL
     ),
-    [_HOME] = KEYMAP_planck_win_modifiers(
+    [_HOME] = KEYMAP_planck_modifiers(
         _________________WORKMN_L1_________________, KC_ARROW, KC_MINS, _________________WORKMN_R1_________________,
         _________________WORKMN_L2_________________, KC_LPRN,  KC_RPRN, _________________WORKMN_R2_________________,
         _________________WORKMN_L3_________________, KC_LBRC,  KC_RBRC, _________________WORKMN_R3_________________,
-        QK_LEAD, KC_GAME, XXXXXXX, KC_HYPR, KC_BSPC,      KC_SPC,       KC_ENT, RGB_TOG, LYR_TGL, DF_WORK, LED_LEVEL
+        QK_LEAD, KC_GAME, XXXXXXX, KC_HYPR, KC_BSPC,      KC_SPC,       KC_ENT, RGB_TOG, XXXXXXX, DF_WORK, LED_LEVEL
     ),
     /* Lower - Nav/Select/Nums
     * ,-----------------------------------------------------------------------------------.
@@ -173,36 +167,6 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
     return state;
 }
 
-bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case LYR_TGL:
-      if (record->event.pressed) {
-          // extending TOGGLE_LAYER_COLOR to also toggle rgb_matrix
-          rgb_matrix_toggle_noeeprom();
-      }
-      // keep processing for normal funtionality
-      break;
-    case BACKLIT:
-      if (record->event.pressed) {
-        register_code(KC_RSFT);
-        #ifdef BACKLIGHT_ENABLE
-          backlight_step();
-        #endif
-        #ifdef KEYBOARD_planck_rev5
-          writePinLow(E6);
-        #endif
-      } else {
-        unregister_code(KC_RSFT);
-        #ifdef KEYBOARD_planck_rev5
-          writePinHigh(E6);
-        #endif
-      }
-      return false;
-      break;
-  }
-  return true;
-}
-
 bool rgb_indicators_process_layer_keymap(uint8_t led_min, uint8_t led_max) {
     rgb_matrix_set_color_all(RGB_OFF);
     switch (get_highest_layer(layer_state)) {
@@ -211,12 +175,14 @@ bool rgb_indicators_process_layer_keymap(uint8_t led_min, uint8_t led_max) {
             // Thumb keys
             rgb_matrix_set_color(40, RGB_WHITE);
             rgb_matrix_set_color(42, RGB_WHITE);
+            rgb_matrix_set_color(45, RGB_BLUE);
             return true;
             break;
         case _HOME:
             // Thumb keys
             rgb_matrix_set_color(40, HSV_GREEN);
             rgb_matrix_set_color(42, HSV_GREEN);
+            rgb_matrix_set_color(45, RGB_GREEN);
             return true;
             break;
         case _LOWER:

@@ -45,20 +45,7 @@
     CTL_T(K21),      K22,        K23,        K24,  K25,   K26,      K27,   K28,       K29,        K2A,        K2B, CTL_T(K2C), \
           K31,       K32,        K33,        K34,  K35,        K36,        K38,       K39,        K3A,        K3B,       K3C   \
 )
-
-#define WRAPPER_planck_win_modifiers(                                   \
-    K01, K02, K03, K04, K05,   K06,     K07,   K08, K09, K0A, K0B, K0C, \
-    K11, K12, K13, K14, K15,   K16,     K17,   K18, K19, K1A, K1B, K1C, \
-    K21, K22, K23, K24, K25,   K26,     K27,   K28, K29, K2A, K2B, K2C, \
-    K31, K32, K33, K34, K35,        K36,       K38, K39, K3A, K3B, K3C  \
-) WRAPPER_planck_layers(                                                                                                       \
-          K01,       K02,        K03,        K04,  K05,   K06,      K07,   K08,       K09,        K0A,        K0B,       K0C,  \
-          K11, SFT_T(K12), CTL_T(K13), ALT_T(K14), K15,   K16,      K17,   K18, ALT_T(K19), CTL_T(K1A), SFT_T(K1B),      K1C,  \
-    GUI_T(K21),      K22,        K23,        K24,  K25,   K26,      K27,   K28,       K29,        K2A,        K2B, GUI_T(K2C), \
-          K31,       K32,        K33,        K34,  K35,        K36,        K38,       K39,        K3A,        K3B,       K3C   \
-)
 // clang-format on
 
 #define KEYMAP_planck_layers(...) WRAPPER_planck_layers(__VA_ARGS__)
 #define KEYMAP_planck_modifiers(...) WRAPPER_planck_modifiers(__VA_ARGS__)
-#define KEYMAP_planck_win_modifiers(...) WRAPPER_planck_win_modifiers(__VA_ARGS__)
