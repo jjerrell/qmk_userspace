@@ -24,6 +24,9 @@ __attribute__((weak)) bool rgb_indicators_process_layer_keymap(uint8_t layer, ui
 
 bool rgb_indicators_process_layer_user(uint8_t layer, uint8_t active_mods) {
     if (rgb_indicators_process_layer_keymap(layer, active_mods)) {
+        // Store the detected OS for reuse
+        int current_os = detected_host_os();
+        bool is_mac_os = current_os == OS_MACOS || current_os == OS_IOS;
         // Set the default color for modifier layer indicators
         rgb_t default_color = (rgb_t){RGB_GREEN};
         switch (layer) {
@@ -49,8 +52,13 @@ bool rgb_indicators_process_layer_user(uint8_t layer, uint8_t active_mods) {
 
                 // process modifiers
                 if (active_mods & MOD_MASK_CTRL) {
-                    rgb_matrix_set_color(RGB_LIST_MODIFIERS[INDEX_LCTL], RGB_RED);
-                    rgb_matrix_set_color(RGB_LIST_MODIFIERS[INDEX_RCTL], RGB_RED);
+                    if (is_mac_os) {
+                        rgb_matrix_set_color(RGB_LIST_MODIFIERS[INDEX_LCTL], RGB_RED);
+                        rgb_matrix_set_color(RGB_LIST_MODIFIERS[INDEX_RCTL], RGB_RED);
+                    } else {
+                        rgb_matrix_set_color(RGB_LIST_MODIFIERS[INDEX_LCMD], RGB_RED);
+                        rgb_matrix_set_color(RGB_LIST_MODIFIERS[INDEX_RCMD], RGB_RED);
+                    }
                 }
 
                 if (active_mods & MOD_MASK_SHIFT || is_caps_word_on()) {
@@ -64,8 +72,13 @@ bool rgb_indicators_process_layer_user(uint8_t layer, uint8_t active_mods) {
                 }
 
                 if (active_mods & MOD_MASK_GUI) {
-                    rgb_matrix_set_color(RGB_LIST_MODIFIERS[INDEX_LCMD], RGB_RED);
-                    rgb_matrix_set_color(RGB_LIST_MODIFIERS[INDEX_RCMD], RGB_RED);
+                    if (is_mac_os) {
+                        rgb_matrix_set_color(RGB_LIST_MODIFIERS[INDEX_LCMD], RGB_RED);
+                        rgb_matrix_set_color(RGB_LIST_MODIFIERS[INDEX_RCMD], RGB_RED);
+                    } else {
+                        rgb_matrix_set_color(RGB_LIST_MODIFIERS[INDEX_LCTL], RGB_RED);
+                        rgb_matrix_set_color(RGB_LIST_MODIFIERS[INDEX_RCTL], RGB_RED);
+                    }
                 }
                 break;
             case _LOWER:
