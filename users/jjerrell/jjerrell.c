@@ -57,7 +57,7 @@ void leader_end_user(void) {
                     SEND_STRING(SS_LGUI("r"));
                     break;
                 default:
-                    SEND_STRING(SS_LCTL("r"));
+                    tap_code16(KC_F5);
                     break;
             }
         } else if (leader_sequence_two_keys(KC_B, KC_D)) {
@@ -235,6 +235,20 @@ __attribute__((weak)) layer_state_t layer_state_set_keymap(layer_state_t state) 
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     state = update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
+    if (IS_LAYER_ON_STATE(state, _HOME) || IS_LAYER_ON_STATE(state, _WORKMAN)) {
+        keymap_config.raw = eeconfig_read_keymap();
+        switch (get_highest_layer(state)) {
+            case _WORKMAN:
+            case _GAME:
+                keymap_config.swap_lctl_lgui = keymap_config.swap_rctl_rgui = false;
+                break;
+            case _HOME:
+                keymap_config.swap_lctl_lgui = keymap_config.swap_rctl_rgui = true;
+                break;
+            default:
+                break;
+        }
+    }
     return layer_state_set_keymap(state);
 }
 
