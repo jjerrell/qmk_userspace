@@ -1,0 +1,6 @@
+{
+    "keyboard": "zsa/planck_ez/base",
+    "modules": [
+        "drashna/unicode_typing"
+    ]
+}

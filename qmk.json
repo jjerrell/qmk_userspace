@@ -3,6 +3,9 @@
     "build_targets": [
         ["planck/ez/glow", "jjerrell"],
         ["moonlander", "jjerrell"],
-        ["ergodox_ez/base", "jjerrell"]
+        ["ergodox_ez/base", "jjerrell"],
+        ["zsa/voyager", "techworker"],
+        ["zsa/moonlander", "techworker"],
+        ["zsa/planck_ez/glow", "techworker"]
     ]
 }
