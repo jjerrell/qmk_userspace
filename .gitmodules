@@ -1,6 +1,3 @@
 [submodule "qmk_firmware"]
 	path = qmk_firmware
 	url = https://github.com/qmk/qmk_firmware.git
-[submodule "community/drashna"]
-	path = community/drashna
-	url = https://github.com/drashna/qmk_userspace.git
