@@ -178,7 +178,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
-        case KC_RGB_T:
+        case KC_RGBT:
 #if defined(CUSTOM_RGBLIGHT) || defined(CUSTOM_RGB_MATRIX)
             if (record->event.pressed) {
                 rgb_layer_indication_toggle();

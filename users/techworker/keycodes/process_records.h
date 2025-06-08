@@ -10,7 +10,7 @@ enum userspace_custom_keycodes {
     KC_ARRW,           // ->
     KC_VRSN,           // Print QMK Firmware and board info
     KC_CCCV,           // Copy-pasta button
-    KC_RGB_T,          // Toggles RGB Layer Indication mode
+    KC_RGBT,          // Toggles RGB Layer Indication mode
     RGB_IDL,           // RGB Idling animations
     MACRO_1,           // Test
     MACRO_2,           // Test
@@ -49,7 +49,7 @@ void rgb_layer_indication_toggle(void);
 #define KC_SEC4 MACRO_4
 #define KC_SEC5 MACRO_5
 
-#define CTL_SPC CTL_T(KC_SPC)
+#define GUI_SPC GUI_T(KC_SPC)
 
 #define SFT_SPC SFT_T(KC_SPC)
 #define SFT_ENT SFT_T(KC_ENT)
@@ -58,6 +58,9 @@ void rgb_layer_indication_toggle(void);
 
 #define RSE_TAB LT(_RAISE, KC_TAB)
 #define RSE_ENT LT(_RAISE, KC_ENT)
+
+#define TOG_LWR TG(_LOWER)
+#define TOG_RSE TG(_RAISE)
 
 #ifndef COMMUNITY_MODULE_KEYBOARD_LOCK_ENABLE
 #    define KEYLOCK KC_NO
