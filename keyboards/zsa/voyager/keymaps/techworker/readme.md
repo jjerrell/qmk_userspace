@@ -1,6 +1,6 @@
 # Jacob Jerrell's Voyager Keymap
 
-Desktop keyboard, primarily used for work.
+Desktop keyboard, primarily used for typing.
 
 ![left side](image.png) ![right side](image-1.png)
 
