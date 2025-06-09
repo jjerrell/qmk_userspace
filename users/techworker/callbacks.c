@@ -63,6 +63,7 @@ void                       keyboard_pre_init_user(void) {
 
     keyboard_pre_init_keymap();
 }
+
 // Add reconfigurable functions here, for keymap customization
 // This allows for a global, userspace functions, and continued
 // customization of the keymap.  Use _keymap instead of _user
@@ -291,15 +292,12 @@ void                       eeconfig_init_user(void) {
 #endif // COMMUNITY_MODULE_POINTING_DEVICE_ACCEL_ENABLE
 }
 
-__attribute__((weak)) void matrix_scan_secret(void) {}
-
 /**
  * @brief Matrix scan callback ... only use for matrix scan rate task
  *
  */
 void matrix_scan_user(void) {
     matrix_scan_rate_task();
-    matrix_scan_secret();
 }
 
 /**

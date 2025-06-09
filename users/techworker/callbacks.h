@@ -7,13 +7,9 @@
 #include "quantum.h"
 
 void keyboard_post_init_keymap(void);
-void matrix_init_secret(void);
 bool shutdown_keymap(bool jump_to_bootloader);
 void suspend_power_down_keymap(void);
 void suspend_wakeup_init_keymap(void);
-
-void matrix_scan_keymap(void);
-void matrix_scan_secret(void);
 
 bool          is_gaming_layer_active(layer_state_t state);
 layer_state_t layer_state_set_keymap(layer_state_t state);
