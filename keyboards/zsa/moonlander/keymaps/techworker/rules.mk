@@ -5,11 +5,11 @@ TAP_DANCE_ENABLE      = no
 BOOTMAGIC_ENABLE      = yes      # Enable Bootmagic Lite
 CUSTOM_UNICODE_ENABLE = yes
 
-BOOTLOADER = tinyuf2
+# BOOTLOADER = tinyuf2 # Not working for this config (probably some Drashna stuff)
 
 RGB_MATRIX_ENABLE = yes
 RGBLIGHT_ENABLE = yes
 RGBLIGHT_DRIVER = custom
 
-LTO_ENABLE = yes
+LTO_ENABLE = no # Not working in Ubuntu
 OPT = fast

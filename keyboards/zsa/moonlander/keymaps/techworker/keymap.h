@@ -27,3 +27,13 @@
 
 #define LAYOUT_moonlander_base(...) WRAPPER_moonlander_base(__VA_ARGS__)
 #define LAYOUT_moonlander_mods(...) LAYOUT_moonlander_base(WRAP_MODIFIERS_4x12_tall(__VA_ARGS__))
+
+#ifdef MOONLANDER_USER_LEDS
+#   define ML_LED_L1(status) ML_LED_1((bool)status)
+#   define ML_LED_L2(status) ML_LED_2((bool)status)
+#   define ML_LED_L3(status) ML_LED_3((bool)status)
+
+#   define ML_LED_R1(status) ML_LED_4((bool)status)
+#   define ML_LED_R2(status) ML_LED_5((bool)status)
+#   define ML_LED_R3(status) ML_LED_6((bool)status)
+#endif
