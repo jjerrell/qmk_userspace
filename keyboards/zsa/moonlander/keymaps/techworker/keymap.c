@@ -45,13 +45,48 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _________________ADJUST_L3_________________,       _________________ADJUST_R3_________________, RM_TOGG
     )
 };
+// clang-format on
 
 #ifdef RGB_MATRIX_ENABLE
-#    if defined(RGBLIGHT_ENABLE) && defined(RGBLIGHT_CUSTOM)
+#    if defined(RGBLIGHT_ENABLE) && defined(RGBLIGHping_task_user(void) {
+    //     if (!is_transport_connected()) {
+    //         // TODO: set game layer
+    //     }
+    // }T_CUSTOM)
 const uint8_t led_mapping[RGBLIGHT_LED_COUNT] = {0,  1,  2,  3,  4,  9,  14, 19, 24, 29, 30, 31, 32, 33, 34, 35,
                                                  71, 70, 69, 68, 67, 66, 65, 60, 55, 50, 45, 40, 39, 38, 37, 36};
 #    endif
 #endif // RGB_MATRIX_ENABLE
+
+#ifdef MOONLANDER_USER_LEDS
+layer_state_t layer_state_set_keymap(layer_state_t state) {
+    // All off by default
+    ML_LED_L1(false);
+    ML_LED_L2(false);
+    ML_LED_L3(false);
+    ML_LED_R1(false);
+    ML_LED_R2(false);
+    ML_LED_R3(false);
+
+    // Enable LEDs based on layer activations
+    if (IS_LAYER_ON_STATE(state, _LOWER)) {
+        ML_LED_L1(true);
+        ML_LED_R3(true);
+    }
+
+    if (IS_LAYER_ON_STATE(state, _RAISE)) {
+        ML_LED_L2(true);
+        ML_LED_R2(true);
+    }
+    
+    if (IS_LAYER_ON_STATE(state, _ADJUST)) {
+        ML_LED_L3(true);
+        ML_LED_R1(true);
+    }
+    
+    return state;
+}
+#endif // MOONLANDER_USER_LEDS
 
 // void housekeeping_task_user(void) {
 //     if (!is_transport_connected()) {

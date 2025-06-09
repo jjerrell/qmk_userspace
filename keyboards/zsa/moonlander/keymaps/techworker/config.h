@@ -20,4 +20,6 @@
 
 #define TAPPING_TERM_PER_KEY
 
+#define MOONLANDER_USER_LEDS
+
 #define RGBLIGHT_LED_COUNT (16 + 16)

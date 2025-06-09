@@ -1,12 +1,13 @@
 SWAP_HANDS_ENABLE     = yes
-AUTOCORRECT_ENABLE    = no
+AUTOCORRECT_ENABLE    = yes
 CAPS_WORD_ENABLE      = yes
-TAP_DANCE_ENABLE      = yes
+TAP_DANCE_ENABLE      = no
 BOOTMAGIC_ENABLE      = yes      # Enable Bootmagic Lite
 CUSTOM_UNICODE_ENABLE = yes
 
 BOOTLOADER = tinyuf2
 
+RGB_MATRIX_ENABLE = yes
 RGBLIGHT_ENABLE = yes
 RGBLIGHT_DRIVER = custom
 
