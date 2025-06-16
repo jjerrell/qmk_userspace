@@ -148,7 +148,6 @@ bool process_record_user_rgb_matrix(uint16_t keycode, keyrecord_t *record) {
 #    endif // SPLIT_KEYBOARD && SPLIT_LAYER_STATE_ENABLE
 
 rgb_t led_array[RGBLIGHT_LED_COUNT] = {0};
-
 extern uint8_t led_mapping[RGBLIGHT_LED_COUNT];
 
 void init(void) {}

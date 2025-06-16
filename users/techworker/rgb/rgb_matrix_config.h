@@ -3,6 +3,19 @@
 
 #pragma once
 
+#pragma region NEW_RGB_MATRIX_LAYERS
+#ifndef MOD_LED_COUNT
+#   define MOD_LED_COUNT 8
+#endif
+#ifndef ARROW_LED_COUNT
+#   define ARROW_LED_COUNT 4
+#endif
+#ifndef NUMPAD_LED_COUNT
+#   define NUMPAD_LED_COUNT 11
+#endif
+#pragma endregion
+
+
 #define RGB_MATRIX_SLEEP // turn off effects when suspended
 
 #undef ENABLE_RGB_MATRIX_ALPHAS_MODS
