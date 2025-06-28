@@ -32,10 +32,10 @@ void keyboard_post_init_unicode(void);
 // #include "pointing/pointing.h"
 
 #if defined(CUSTOM_RGBLIGHT)
-#    include "rgb/rgb_stuff.h"
+#    include "rgb_legacy/rgb_stuff.h"
 #endif // CUSTOM_RGBLIGHT
 #if defined(CUSTOM_RGB_MATRIX)
-#    include "rgb/rgb_matrix_stuff.h"
+#    include "rgb_legacy/rgb_matrix_stuff.h"
 #endif // CUSTOM_RGB_MATRIX
 #ifdef CUSTOM_TAP_DANCE_ENABLE
 #    include "keyrecords/custom_tap_dance.h"
