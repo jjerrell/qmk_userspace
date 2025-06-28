@@ -1,6 +1,6 @@
 // Copyright 2023 ZSA Technology Labs, Inc <@zsa>
 // Copyright 2023 Christopher Courtney, aka Drashna Jael're  (@drashna) <drashna@live.com>
-// Copyright 2025 Jacob Jerrell
+// Copyright 2025 Jacob Jerrell (@jjerrell)
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "keymap.h"

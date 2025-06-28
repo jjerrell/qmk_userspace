@@ -1,5 +1,5 @@
-// Copyright 2025 Jacob Jerrell
-// SPDX-License-Identifier: GPL-2.0-or-later
+// Copyright 2025 Jacob Jerrell (@jjerrell)
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #pragma once
 
