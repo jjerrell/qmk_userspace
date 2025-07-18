@@ -20,14 +20,14 @@ extern uint8_t numpad_led_mapping[NUMPAD_LED_COUNT];
 extern uint8_t fn_led_mapping[FN_LED_COUNT];
 
 // Group definitions
-led_group_t home_group = {home_leds, home_led_mapping, HOME_LED_COUNT};
-led_group_t modifier_group = {mod_leds, mod_led_mapping, MOD_LED_COUNT};
-led_group_t arrow_group = {arrow_leds, arrow_led_mapping, ARROW_LED_COUNT};
-led_group_t numpad_group = {numpad_leds, numpad_led_mapping, NUMPAD_LED_COUNT};
-led_group_t fn_group = {fn_leds, fn_led_mapping, FN_LED_COUNT};
+rgb_group_t home_group = {home_leds, home_led_mapping, HOME_LED_COUNT};
+rgb_group_t modifier_group = {mod_leds, mod_led_mapping, MOD_LED_COUNT};
+rgb_group_t arrow_group = {arrow_leds, arrow_led_mapping, ARROW_LED_COUNT};
+rgb_group_t numpad_group = {numpad_leds, numpad_led_mapping, NUMPAD_LED_COUNT};
+rgb_group_t fn_group = {fn_leds, fn_led_mapping, FN_LED_COUNT};
 
 // Helper functions to set led/group colors
-void led_group_set_color(led_group_t *group, int index, uint8_t r, uint8_t g, uint8_t b) {
+void led_group_set_color(rgb_group_t *group, int index, uint8_t r, uint8_t g, uint8_t b) {
     if (index < group->count) {
         group->array[index].r = r;
         group->array[index].g = g;
@@ -35,13 +35,13 @@ void led_group_set_color(led_group_t *group, int index, uint8_t r, uint8_t g, ui
     }
 }
 
-void led_group_set_all(led_group_t *group, uint8_t r, uint8_t g, uint8_t b) {
+void led_group_set_all(rgb_group_t *group, uint8_t r, uint8_t g, uint8_t b) {
     for (int i = 0; i < group->count; i++) {
         led_group_set_color(group, i, r, g, b);
     }
 }
 
-void led_group_apply(led_group_t *group) {
+void led_group_apply(rgb_group_t *group) {
     for (uint8_t i = 0; i < group->count; i++) {
         RGB_MATRIX_INDICATOR_SET_COLOR(group->mapping[i], 
                                       group->array[i].r, 
@@ -50,12 +50,12 @@ void led_group_apply(led_group_t *group) {
     }
 }
 
-void led_group_clear(led_group_t *group) {
+void led_group_clear(rgb_group_t *group) {
     led_group_set_all(group, 0, 0, 0);
 }
 
 // Helper to apply multiple groups
-void apply_groups(led_group_t *groups[], uint8_t count) {
+void apply_groups(rgb_group_t *groups[], uint8_t count) {
     for (uint8_t i = 0; i < count; i++) {
         led_group_apply(groups[i]);
     }
@@ -86,7 +86,7 @@ void update_leds_for_layer(uint8_t layer) {
     }
     
     // Apply specific groups based on conditions
-    led_group_t *active_groups[] = {
+    rgb_group_t *active_groups[] = {
         &home_group,
         &modifier_group,
         &arrow_group,
@@ -103,7 +103,7 @@ void highlight_active_mods(uint8_t mods) {
     if (mods & MOD_MASK_SHIFT) {
         led_group_set_all(&modifier_group, 0, 255, 0); // Helper to apply multiple groups
         led_group_set_color(&modifier_group, 0, 255, 0, 0);  // First LED for shift
-        void apply_groups(led_group_t *groups[], uint8_t count) {
+        void apply_groups(rgb_group_t *groups[], uint8_t count) {
             for (uint8_t i = 0; i < count; i++) {
                 led_group_apply(groups[i]);
             }
@@ -142,7 +142,7 @@ void highlight_active_mods(uint8_t mods) {
             }
             
             // Apply specific groups based on conditions
-            led_group_t *active_groups[] = {
+            rgb_group_t *active_groups[] = {
                 &modifier_group,
                 &arrow_group,
                 &numpad_group,

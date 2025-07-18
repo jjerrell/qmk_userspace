@@ -25,7 +25,6 @@ ifeq ($(strip $(RGB_MATRIX_ENABLE)), yes)
     endif
 endif
 
-
 ifneq ($(strip $(RGBLIGHT_ENABLE)), yes)
     ifneq ($(strip $(RGB_MATRIX_ENABLE)), yes)
         $(info RGB_MATRIX and RGBLIGHT are not enabled. Manually including colors as they are still needed.)

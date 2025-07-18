@@ -7,9 +7,13 @@ CUSTOM_UNICODE_ENABLE = yes
 
 # BOOTLOADER = tinyuf2 # Not working for this config (probably some Drashna stuff)
 
-RGB_MATRIX_ENABLE = yes
-RGBLIGHT_ENABLE = yes
-RGBLIGHT_DRIVER = custom
+# Enable RGB Matrix and RGB Light (indicators)
+# RGB_MATRIX_ENABLE = yes
+# RGBLIGHT_ENABLE = yes
+# RGBLIGHT_DRIVER = custom
+
+# # Disable Drashna's RGB implementations so I can begin to understand RGB myself
+# CUSTOM_RGB_MATRIX = no
 
 LTO_ENABLE = no # Not working in Ubuntu
 OPT = fast

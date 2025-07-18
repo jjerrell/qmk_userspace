@@ -8,11 +8,13 @@
 #include "version.h"
 
 #if defined(RGBLIGHT_ENABLE)
-#    include "rgb_legacy/rgb_stuff.h"
+#   include "rgb/light/rgb_light.h"
+// #    include "rgb_legacy/rgb_stuff.h"
 #endif // defined(RGBLIGHT_ENABLE)
 
 #if defined(RGB_MATRIX_ENABLE)
-#    include "rgb_legacy/rgb_matrix_stuff.h"
+#   include "rgb/matrix/rgb_matrix.h"
+// #    include "rgb_legacy/rgb_matrix_stuff.h"
 #endif // defined(RGB_MATRIX_ENABLE)
 
 #ifdef UNICODE_COMMON_ENABLE

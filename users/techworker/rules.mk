@@ -73,7 +73,12 @@ endif
 
 # include $(USER_PATH)/pointing/pointing.mk
 include $(USER_PATH)/split/split.mk
-include $(USER_PATH)/rgb_legacy/rgb.mk
+
+# For now, at least, some functionality will be shared and 
+# we'll rely on specific toggles in each feature
+# include $(USER_PATH)/rgb_legacy/rgb.mk
+include $(USER_PATH)/rgb/rgb.mk
+
 include $(USER_PATH)/keycodes/keycodes.mk
 # include $(USER_PATH)/features/common.mk
 # Ignore if not found
