@@ -4,7 +4,7 @@
 #pragma once
 
 // because layouts seem to not be respecting config.h order atm
-#if defined(CUSTOM_RGB_MATRIX)
+#if defined(RGB_MATRIX_CUSTOM_USER)
 #   ifdef RGBLIGHT_ENABLE
 #       undef RGBLIGHT_EFFECT_BREATHING
 #       undef RGBLIGHT_EFFECT_RAINBOW_MOOD
@@ -35,7 +35,7 @@
 #           define RGBLIGHT_EFFECT_TWINKLE
 #       endif // defined(__AVR__) && (!defined(__AVR_AT90USB1286__) && !defined(RGBLIGHT_ALL_ANIMATIONS))
 #   endif     // RGBLIGHT_ENABLE
-#endif // CUSTOM_RGB_MATRIX
+#endif // RGB_MATRIX_CUSTOM_USER
 
 #ifdef MOUSEKEY_ENABLE
 // mouse movement config

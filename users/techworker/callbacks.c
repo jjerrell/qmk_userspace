@@ -80,9 +80,9 @@ void                       keyboard_post_init_user(void) {
 #if defined(CUSTOM_RGBLIGHT)
     keyboard_post_init_rgb_light();
 #endif // CUSTOM_RGBLIGHT
-#if defined(CUSTOM_RGB_MATRIX)
+#if defined(RGB_MATRIX_CUSTOM_USER)
     keyboard_post_init_rgb_matrix();
-#endif // CUSTOM_RGB_MATRIX
+#endif // RGB_MATRIX_CUSTOM_USER
 #if defined(SPLIT_KEYBOARD) && defined(SPLIT_TRANSACTION_IDS_USER)
     keyboard_post_init_transport_sync();
 #endif // SPLIT_KEYBOARD && SPLIT_TRANSACTION_IDS_USER
@@ -128,14 +128,15 @@ bool shutdown_user(bool jump_to_bootloader) {
     if (!shutdown_keymap(jump_to_bootloader)) {
         return false;
     }
+    // TODO: Evalutate!
 // #ifdef RGBLIGHT_ENABLE
 //     rgblight_shutdown(jump_to_bootloader);
 // #endif // RGBLIGHT_ENABLE
-// #if defined(CUSTOM_RGB_MATRIX)
+// #if defined(RGB_MATRIX_CUSTOM_USER) // TODO: Evalute!
 // #   ifdef RGB_MATRIX_ENABLE
 //         rgb_matrix_shutdown(jump_to_bootloader);
 // #   endif // RGB_MATRIX_ENABLE
-// #endif // CUSTOM_RGB_MATRIX
+// #endif // RGB_MATRIX_CUSTOM_USER
 #if defined(OLED_ENABLE) && defined(CUSTOM_OLED_DRIVER)
     oled_shutdown(jump_to_bootloader);
 #endif // OLED_ENABLE && CUSTOM_OLED_DRIVER
@@ -366,9 +367,9 @@ void                       housekeeping_task_user(void) {
 #if defined(CUSTOM_TAP_DANCE_ENABLE) // Run Diablo 3 macro checking code.
     run_diablo_macro_check();
 #endif // CUSTOM_TAP_DANCE_ENABLE
-#if defined(CUSTOM_RGB_MATRIX)
+#if defined(RGB_MATRIX_CUSTOM_USER)
     housekeeping_task_rgb_matrix();
-#endif // CUSTOM_RGB_MATRIX
+#endif // RGB_MATRIX_CUSTOM_USER
 #if defined(CUSTOM_RGBLIGHT)
     housekeeping_task_rgb_light();
 #endif // CUSTOM_RGBLIGHT

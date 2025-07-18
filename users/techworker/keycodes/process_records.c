@@ -110,9 +110,9 @@ bool process_record_mod_intercept(uint16_t keycode, keyrecord_t *record) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!(process_record_mod_intercept(keycode, record) && process_record_keymap(keycode, record) &&
           process_record_secrets(keycode, record)
-#ifdef CUSTOM_RGB_MATRIX
+#ifdef RGB_MATRIX_CUSTOM_USER
           && process_record_user_rgb_matrix(keycode, record)
-#endif // CUSTOM_RGB_MATRIX
+#endif // RGB_MATRIX_CUSTOM_USER
 #ifdef CUSTOM_RGBLIGHT
           && process_record_user_rgb_light(keycode, record)
 #endif // CUSTOM_RGBLIGHT
@@ -181,11 +181,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
             break;
         case KC_RGBT:
-#if defined(CUSTOM_RGBLIGHT) || defined(CUSTOM_RGB_MATRIX)
+#if defined(CUSTOM_RGBLIGHT) || defined(RGB_MATRIX_CUSTOM_USER)
             if (record->event.pressed) {
                 rgb_layer_indication_toggle();
             }
-#endif // CUSTOM_RGBLIGHT || CUSTOM_RGB_MATRIX
+#endif // CUSTOM_RGBLIGHT || RGB_MATRIX_CUSTOM_USER
 #if defined(OS_DETECTION_ENABLE)
         case QK_MAGIC_SWAP_LCTL_LGUI:
             if (record->event.pressed) {
@@ -341,19 +341,19 @@ void rgb_layer_indication_toggle(void) {
     dprintf("rgblight layer change [EEPROM]: %u\n", userspace_config.rgb.layer_change);
     eeconfig_update_user_datablock_handler(&userspace_config, 0, EECONFIG_USER_DATA_SIZE);
     if (userspace_config.rgb.layer_change) {
-#if defined(CUSTOM_RGB_MATRIX)
+#if defined(RGB_MATRIX_CUSTOM_USER) // TODO: Evaluate!
         rgb_matrix_set_flags(LED_FLAG_UNDERGLOW | LED_FLAG_KEYLIGHT | LED_FLAG_INDICATOR);
 #    if defined(CUSTOM_RGBLIGHT)
         rgblight_enable_noeeprom();
-#    endif                            // CUSTOM_RGBLIGHT
-#endif                                // CUSTOM_RGB_MATRIX
+#    endif // CUSTOM_RGBLIGHT
+#endif // RGB_MATRIX_CUSTOM_USER
         layer_state_set(layer_state); // This is needed to immediately set the layer color (looks better)
-#if defined(CUSTOM_RGB_MATRIX)
+#if defined(RGB_MATRIX_CUSTOM_USER) // TODO: Evaluate!
     } else {
         rgb_matrix_set_flags(LED_FLAG_ALL);
 #    if defined(CUSTOM_RGBLIGHT)
         rgblight_disable_noeeprom();
 #    endif // CUSTOM_RGBLIGHT
-#endif     // CUSTOM_RGB_MATRIX
+#endif     // RGB_MATRIX_CUSTOM_USER
     }
 }

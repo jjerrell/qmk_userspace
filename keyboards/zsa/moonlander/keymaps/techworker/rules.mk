@@ -13,7 +13,7 @@ CUSTOM_UNICODE_ENABLE = yes
 # RGBLIGHT_DRIVER = custom
 
 # # Disable Drashna's RGB implementations so I can begin to understand RGB myself
-# CUSTOM_RGB_MATRIX = no
+# RGB_MATRIX_CUSTOM_USER = no
 
 LTO_ENABLE = no # Not working in Ubuntu
 OPT = fast
