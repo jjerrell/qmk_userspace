@@ -142,12 +142,18 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
                 break;
             case OS_LINUX:
                 xprintf("Linux Detected\n");
+                os_detection_config = (os_detection_config_t){
+                    .swap_ctl_gui = true,
 #    ifdef UNICODE_COMMON_ENABLE
-                os_detection_config.unicode_input_mode = UNICODE_MODE_LINUX;
+                    .unicode_input_mode = UNICODE_MODE_LINUX,
 #    endif // UNICODE_COMMON_ENABLE
+                };
                 break;
             case OS_WINDOWS:
                 xprintf("Windows Detected\n");
+                os_detection_config = (os_detection_config_t){
+                    .swap_ctl_gui = true,
+                };
                 break;
 #    if 0
             case OS_WINDOWS_UNSURE:
@@ -155,16 +161,8 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
                 break;
 #    endif
             case OS_MACOS:
-                xprintf("MacOS Detected\n");
-                os_detection_config = (os_detection_config_t){
-                    .swap_ctl_gui = true,
-#    ifdef UNICODE_COMMON_ENABLE
-                    .unicode_input_mode = UNICODE_MODE_MACOS,
-#    endif // UNICODE_COMMON_ENABLE
-                };
-                break;
             case OS_IOS:
-                xprintf("iOS Detected\n");
+                xprintf("Apple OS Detected\n");
                 os_detection_config = (os_detection_config_t){
                     .swap_ctl_gui = true,
 #    ifdef UNICODE_COMMON_ENABLE
