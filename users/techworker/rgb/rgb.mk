@@ -1,5 +1,5 @@
 # Enabled unless explicitly disabled in the keymap
-RGB_MATRIX_CUSTOM_USER ?= yes
+RGB_MATRIX_CUSTOM_USER ?= $(RGB_MATRIX_ENABLE)
 ifeq ($(strip $(RGB_MATRIX_ENABLE)), yes)
     ifeq ($(strip $(RGB_MATRIX_CUSTOM_USER)), yes)
         SRC += $(USER_PATH)/rgb/matrix/rgb_matrix.c

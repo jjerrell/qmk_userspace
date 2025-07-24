@@ -52,4 +52,25 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
             break;
     }
     return state;
-}
+};
+
+#ifdef RGB_MATRIX_CUSTOM_USER
+const uint8_t home_led_mapping[] = {}; // Non-empty requires HOME_LED_COUNT definiton
+const uint8_t fn_led_mapping[] = {}; // Non-empty requires HOME_LED_COUNT definiton
+const uint8_t mod_led_mapping[] = {
+    // shift
+    13,
+    22,
+    // command
+    14,
+    21,
+    // option/alt
+    15,
+    20,
+    // control
+    24,
+    35
+};
+const uint8_t arrow_led_mapping[] = {2, 13, 14, 15};
+const uint8_t numpad_led_mapping[] = {8, 9, 10, 20, 21, 22, 32, 33, 34, 43};
+#endif // RGB_MATRIX_CUSTOM_USER

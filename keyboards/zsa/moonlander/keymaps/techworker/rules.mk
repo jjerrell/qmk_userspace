@@ -9,11 +9,9 @@ CUSTOM_UNICODE_ENABLE = yes
 
 # Enable RGB Matrix and RGB Light (indicators)
 # RGB_MATRIX_ENABLE = yes
+
 # RGBLIGHT_ENABLE = yes
 # RGBLIGHT_DRIVER = custom
-
-# # Disable Drashna's RGB implementations so I can begin to understand RGB myself
-# RGB_MATRIX_CUSTOM_USER = no
 
 LTO_ENABLE = no # Not working in Ubuntu
 OPT = fast

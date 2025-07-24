@@ -8,4 +8,5 @@ OLED_ENABLE = no
 WPM_ENABLE = no
 DISPLAY_KEYLOGGER_ENABLE = no
 
-RGB_MATRIX_ENABLE = yes
+# Enables all custom userspace RGB implementations
+# RGB_MATRIX_ENABLE = yes

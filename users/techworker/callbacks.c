@@ -34,9 +34,9 @@ void keyboard_post_init_unicode(void);
 // #if defined(CUSTOM_RGBLIGHT)
 // #    include "rgb_legacy/rgb_stuff.h"
 // #endif // CUSTOM_RGBLIGHT
-// #if defined(CUSTOM_RGB_MATRIX)
-// #    include "rgb_legacy/rgb_matrix_stuff.h"
-// #endif // CUSTOM_RGB_MATRIX
+#if defined(RGB_MATRIX_CUSTOM_USER)
+#    include "rgb/matrix/rgb_matrix.h"
+#endif // CUSTOM_RGB_MATRIX
 
 #ifdef CUSTOM_TAP_DANCE_ENABLE
 #    include "keyrecords/custom_tap_dance.h"
@@ -128,15 +128,15 @@ bool shutdown_user(bool jump_to_bootloader) {
     if (!shutdown_keymap(jump_to_bootloader)) {
         return false;
     }
-    // TODO: Evalutate!
+    // TODO: Evaluate!
 // #ifdef RGBLIGHT_ENABLE
 //     rgblight_shutdown(jump_to_bootloader);
 // #endif // RGBLIGHT_ENABLE
-// #if defined(RGB_MATRIX_CUSTOM_USER) // TODO: Evalute!
-// #   ifdef RGB_MATRIX_ENABLE
-//         rgb_matrix_shutdown(jump_to_bootloader);
-// #   endif // RGB_MATRIX_ENABLE
-// #endif // RGB_MATRIX_CUSTOM_USER
+#if defined(RGB_MATRIX_CUSTOM_USER)
+#   ifdef RGB_MATRIX_ENABLE
+        rgb_matrix_shutdown(jump_to_bootloader);
+#   endif // RGB_MATRIX_ENABLE
+#endif // RGB_MATRIX_CUSTOM_USER
 #if defined(OLED_ENABLE) && defined(CUSTOM_OLED_DRIVER)
     oled_shutdown(jump_to_bootloader);
 #endif // OLED_ENABLE && CUSTOM_OLED_DRIVER
