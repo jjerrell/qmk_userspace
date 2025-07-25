@@ -4,27 +4,6 @@
 
 #pragma once
 
-#pragma region RGB_CUSTOM_INDICATION
-
-// // Default LED counts
-// #ifndef HOME_LED_COUNT
-// #   define HOME_LED_COUNT 0
-// #endif
-// #ifndef FN_LED_COUNT
-// #   define FN_LED_COUNT 0
-// #endif
-// #ifndef MOD_LED_COUNT
-// #   define MOD_LED_COUNT 8
-// #endif
-// #ifndef ARROW_LED_COUNT
-// #   define ARROW_LED_COUNT 4
-// #endif
-// #ifndef NUMPAD_LED_COUNT
-// #   define NUMPAD_LED_COUNT 11
-// #endif
-
-#pragma endregion RGB_CUSTOM_INDICATION
-
 // Control which default effects are available
 #define RGB_MATRIX_SLEEP // turn off effects when suspended
 
