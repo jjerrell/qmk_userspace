@@ -35,7 +35,7 @@ void keyboard_post_init_unicode(void);
 // #    include "rgb_legacy/rgb_stuff.h"
 // #endif // CUSTOM_RGBLIGHT
 #if defined(RGB_MATRIX_CUSTOM_USER)
-#    include "rgb/matrix/rgb_matrix.h"
+#    include "rgb/rgb_matrix.h"
 #endif // CUSTOM_RGB_MATRIX
 
 #ifdef CUSTOM_TAP_DANCE_ENABLE

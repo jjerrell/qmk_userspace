@@ -13,7 +13,7 @@
 #endif // defined(RGBLIGHT_ENABLE)
 
 #if defined(RGB_MATRIX_ENABLE)
-#   include "rgb/matrix/rgb_matrix.h"
+#   include "rgb/rgb_matrix.h"
 // #    include "rgb_legacy/rgb_matrix_stuff.h"
 #endif // defined(RGB_MATRIX_ENABLE)
 

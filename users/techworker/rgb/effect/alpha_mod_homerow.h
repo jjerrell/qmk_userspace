@@ -38,7 +38,7 @@ static bool alpha_mod_homerow_runner(effect_params_t* params) {
 }
 
 static bool alpha_mod_homerow(effect_params_t* params) {
-    return alpha_mod_homerow_runner(params, false);
+    return alpha_mod_homerow_runner(params);
 }
 
 #endif // RGB_MATRIX_CUSTOM_EFFECT_IMPLS
