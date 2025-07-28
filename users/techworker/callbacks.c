@@ -29,11 +29,6 @@ void keyboard_post_init_unicode(void);
 #    include "split/transport_sync.h"
 #endif // SPLIT_KEYBOARD
 
-// #include "pointing/pointing.h"
-
-// #if defined(CUSTOM_RGBLIGHT)
-// #    include "rgb_legacy/rgb_stuff.h"
-// #endif // CUSTOM_RGBLIGHT
 #if defined(RGB_MATRIX_CUSTOM_USER)
 #    include "rgb/rgb_matrix.h"
 #endif // CUSTOM_RGB_MATRIX
