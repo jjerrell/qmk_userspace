@@ -7,14 +7,8 @@
 #include "process_records.h"
 #include "version.h"
 
-#if defined(RGBLIGHT_ENABLE)
-#   include "rgb/light/rgb_light.h"
-// #    include "rgb_legacy/rgb_stuff.h"
-#endif // defined(RGBLIGHT_ENABLE)
-
 #if defined(RGB_MATRIX_ENABLE)
 #   include "rgb/rgb_matrix.h"
-// #    include "rgb_legacy/rgb_matrix_stuff.h"
 #endif // defined(RGB_MATRIX_ENABLE)
 
 #ifdef UNICODE_COMMON_ENABLE
@@ -341,14 +335,14 @@ void rgb_layer_indication_toggle(void) {
     dprintf("rgblight layer change [EEPROM]: %u\n", userspace_config.rgb.layer_change);
     eeconfig_update_user_datablock_handler(&userspace_config, 0, EECONFIG_USER_DATA_SIZE);
     if (userspace_config.rgb.layer_change) {
-#if defined(RGB_MATRIX_CUSTOM_USER) // TODO: Evaluate!
+#if defined(RGB_MATRIX_CUSTOM_USER)
         rgb_matrix_set_flags(LED_FLAG_UNDERGLOW | LED_FLAG_KEYLIGHT | LED_FLAG_INDICATOR);
 #    if defined(CUSTOM_RGBLIGHT)
         rgblight_enable_noeeprom();
 #    endif // CUSTOM_RGBLIGHT
 #endif // RGB_MATRIX_CUSTOM_USER
         layer_state_set(layer_state); // This is needed to immediately set the layer color (looks better)
-#if defined(RGB_MATRIX_CUSTOM_USER) // TODO: Evaluate!
+#if defined(RGB_MATRIX_CUSTOM_USER)
     } else {
         rgb_matrix_set_flags(LED_FLAG_ALL);
 #    if defined(CUSTOM_RGBLIGHT)

@@ -66,13 +66,9 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
 }
 #endif
 
-#if defined(RGBLIGHT_ENABLE) && defined(RGBLIGHT_CUSTOM)
-const uint8_t led_mapping[RGBLIGHT_LED_COUNT] = {0, 6, 12, 18, 24, 25, 31, 37, 43, 49, 50, 51};
-#endif
-
 #ifdef RGB_MATRIX_CUSTOM_USER
-const uint8_t home_led_mapping[] = {}; // Non-empty requires HOME_LED_COUNT definiton
-const uint8_t fn_led_mapping[] = {}; // Non-empty requires HOME_LED_COUNT definiton
+const uint8_t home_led_mapping[] = {};
+const uint8_t fn_led_mapping[] = {};
 const uint8_t mod_led_mapping[] = {24, 29, 30, 31};
 const uint8_t arrow_led_mapping[] = {32, 33, 34, 35, 71, 70, 69, 68};
 const uint8_t numpad_led_mapping[] = {36, 37, 38, 39};
