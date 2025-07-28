@@ -69,7 +69,24 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
 #ifdef RGB_MATRIX_CUSTOM_USER
 const uint8_t home_led_mapping[] = {};
 const uint8_t fn_led_mapping[] = {};
-const uint8_t mod_led_mapping[] = {24, 29, 30, 31};
-const uint8_t arrow_led_mapping[] = {32, 33, 34, 35, 71, 70, 69, 68};
-const uint8_t numpad_led_mapping[] = {36, 37, 38, 39};
+const uint8_t mod_led_mapping[] = {
+    // shift
+    8,
+    35,
+    // command
+    9,
+    35,
+    // option/alt
+    10,
+    33,
+    // control
+    13,
+    42
+};
+const uint8_t arrow_led_mapping[] = {3, 8, 9, 10};
+const uint8_t numpad_led_mapping[] = {
+        27, 28, 29,
+        33, 34, 35,
+    38, 39, 40, 41, 42
+};
 #endif // RGB_MATRIX_CUSTOM_USER
