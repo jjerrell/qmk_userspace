@@ -8,7 +8,7 @@
 #include "version.h"
 
 #if defined(RGB_MATRIX_ENABLE)
-#   include "rgb/rgb_matrix.h"
+#   include "rgb/rgb_matrix_custom.h"
 #endif // defined(RGB_MATRIX_ENABLE)
 
 #ifdef UNICODE_COMMON_ENABLE

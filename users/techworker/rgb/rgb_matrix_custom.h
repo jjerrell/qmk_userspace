@@ -7,6 +7,8 @@
 #include "keycodes/process_records.h"
 #include "techworker_runtime.h"
 #include "techworker_layers.h"
+#include "techworker_util.h"
+#include "rgb_matrix.h"
 
 // For efficient array lookups
 typedef struct {
@@ -15,6 +17,11 @@ typedef struct {
 
 // Callbacks and hooks
 bool process_record_user_rgb_matrix(uint16_t keycode, keyrecord_t *record);
+
 void keyboard_post_init_rgb_matrix(void);
 void housekeeping_task_rgb_matrix(void);
+
 void rgb_matrix_shutdown(bool jump_to_bootloader);
+
+// Keymap level overrides
+bool rgb_matrix_indicators_advanced_keymap(uint8_t led_min, uint8_t led_max);

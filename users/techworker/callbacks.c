@@ -30,7 +30,7 @@ void keyboard_post_init_unicode(void);
 #endif // SPLIT_KEYBOARD
 
 #if defined(RGB_MATRIX_CUSTOM_USER)
-#    include "rgb/rgb_matrix.h"
+#    include "rgb/rgb_matrix_custom.h"
 #endif // CUSTOM_RGB_MATRIX
 
 #ifdef CUSTOM_TAP_DANCE_ENABLE

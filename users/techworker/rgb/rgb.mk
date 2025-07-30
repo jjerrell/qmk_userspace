@@ -2,7 +2,7 @@
 RGB_MATRIX_CUSTOM_USER ?= $(RGB_MATRIX_ENABLE)
 ifeq ($(strip $(RGB_MATRIX_ENABLE)), yes)
     ifeq ($(strip $(RGB_MATRIX_CUSTOM_USER)), yes)
-        SRC += $(USER_PATH)/rgb/rgb_matrix.c
+        SRC += $(USER_PATH)/rgb/rgb_matrix_custom.c
         CONFIG_H += $(USER_PATH)/rgb/config.h
         POST_CONFIG_H += $(USER_PATH)/rgb/config_post.h
     endif

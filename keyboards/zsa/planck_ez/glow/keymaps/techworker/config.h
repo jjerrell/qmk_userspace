@@ -4,12 +4,6 @@
 
 #pragma once
 
-#ifdef RGB_MATRIX_CUSTOM_USER
-#   define MOD_LED_COUNT 8
-#   define ARROW_LED_COUNT 4
-#   define NUMPAD_LED_COUNT 10
-#endif // RGB_MATRIX_CUSTOM_USER
-
 #if defined(RGBLIGHT_ENABLE) && !defined(RGBLED_NUM)
 #    define RGBLIGHT_HUE_STEP             12
 #    define RGBLIGHT_SAT_STEP             12

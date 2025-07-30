@@ -60,6 +60,9 @@
 #define ENABLE_RGB_MATRIX_TYPING_HEATMAP
 #define ENABLE_RGB_MATRIX_CYCLE_OUT_IN_DUAL
 
+// Custom implementations
+#define ANIMATED_LAYER_INDICATION
+
 // Deprecation warning: https://docs.qmk.fm/features/rgblight#keycodes
 #if defined(RGBLIGHT_ENABLE) && defined(RGB_MATRIX_ENABLE)
 #    define RGB_MATRIX_DISABLE_SHARED_KEYCODES
