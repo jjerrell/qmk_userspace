@@ -1,6 +1,6 @@
 // Copyright 2023 ZSA Technology Labs, Inc <@zsa>
 // Copyright 2023 Christopher Courtney, aka Drashna Jael're  (@drashna) <drashna@live.com>
-// Copyright 2025 Jacob Jerrell
+// Copyright 2025 Jacob Jerrell (@jjerrell)
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "keymap.h"
@@ -66,6 +66,27 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
 }
 #endif
 
-#if defined(RGBLIGHT_ENABLE) && defined(RGBLIGHT_CUSTOM)
-const uint8_t led_mapping[RGBLIGHT_LED_COUNT] = {0, 6, 12, 18, 24, 25, 31, 37, 43, 49, 50, 51};
-#endif
+#ifdef RGB_MATRIX_CUSTOM_USER
+const uint8_t home_led_mapping[] = {};
+const uint8_t fn_led_mapping[] = {};
+const uint8_t mod_led_mapping[] = {
+    // shift
+    8,
+    35,
+    // command
+    9,
+    35,
+    // option/alt
+    10,
+    33,
+    // control
+    13,
+    42
+};
+const uint8_t arrow_led_mapping[] = {3, 8, 9, 10};
+const uint8_t numpad_led_mapping[] = {
+        27, 28, 29,
+        33, 34, 35,
+    38, 39, 40, 41, 42
+};
+#endif // RGB_MATRIX_CUSTOM_USER

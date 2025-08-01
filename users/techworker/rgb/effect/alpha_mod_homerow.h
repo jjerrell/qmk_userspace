@@ -1,9 +1,8 @@
 RGB_MATRIX_EFFECT(alpha_mod_homerow)
-RGB_MATRIX_EFFECT(alpha_mod_homerow_color_shift)
 
 #ifdef RGB_MATRIX_CUSTOM_EFFECT_IMPLS
 
-static bool alpha_mod_homerow_runner(effect_params_t* params, bool shift) {
+static bool alpha_mod_homerow_runner(effect_params_t* params) {
     RGB_MATRIX_USE_LIMITS(led_min, led_max);
 
     HSV hsv = rgb_matrix_config.hsv;
@@ -39,11 +38,7 @@ static bool alpha_mod_homerow_runner(effect_params_t* params, bool shift) {
 }
 
 static bool alpha_mod_homerow(effect_params_t* params) {
-    return alpha_mod_homerow_runner(params, false);
-}
-
-static bool alpha_mod_homerow_color_shift(effect_params_t* params) {
-    return alpha_mod_homerow_runner(params, true);
+    return alpha_mod_homerow_runner(params);
 }
 
 #endif // RGB_MATRIX_CUSTOM_EFFECT_IMPLS

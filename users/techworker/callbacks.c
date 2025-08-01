@@ -29,14 +29,10 @@ void keyboard_post_init_unicode(void);
 #    include "split/transport_sync.h"
 #endif // SPLIT_KEYBOARD
 
-// #include "pointing/pointing.h"
-
-#if defined(CUSTOM_RGBLIGHT)
-#    include "rgb/rgb_stuff.h"
-#endif // CUSTOM_RGBLIGHT
-#if defined(CUSTOM_RGB_MATRIX)
-#    include "rgb/rgb_matrix_stuff.h"
+#if defined(RGB_MATRIX_CUSTOM_USER)
+#    include "rgb/rgb_matrix_custom.h"
 #endif // CUSTOM_RGB_MATRIX
+
 #ifdef CUSTOM_TAP_DANCE_ENABLE
 #    include "keyrecords/custom_tap_dance.h"
 #endif // CUSTOM_TAP_DANCE_ENABLE
@@ -79,9 +75,9 @@ void                       keyboard_post_init_user(void) {
 #if defined(CUSTOM_RGBLIGHT)
     keyboard_post_init_rgb_light();
 #endif // CUSTOM_RGBLIGHT
-#if defined(CUSTOM_RGB_MATRIX)
+#if defined(RGB_MATRIX_CUSTOM_USER)
     keyboard_post_init_rgb_matrix();
-#endif // CUSTOM_RGB_MATRIX
+#endif // RGB_MATRIX_CUSTOM_USER
 #if defined(SPLIT_KEYBOARD) && defined(SPLIT_TRANSACTION_IDS_USER)
     keyboard_post_init_transport_sync();
 #endif // SPLIT_KEYBOARD && SPLIT_TRANSACTION_IDS_USER
@@ -127,9 +123,6 @@ bool shutdown_user(bool jump_to_bootloader) {
     if (!shutdown_keymap(jump_to_bootloader)) {
         return false;
     }
-#ifdef RGBLIGHT_ENABLE
-    rgblight_shutdown(jump_to_bootloader);
-#endif // RGBLIGHT_ENABLE
 #ifdef RGB_MATRIX_ENABLE
     rgb_matrix_shutdown(jump_to_bootloader);
 #endif // RGB_MATRIX_ENABLE
@@ -363,9 +356,9 @@ void                       housekeeping_task_user(void) {
 #if defined(CUSTOM_TAP_DANCE_ENABLE) // Run Diablo 3 macro checking code.
     run_diablo_macro_check();
 #endif // CUSTOM_TAP_DANCE_ENABLE
-#if defined(CUSTOM_RGB_MATRIX)
+#if defined(RGB_MATRIX_CUSTOM_USER)
     housekeeping_task_rgb_matrix();
-#endif // CUSTOM_RGB_MATRIX
+#endif // RGB_MATRIX_CUSTOM_USER
 #if defined(CUSTOM_RGBLIGHT)
     housekeeping_task_rgb_light();
 #endif // CUSTOM_RGBLIGHT

@@ -4,6 +4,7 @@
 
 #pragma once
 
+
 #if defined(RGBLIGHT_ENABLE) && !defined(RGBLED_NUM)
 #    define RGBLIGHT_HUE_STEP             12
 #    define RGBLIGHT_SAT_STEP             12
@@ -16,6 +17,9 @@
 #endif // RGBLIGHT_ENABLE
 
 #ifdef RGB_MATRIX_ENABLE
+
+#define NUMPAD_LED_COUNT 11
+
 #    define RGB_MATRIX_KEYPRESSES // reacts to keypresses (will slow down matrix scan by a lot)
 // #define RGB_MATRIX_KEYRELEASES // reacts to keyreleases (not recommened)
 #    define RGB_MATRIX_FRAMEBUFFER_EFFECTS

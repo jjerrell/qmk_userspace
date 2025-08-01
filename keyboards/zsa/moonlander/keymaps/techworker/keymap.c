@@ -47,13 +47,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-#ifdef RGB_MATRIX_ENABLE
-#    if defined(RGBLIGHT_ENABLE) && defined(RGBLIGHT_CUSTOM)
-const uint8_t led_mapping[RGBLIGHT_LED_COUNT] = {0,  1,  2,  3,  4,  9,  14, 19, 24, 29, 30, 31, 32, 33, 34, 35,
-                                                 71, 70, 69, 68, 67, 66, 65, 60, 55, 50, 45, 40, 39, 38, 37, 36};
-#    endif
-#endif // RGB_MATRIX_ENABLE
-
 #ifdef MOONLANDER_USER_LEDS
 layer_state_t layer_state_set_keymap(layer_state_t state) {
     // All off by default
@@ -83,6 +76,27 @@ layer_state_t layer_state_set_keymap(layer_state_t state) {
     return state;
 }
 #endif // MOONLANDER_USER_LEDS
+
+#ifdef RGB_MATRIX_CUSTOM_USER
+const uint8_t home_led_mapping[] = {};
+const uint8_t fn_led_mapping[] = {};
+const uint8_t mod_led_mapping[] = {
+    // shift
+    12,
+    48,
+    // command
+    17,
+    53,
+    // option/alt
+    22,
+    58,
+    // control
+    8,
+    44
+};
+const uint8_t arrow_led_mapping[] = {12, 16, 17, 22};
+const uint8_t numpad_led_mapping[] = { 47, 48, 49, 52, 53, 54, 57, 58, 59, 60 };
+#endif // RGB_MATRIX_CUSTOM_USER
 
 // void housekeeping_task_user(void) {
 //     if (!is_transport_connected()) {

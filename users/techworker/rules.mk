@@ -71,9 +71,10 @@ ifeq ($(strip $(DEBUG_MATRIX_SCAN_RATE_ENABLE)), yes)
     OPT_DEFS += -DDEBUG_MATRIX_SCAN_RATE_ENABLE
 endif
 
-# include $(USER_PATH)/pointing/pointing.mk
 include $(USER_PATH)/split/split.mk
+
 include $(USER_PATH)/rgb/rgb.mk
+
 include $(USER_PATH)/keycodes/keycodes.mk
 # include $(USER_PATH)/features/common.mk
 # Ignore if not found
