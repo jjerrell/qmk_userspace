@@ -62,14 +62,7 @@ void enable_simple_mappings(
 }
 
 void simple_layer_indication(uint8_t led_min, uint8_t led_max) {
-    switch(get_highest_layer(layer_state|default_layer_state)) {
-        case _WORKMAN:
-            enable_simple_mappings(
-                home_bitmap, HOME_LED_COUNT,
-                led_min, led_max,
-                RGB_ORANGE
-            );
-            break;
+    switch(get_highest_layer(layer_state)) {
         case _LOWER:
             enable_simple_mappings(
                 arrow_bitmap, ARROW_LED_COUNT,
@@ -97,6 +90,15 @@ void simple_layer_indication(uint8_t led_min, uint8_t led_max) {
             }
             break;
         default:
+            switch (get_highest_layer(default_layer_state)) {
+                case _WORKMAN:
+                    enable_simple_mappings(
+                        home_bitmap, HOME_LED_COUNT,
+                        led_min, led_max,
+                        RGB_ORANGE
+                    );
+                    break;
+            }
             break;
     }
 }
@@ -129,8 +131,8 @@ void breathing_group_animation(
 }
 
 void animated_layer_indication(uint8_t led_min, uint8_t led_max) {
-    switch(get_highest_layer(layer_state|default_layer_state)) {
-        case _WORKMAN:
+    switch(get_highest_layer(layer_state)) {
+        case 0:
             breathing_group_animation(
                 true, // is_default_layer = true; used for lights flagged with LED_FLAG_MODIFIER
                 led_min, led_max,
@@ -152,7 +154,7 @@ void animated_layer_indication(uint8_t led_min, uint8_t led_max) {
                 HSV_GOLDENROD
             );
             break;
-        case _RAISE:
+        case _RAISE: 
             breathing_group_animation(
                 true,
                 led_min, led_max,
@@ -160,7 +162,7 @@ void animated_layer_indication(uint8_t led_min, uint8_t led_max) {
                 HSV_ORANGE
             );
             break;
-        case _ADJUST:
+        case _ADJUST:      
             breathing_group_animation(
                 true,
                 led_min, led_max,
@@ -184,10 +186,10 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         return false;
     }
 // #ifdef ANIMATED_LAYER_INDICATION
-    animated_layer_indication(led_min, led_max);
+    // animated_layer_indication(led_min, led_max);
 // #endif // ANIMATED_LAYER_INDICATION
 // #ifdef SIMPLE_LAYER_INDICATION
-    // simple_layer_indication(led_min, led_max);
+    simple_layer_indication(led_min, led_max);
 // #endif // SIMPLE_LAYER_INDICATION
     return false;
 }
