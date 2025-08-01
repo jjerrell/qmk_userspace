@@ -72,5 +72,5 @@ const uint8_t mod_led_mapping[] = {
     35
 };
 const uint8_t arrow_led_mapping[] = {2, 13, 14, 15};
-const uint8_t numpad_led_mapping[] = {8, 9, 10, 20, 21, 22, 31, 32, 33, 34, 35};
+const uint8_t numpad_led_mapping[] = {8, 9, 10, 20, 21, 22, 31, 32, 33, 34, 35, 36};
 #endif // RGB_MATRIX_CUSTOM_USER
