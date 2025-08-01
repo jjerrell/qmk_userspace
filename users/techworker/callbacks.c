@@ -1,4 +1,5 @@
 // Copyright 2021 Christopher Courtney, aka Drashna Jael're  (@drashna) <drashna@live.com>
+// Copyright 2025 Jacob Jerrell (@jjerrell)
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "techworker.h"
@@ -6,24 +7,10 @@
 #include "sendchar.h"
 #include "print.h"
 
-#ifdef DISPLAY_DRIVER_ENABLE
-#    include "display/display.h"
-#endif // DISPLAY_DRIVER_ENABLE
-#ifdef QUANTUM_PAINTER_ENABLE
-#    include "display/painter/painter.h"
-#endif // QUANTUM_PAINTER_ENABLE
-#if defined(OLED_ENABLE) && defined(CUSTOM_OLED_DRIVER)
-#    include "display/oled/oled_stuff.h"
-#endif
-#ifdef CUSTOM_DYNAMIC_MACROS_ENABLE
-#    include "keyrecords/custom_dynamic_macros.h"
-#endif // CUSTOM_DYNAMIC_MACROS_ENABLE
-#ifndef RTC_TIMEZONE
-#    define RTC_TIMEZONE -8
-#endif // RTC_TIMEZONE
 #ifdef CUSTOM_UNICODE_ENABLE
 void keyboard_post_init_unicode(void);
 #endif // CUSTOM_UNICODE_ENABLE
+
 #ifdef SPLIT_KEYBOARD
 #    include "split_util.h"
 #    include "split/transport_sync.h"
@@ -33,44 +20,31 @@ void keyboard_post_init_unicode(void);
 #    include "rgb/rgb_matrix_custom.h"
 #endif // CUSTOM_RGB_MATRIX
 
-#ifdef CUSTOM_TAP_DANCE_ENABLE
-#    include "keyrecords/custom_tap_dance.h"
-#endif // CUSTOM_TAP_DANCE_ENABLE
-#ifdef COMMUNITY_MODULE_I2C_SCANNER_ENABLE
-#    include "i2c_scanner.h"
-#endif // COMMUNITY_MODULE_I2C_SCANNER_ENABLE
-
 user_runtime_config_t userspace_runtime_state;
+
+// Add reconfigurable functions here, for keymap customization
+// This allows for a global, userspace functions, and continued
+// customization of the keymap.  Use _keymap instead of _user
+// functions in the keymaps
 
 /**
  * @brief Keyboard Pre-Initialization
  *
  */
 __attribute__((weak)) void keyboard_pre_init_keymap(void) {}
+
 void                       keyboard_pre_init_user(void) {
     eeconfig_read_user_datablock_handler(&userspace_config, 0, EECONFIG_USER_DATA_SIZE);
     if (!eeconfig_is_user_datablock_valid() || !userspace_config.debug.check) {
         eeconfig_init_user();
     }
-
     keyboard_pre_init_keymap();
 }
 
-// Add reconfigurable functions here, for keymap customization
-// This allows for a global, userspace functions, and continued
-// customization of the keymap.  Use _keymap instead of _user
-// functions in the keymaps
 // Call user matrix init, set default RGB colors and then
 // call the keymap's init function
-
 __attribute__((weak)) void keyboard_post_init_keymap(void) {}
 void                       keyboard_post_init_user(void) {
-#ifdef DISPLAY_DRIVER_ENABLE
-    keyboard_post_init_display_driver();
-#endif // DISPLAY_DRIVER_ENABLE
-#if defined(CUSTOM_RGBLIGHT)
-    keyboard_post_init_rgb_light();
-#endif // CUSTOM_RGBLIGHT
 #if defined(RGB_MATRIX_CUSTOM_USER)
     keyboard_post_init_rgb_matrix();
 #endif // RGB_MATRIX_CUSTOM_USER
@@ -80,9 +54,6 @@ void                       keyboard_post_init_user(void) {
 #ifdef CUSTOM_UNICODE_ENABLE
     keyboard_post_init_unicode();
 #endif // CUSTOM_UNICODE_ENABLE
-#ifdef COMMUNITY_MODULE_I2C_SCANNER_ENABLE
-    i2c_scanner_set_enabled(userspace_config.debug.i2c_scanner_enable);
-#endif // COMMUNITY_MODULE_I2C_SCANNER_ENABLE
 #ifdef DEBUG_MATRIX_SCAN_RATE_ENABLE
     userspace_config.debug.matrix_scan_print = true;
 #endif // DEBUG_MATRIX_SCAN_RATE_ENABLE
@@ -94,9 +65,7 @@ void                       keyboard_post_init_user(void) {
     DDRB &= ~(1 << 0);
     PORTB &= ~(1 << 0);
 #endif // BOOTLOADER_CATERINA && __AVR__ && __AVR_ATmega32U4__
-#ifdef CUSTOM_DYNAMIC_MACROS_ENABLE
-    dynamic_macro_init();
-#endif // CUSTOM_DYNAMIC_MACROS_ENABLE
+
     keyboard_post_init_keymap();
 }
 
@@ -115,12 +84,6 @@ bool shutdown_user(bool jump_to_bootloader) {
 #ifdef RGB_MATRIX_ENABLE
     rgb_matrix_shutdown(jump_to_bootloader);
 #endif // RGB_MATRIX_ENABLE
-#if defined(OLED_ENABLE) && defined(CUSTOM_OLED_DRIVER)
-    oled_shutdown(jump_to_bootloader);
-#endif // OLED_ENABLE && CUSTOM_OLED_DRIVER
-#ifdef CUSTOM_QUANTUM_PAINTER_ENABLE
-    shutdown_quantum_painter(jump_to_bootloader);
-#endif // CUSTOM_QUANTUM_PAINTER_ENABLE
     return true;
 }
 
