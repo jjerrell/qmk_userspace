@@ -39,9 +39,6 @@ void keyboard_post_init_unicode(void);
 #ifdef COMMUNITY_MODULE_I2C_SCANNER_ENABLE
 #    include "i2c_scanner.h"
 #endif // COMMUNITY_MODULE_I2C_SCANNER_ENABLE
-#ifdef COMMUNITY_MODULE_CONSOLE_KEYLOGGING_ENABLE
-#    include "console_keylogging.h"
-#endif // COMMUNITY_MODULE_CONSOLE_KEYLOGGING_ENABLE
 
 user_runtime_config_t userspace_runtime_state;
 
@@ -51,9 +48,8 @@ user_runtime_config_t userspace_runtime_state;
  */
 __attribute__((weak)) void keyboard_pre_init_keymap(void) {}
 void                       keyboard_pre_init_user(void) {
-    print_set_sendchar(drashna_sendchar);
     eeconfig_read_user_datablock_handler(&userspace_config, 0, EECONFIG_USER_DATA_SIZE);
-    if (!eeconfig_is_user_datablock_valid() || !userspace_config.check) {
+    if (!eeconfig_is_user_datablock_valid() || !userspace_config.debug.check) {
         eeconfig_init_user();
     }
 
@@ -87,9 +83,6 @@ void                       keyboard_post_init_user(void) {
 #ifdef COMMUNITY_MODULE_I2C_SCANNER_ENABLE
     i2c_scanner_set_enabled(userspace_config.debug.i2c_scanner_enable);
 #endif // COMMUNITY_MODULE_I2C_SCANNER_ENABLE
-#ifdef COMMUNITY_MODULE_CONSOLE_KEYLOGGING_ENABLE
-    console_keylogger_set_enabled(userspace_config.debug.console_keylogger);
-#endif // COMMUNITY_MODULE_CONSOLE_KEYLOGGING_ENABLE
 #ifdef DEBUG_MATRIX_SCAN_RATE_ENABLE
     userspace_config.debug.matrix_scan_print = true;
 #endif // DEBUG_MATRIX_SCAN_RATE_ENABLE
@@ -104,10 +97,6 @@ void                       keyboard_post_init_user(void) {
 #ifdef CUSTOM_DYNAMIC_MACROS_ENABLE
     dynamic_macro_init();
 #endif // CUSTOM_DYNAMIC_MACROS_ENABLE
-#ifdef WPM_ENABLE
-    void keyboard_post_init_wpm(void);
-    keyboard_post_init_wpm();
-#endif // WPM_ENABLE
     keyboard_post_init_keymap();
 }
 
@@ -268,10 +257,9 @@ void                       led_set_user(uint8_t usb_led) {
 __attribute__((weak)) void eeconfig_init_keymap(void) {}
 void                       eeconfig_init_user(void) {
     memset(&userspace_config, 0, sizeof(userspace_config_t));
-    userspace_config.check            = true;
+    userspace_config.debug.check      = true;
     userspace_config.rgb.layer_change = true;
 
-    // userspace_config.rtc.timezone = RTC_TIMEZONE;
     // ensure that nkro is enabled
     keymap_config.raw  = eeconfig_read_keymap();
     keymap_config.nkro = true;
