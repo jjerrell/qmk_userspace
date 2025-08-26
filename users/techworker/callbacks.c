@@ -126,33 +126,6 @@ void                       suspend_wakeup_init_user(void) {
     suspend_wakeup_init_keymap();
 }
 
-/**
- * @brief Checks to see if one or more gaming layers are active
- *
- * @param state layer state bitmask
- * @return true A gaming layer is active
- * @return false No gaming layers active
- */
-
-bool is_gaming_layer_active(layer_state_t state) {
-    return ((state & (1 << _GAMEPAD)) != 0);
-}
-
-void layer_state_set_gaming(layer_state_t state) {
-    static bool l_is_gaming_layer_active = false, is_swap_active = false;
-    if (l_is_gaming_layer_active != is_gaming_layer_active(state)) {
-        l_is_gaming_layer_active = is_gaming_layer_active(state);
-        if (l_is_gaming_layer_active) {
-            is_swap_active               = keymap_config.swap_lctl_lgui;
-            keymap_config.swap_lctl_lgui = false;
-        } else {
-            if (is_swap_active) {
-                keymap_config.raw = eeconfig_read_keymap();
-            }
-        }
-    }
-}
-
 // on layer change, no matter where the change was initiated
 // Then runs keymap's layer change check
 __attribute__((weak)) layer_state_t layer_state_set_keymap(layer_state_t state) {
@@ -160,29 +133,8 @@ __attribute__((weak)) layer_state_t layer_state_set_keymap(layer_state_t state) 
 }
 layer_state_t layer_state_set_user(layer_state_t state) {
     state = update_tri_layer_state(state, _RAISE, _LOWER, _ADJUST);
-#if defined(CUSTOM_POINTING_DEVICE)
-    state = layer_state_set_pointing(state);
-#endif // CUSTOM_POINTING_DEVICE
-#if defined(CUSTOM_RGBLIGHT)
-    state = layer_state_set_rgb_light(state);
-#endif // CUSTOM_RGBLIGHT
-       // #if defined(AUDIO_ENABLE)
-       //     set_doom_song(state);
-       // #endif // AUDIO_ENABLE
     state = layer_state_set_keymap(state);
 
-#ifndef NO_PRINT
-    char layer_buffer[16 + 5];
-    format_layer_bitmap_string(layer_buffer, state, default_layer_state);
-    dprintf("layer state: %s\n", layer_buffer);
-#endif // NO_PRINT
-
-#ifdef SWAP_HANDS_ENABLE
-    if (is_gaming_layer_active(state) && is_swap_hands_on()) {
-        swap_hands_off();
-    }
-#endif // SWAP_HANDS_ENABLE
-    layer_state_set_gaming(state);
     return state;
 }
 
@@ -197,20 +149,8 @@ layer_state_t default_layer_state_set_user(layer_state_t state) {
     }
 
     state = default_layer_state_set_keymap(state);
-#if defined(CUSTOM_RGBLIGHT)
-    state = default_layer_state_set_rgb_light(state);
-#endif // CUSTOM_RGBLIGHT
 
     return state;
-}
-
-/**
- * @brief USB Host Lock LED callback
- *
- */
-__attribute__((weak)) void led_set_keymap(uint8_t usb_led) {}
-void                       led_set_user(uint8_t usb_led) {
-    led_set_keymap(usb_led);
 }
 
 /**
@@ -240,9 +180,7 @@ void                       eeconfig_init_user(void) {
  * @brief Matrix scan callback ... only use for matrix scan rate task
  *
  */
-void matrix_scan_user(void) {
-    matrix_scan_rate_task();
-}
+void matrix_scan_user(void) {}
 
 /**
  * @brief Handle slave side scanning of keyboard
@@ -251,7 +189,6 @@ void matrix_scan_user(void) {
 #ifdef SPLIT_KEYBOARD
 __attribute__((weak)) void matrix_slave_scan_keymap(void) {}
 void                       matrix_slave_scan_user(void) {
-    matrix_scan_rate_task();
 #    if defined(AUDIO_ENABLE) && defined(AUDIO_INIT_DELAY)
 #        if defined(SPLIT_WATCHDOG_ENABLE) && !defined(SPLIT_WATCHDOG_TIMEOUT)
 #            if defined(SPLIT_USB_TIMEOUT)
@@ -259,19 +196,19 @@ void                       matrix_slave_scan_user(void) {
 #            else
 #                define SPLIT_WATCHDOG_TIMEOUT 3000
 #            endif
-                      #        endif
-                          if (!is_keyboard_master()) {
-        static bool     delayed_tasks_run  = false;
-        static uint16_t delayed_task_timer = 0;
-        if (!delayed_tasks_run) {
-            if (!delayed_task_timer) {
-                delayed_task_timer = timer_read();
-            } else if (timer_elapsed(delayed_task_timer) > (SPLIT_WATCHDOG_TIMEOUT + 100) && is_transport_connected()) {
-                audio_startup();
-                delayed_tasks_run = true;
+#        endif
+        if (!is_keyboard_master()) {
+            static bool     delayed_tasks_run  = false;
+            static uint16_t delayed_task_timer = 0;
+            if (!delayed_tasks_run) {
+                if (!delayed_task_timer) {
+                    delayed_task_timer = timer_read();
+                } else if (timer_elapsed(delayed_task_timer) > (SPLIT_WATCHDOG_TIMEOUT + 100) && is_transport_connected()) {
+                    audio_startup();
+                    delayed_tasks_run = true;
+                }
             }
         }
-                          }
 #    endif // AUDIO_ENABLE && AUDIO_INIT_DELAY
     matrix_slave_scan_keymap();
 }
@@ -300,55 +237,11 @@ void                       housekeeping_task_user(void) {
 #    endif
 #endif // AUDIO_ENABLE
     }
-#ifdef DISPLAY_DRIVER_ENABLE
-    void housekeeping_task_display(void);
-    housekeeping_task_display();
-#endif
-#if defined(CUSTOM_TAP_DANCE_ENABLE) // Run Diablo 3 macro checking code.
-    run_diablo_macro_check();
-#endif // CUSTOM_TAP_DANCE_ENABLE
 #if defined(RGB_MATRIX_CUSTOM_USER)
     housekeeping_task_rgb_matrix();
 #endif // RGB_MATRIX_CUSTOM_USER
-#if defined(CUSTOM_RGBLIGHT)
-    housekeeping_task_rgb_light();
-#endif // CUSTOM_RGBLIGHT
 #if defined(SPLIT_KEYBOARD) && defined(SPLIT_TRANSACTION_IDS_USER)
     housekeeping_task_transport_sync();
 #endif // SPLIT_KEYBOARD && SPLIT_TRANSACTION_IDS_USER
-#ifdef WPM_ENABLE
-    void housekeeping_task_wpm(void);
-    housekeeping_task_wpm();
-#endif // WPM_ENABLE
     housekeeping_task_keymap();
 }
-
-#ifdef COMMUNITY_MODULE_RTC_ENABLE
-#    include "rtc.h"
-void rtc_check_dst_format(rtc_time_t *time) {
-#    ifdef DS1307_RTC_DRIVER_ENABLE
-    time->is_dst = userspace_config.rtc.is_dst;
-#    endif // DS1307_RTC_DRIVER_ENABLE
-#    ifdef DS3231_RTC_DRIVER_ENABLE
-    time->is_dst = userspace_config.rtc.is_dst;
-#    endif // DS3231_RTC_DRIVER_ENABLE
-#    ifdef PCF8523_RTC_DRIVER_ENABLE
-    time->is_dst = userspace_config.rtc.is_dst;
-#    endif // PCF8523_RTC_DRIVER_ENABLE
-#    ifdef VENDOR_RTC_DRIVER_ENABLE
-    time->format = userspace_config.rtc.format_24h;
-#    endif // VENDOR_RTC_DRIVER_ENABLE
-    time->timezone = userspace_config.rtc.timezone;
-}
-
-bool rtc_set_time_user(rtc_time_t *time) {
-#    ifdef COMMUNITY_MODULE_DISPLAY_MENU_ENABLE
-    display_menu_set_dirty(true);
-#    endif // COMMUNITY_MODULE_DISPLAY_MENU_ENABLE
-    userspace_config.rtc.is_dst     = time->is_dst;
-    userspace_config.rtc.timezone   = time->timezone;
-    userspace_config.rtc.format_24h = time->format;
-    eeconfig_update_user_datablock_handler(&userspace_config, 0, EECONFIG_USER_DATA_SIZE);
-    return true;
-}
-#endif

@@ -11,7 +11,6 @@ bool shutdown_keymap(bool jump_to_bootloader);
 void suspend_power_down_keymap(void);
 void suspend_wakeup_init_keymap(void);
 
-bool          is_gaming_layer_active(layer_state_t state);
 layer_state_t layer_state_set_keymap(layer_state_t state);
 layer_state_t default_layer_state_set_keymap(layer_state_t state);
 
