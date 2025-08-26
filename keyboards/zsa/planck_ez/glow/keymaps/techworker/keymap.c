@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "keymap.h"
+#include "rgb_matrix.h"
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -60,14 +61,11 @@ const uint8_t fn_led_mapping[] = {};
 const uint8_t mod_led_mapping[] = {
     // shift
     13,
-    22,
-    // command
     14,
-    21,
-    // option/alt
     15,
     20,
-    // control
+    21,
+    22,
     24,
     35
 };
