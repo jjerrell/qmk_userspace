@@ -122,7 +122,7 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
             case OS_IOS:
                 xprintf("Apple OS Detected\n");
                 os_detection_config = (os_detection_config_t){
-                    .swap_ctl_gui = true,
+                    .swap_ctl_gui = false,
 #    ifdef UNICODE_COMMON_ENABLE
                     .unicode_input_mode = UNICODE_MODE_MACOS,
 #    endif // UNICODE_COMMON_ENABLE
