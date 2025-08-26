@@ -1,12 +1,12 @@
+// Copyright 2023 Christopher Courtney, aka Drashna Jael're  (@drashna) <drashna@live.com>
 // Copyright 2025 Jacob Jerrell (@jjerrell)
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "rgb_matrix_custom.h"
-#include <ctype.h>
 #include "lib/lib8tion/lib8tion.h"
 
-extern  rgb_config_t rgb_matrix_config;
-rgb_t   rgb_matrix_hsv_to_rgb(hsv_t hsv);
+extern rgb_config_t rgb_matrix_config;
+extern led_config_t g_led_config;
 
 // LED mappings (Defined in each keymap. See the readme section for "Layer Indication".)
 extern uint8_t home_led_mapping[HOME_LED_COUNT];
@@ -63,6 +63,13 @@ void enable_simple_mappings(
 
 void simple_layer_indication(uint8_t led_min, uint8_t led_max) {
     switch(get_highest_layer(layer_state)) {
+        case _WORKMAN:
+            enable_simple_mappings(
+                mod_bitmap, MOD_LED_COUNT,
+                led_min, led_max,
+                RGB_ORANGE
+            );
+            break;
         case _LOWER:
             enable_simple_mappings(
                 arrow_bitmap, ARROW_LED_COUNT,
@@ -77,27 +84,16 @@ void simple_layer_indication(uint8_t led_min, uint8_t led_max) {
             break;
         case _RAISE:
             for (uint8_t i = led_min; i < led_max; i++) {
-                if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_MODIFIER)) {
+                if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_KEYLIGHT)) {
                     rgb_matrix_set_color(i, RGB_BLUE);
                 }
             }
             break;
         case _ADJUST:
             for (uint8_t i = led_min; i < led_max; i++) {
-                if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_MODIFIER)) {
+                if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_KEYLIGHT)) {
                     rgb_matrix_set_color(i, RGB_ORANGE);
                 }
-            }
-            break;
-        default:
-            switch (get_highest_layer(default_layer_state)) {
-                case _WORKMAN:
-                    enable_simple_mappings(
-                        home_bitmap, HOME_LED_COUNT,
-                        led_min, led_max,
-                        RGB_ORANGE
-                    );
-                    break;
             }
             break;
     }
@@ -105,68 +101,83 @@ void simple_layer_indication(uint8_t led_min, uint8_t led_max) {
 #pragma endregion SIMPLE_LAYER_INDICATION
 
 #pragma region ANIMATED_LAYER_INDICATION
-/** Helper to set the color of all LEDs in a group */
 void breathing_group_animation(
-    bool is_default_layer,
-    uint8_t led_min, uint8_t led_max, // LED matrix min/max
-    led_bitmap_t bitmap, uint8_t group_size, // LED group and size
-    uint8_t hue, uint8_t sat, uint8_t val // Desired HSV value
+    uint8_t led_min, uint8_t led_max,
+    led_bitmap_t bitmap, uint8_t group_size,
+    uint8_t hue, uint8_t sat, uint8_t val
 ) {
-
-    hsv_t   hsv  = {hue, sat, val};
-    rgb_t   rgb  = {0};
-    uint8_t time = scale16by8(g_rgb_timer, qadd8(rgb_matrix_config.speed / 4, 1));
-    if (hsv.v > rgb_matrix_get_val()) {
-        hsv.v = rgb_matrix_get_val();
+    static uint16_t cycle_timer = 0;
+    static uint8_t hue_offset = 0;
+    
+    // Update hue every 100ms
+    if (timer_elapsed(cycle_timer) > 100) {
+        hue_offset += 8; // Adjust speed as needed
+        cycle_timer = timer_read();
     }
-
-    // Set the colors for this group/cycle
+    
     for (uint8_t i = led_min; i < led_max; i++) {
-        if (led_in_group(&bitmap, i) || (is_default_layer && HAS_FLAGS(g_led_config.flags[i], LED_FLAG_MODIFIER))) {
-            hsv.v     = scale8(abs8(sin8(time) - 128) * 2, hsv.v);
-            rgb = rgb_matrix_hsv_to_rgb(hsv);
+        if (led_in_group(&bitmap, i)) {
+            // Create rainbow wave effect
+            uint8_t new_hue = hue_offset + (hue / (led_max - led_min));
+            hsv_t   hsv  = {new_hue, sat, val};
+            rgb_t   rgb  = hsv_to_rgb(hsv);
             rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
         }
     }
 }
 
+void breathing_group_animation_all(
+    uint8_t led_min, uint8_t led_max,
+    uint8_t hue, uint8_t sat, uint8_t val
+) {
+    static uint16_t cycle_timer = 0;
+    static uint8_t hue_offset = 0;
+    
+    // Update hue every 100ms
+    if (timer_elapsed(cycle_timer) > 100) {
+        hue_offset += 8; // Adjust speed as needed
+        cycle_timer = timer_read();
+    }
+    
+    for (uint8_t i = led_min; i < led_max; i++) {
+        // Create rainbow wave effect
+        uint8_t new_hue = hue_offset + (hue / (led_max - led_min));
+        hsv_t   hsv  = {new_hue, sat, val};
+        rgb_t   rgb  = hsv_to_rgb(hsv);
+        rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
+    }
+}
+
 void animated_layer_indication(uint8_t led_min, uint8_t led_max) {
     switch(get_highest_layer(layer_state)) {
-        case 0:
+        case _WORKMAN:
             breathing_group_animation(
-                true, // is_default_layer = true; used for lights flagged with LED_FLAG_MODIFIER
                 led_min, led_max,
-                home_bitmap, HOME_LED_COUNT,
+                mod_bitmap, MOD_LED_COUNT,
                 HSV_ORANGE
             );
             break;
         case _LOWER:
             breathing_group_animation(
-                false,
                 led_min, led_max,
                 arrow_bitmap, ARROW_LED_COUNT,
                 HSV_BLUE
             );
             breathing_group_animation(
-                false,
                 led_min, led_max,
                 numpad_bitmap, NUMPAD_LED_COUNT,
                 HSV_GOLDENROD
             );
             break;
         case _RAISE: 
-            breathing_group_animation(
-                true,
+            breathing_group_animation_all(
                 led_min, led_max,
-                fn_bitmap, FN_LED_COUNT,
                 HSV_ORANGE
             );
             break;
         case _ADJUST:      
-            breathing_group_animation(
-                true,
+            breathing_group_animation_all(
                 led_min, led_max,
-                mod_bitmap, MOD_LED_COUNT,
                 HSV_RED
             );
             break;
@@ -185,12 +196,11 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     if (!rgb_matrix_indicators_advanced_keymap(led_min, led_max)) {
         return false;
     }
-// #ifdef ANIMATED_LAYER_INDICATION
-    // animated_layer_indication(led_min, led_max);
-// #endif // ANIMATED_LAYER_INDICATION
-// #ifdef SIMPLE_LAYER_INDICATION
+#ifdef ANIMATED_LAYER_INDICATION
+    animated_layer_indication(led_min, led_max);
+#elif defined(SIMPLE_LAYER_INDICATION) // ANIMATED_LAYER_INDICATION
     simple_layer_indication(led_min, led_max);
-// #endif // SIMPLE_LAYER_INDICATION
+#endif // SIMPLE_LAYER_INDICATION
     return false;
 }
 
