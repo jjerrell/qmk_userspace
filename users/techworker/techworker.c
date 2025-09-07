@@ -128,20 +128,6 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
 #    endif // UNICODE_COMMON_ENABLE
                 };
                 break;
-#    if 0
-            case OS_PS5:
-                xprintf("PlayStation 5 Detected\n");
-#        ifdef UNICODE_COMMON_ENABLE
-                os_detection_config.unicode_input_mode = UNICODE_MODE_LINUX;
-#        endif // UNICODE_COMMON_ENABLE
-                break;
-            case OS_HANDHELD:
-                xprintf("Nintend Switch/Quest 2 Detected\n");
-#        ifdef UNICODE_COMMON_ENABLE
-                os_detection_config.unicode_input_mode = UNICODE_MODE_LINUX;
-#        endif
-                break;
-#    endif
             default:
                 xprintf("Unknown OS Detected\n");
                 break;
