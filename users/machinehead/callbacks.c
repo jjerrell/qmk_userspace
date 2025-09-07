@@ -2,8 +2,8 @@
 // Copyright 2025 Jacob Jerrell (@jjerrell)
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "techworker.h"
-#include "techworker_runtime.h"
+#include "machinehead.h"
+#include "machinehead_runtime.h"
 #include "sendchar.h"
 #include "print.h"
 

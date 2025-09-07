@@ -32,7 +32,7 @@ Effectively, there are two options to disable the logic:
 ### Contribution Guidelines
 
 - Runtime
-    - Toggling or disabling features on the fly should read/write from `userspace_config_t` from `techworker_runtime.h`
+    - Toggling or disabling features on the fly should read/write from `userspace_config_t` from `machinehead_runtime.h`
 - Compile time
     - For disparate implementations which should be entirely confined, addtional `config.h` definitions will be added and documented in the preceding section.
 
@@ -52,7 +52,7 @@ ANIMATED_LAYER_INDICATION
 Each keymap must provide the following block, with the LEDs mapped appropriately. For example:
 
 ```c
-// keyboards/zsa/planck_ez/glow/keymaps/techworker/keymap.c
+// keyboards/zsa/planck_ez/glow/keymaps/machinehead/keymap.c
 #ifdef RGB_MATRIX_CUSTOM_USER
 const uint8_t home_led_mapping[] = {};
 const uint8_t fn_led_mapping[] = {};

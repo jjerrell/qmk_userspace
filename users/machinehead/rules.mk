@@ -1,6 +1,6 @@
-SRC += $(USER_PATH)/techworker.c \
+SRC += $(USER_PATH)/machinehead.c \
         $(USER_PATH)/keycodes/process_records.c \
-        $(USER_PATH)/techworker_util.c \
+        $(USER_PATH)/machinehead_util.c \
         $(USER_PATH)/callbacks.c \
         $(USER_PATH)/sendchar.c
         # $(USER_PATH)/keyrecords/tapping.c \

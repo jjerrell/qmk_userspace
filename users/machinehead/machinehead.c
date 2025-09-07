@@ -2,8 +2,8 @@
 // Copyright 2020 Christopher Courtney, aka Drashna Jael're  (@drashna) <drashna@live.com>
 // Copyright 2025 Jacob Jerrell (@jjerrell)
 
-#include "techworker.h"
-#include "techworker_util.h"
+#include "machinehead.h"
+#include "machinehead_util.h"
 #include <string.h>
 #ifdef UNICODE_COMMON_ENABLE
 #    include "keycodes/unicode.h"
@@ -122,7 +122,8 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
             case OS_IOS:
                 xprintf("Apple OS Detected\n");
                 os_detection_config = (os_detection_config_t){
-                    .swap_ctl_gui = false,
+                    .swap_ctl_gui = false
+                    ,
 #    ifdef UNICODE_COMMON_ENABLE
                     .unicode_input_mode = UNICODE_MODE_MACOS,
 #    endif // UNICODE_COMMON_ENABLE

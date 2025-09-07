@@ -8,9 +8,9 @@
 #include "keycodes/layouts.h"
 #include "keycodes/process_records.h"
 #include "callbacks.h"
-#include "techworker_runtime.h"
-#include "techworker_layers.h"
-#include "techworker_util.h"
+#include "machinehead_runtime.h"
+#include "machinehead_layers.h"
+#include "machinehead_util.h"
 #ifdef CUSTOM_TAP_DANCE_ENABLE
 #    include "keyrecords/custom_tap_dance.h"
 #endif // CUSTOM_TAP_DANCE_ENABLE

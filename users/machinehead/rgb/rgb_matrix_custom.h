@@ -5,9 +5,9 @@
 #pragma once
 #include QMK_KEYBOARD_H
 #include "keycodes/process_records.h"
-#include "techworker_runtime.h"
-#include "techworker_layers.h"
-#include "techworker_util.h"
+#include "machinehead_runtime.h"
+#include "machinehead_layers.h"
+#include "machinehead_util.h"
 #include "rgb_matrix.h"
 
 // typedef struct PACKED {

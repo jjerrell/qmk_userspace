@@ -3,7 +3,7 @@
 // Copyright 2025 Jacob Jerrell (@jjerrell)
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "techworker.h"
+#include "machinehead.h"
 #include "process_records.h"
 #include "version.h"
 
