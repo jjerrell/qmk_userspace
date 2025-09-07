@@ -11,42 +11,8 @@
 #ifdef LEADER_ENABLE
 #    include "keycodes/leader.h"
 #endif
-#if defined(COMMUNITY_MODULE_KEYCODE_STRING_ENABLE)
-#    include "keycode_string.h"
-#endif
 
 userspace_config_t userspace_config;
-
-static uint32_t last_matrix_scan_count = 0;
-/**
- * @brief Get the matrix scan rate value
- *
- * @return uint32_t scans per second
- */
-uint32_t get_matrix_scan_rate(void) {
-    return last_matrix_scan_count;
-}
-
-/**
- * @brief Task to monitor and print the matrix scan rate
- */
-void matrix_scan_rate_task(void) {
-    static uint32_t matrix_timer      = 0;
-    static uint32_t matrix_scan_count = 0;
-
-    matrix_scan_count++;
-
-    if (timer_elapsed32(matrix_timer) >= 1000) {
-#ifndef NO_PRINT
-        if (userspace_config.debug.matrix_scan_print) {
-            xprintf("matrix scan frequency: %lu\n", matrix_scan_count);
-        }
-#endif // NO_PRINT
-        last_matrix_scan_count = matrix_scan_count;
-        matrix_timer           = timer_read32();
-        matrix_scan_count      = 0;
-    }
-}
 
 #if defined(AUTOCORRECT_ENABLE)
 #    if defined(AUDIO_ENABLE)
@@ -62,9 +28,6 @@ char autocorrected_str_raw[2][21] = {"automatically\0", "corrected\0"};
 bool autocorrect_str_has_changed  = false;
 
 bool apply_autocorrect(uint8_t backspaces, const char *str, char *typo, char *correct) {
-    if (is_gaming_layer_active(layer_state)) {
-        return false;
-    }
     strncpy(autocorrected_str_raw[0], typo, sizeof(autocorrected_str_raw[0]) - 1);
     strncpy(autocorrected_str_raw[1], correct, sizeof(autocorrected_str_raw[1]) - 1);
 
@@ -72,11 +35,6 @@ bool apply_autocorrect(uint8_t backspaces, const char *str, char *typo, char *co
     center_text(correct, autocorrected_str[1], sizeof(autocorrected_str[1]) - 1);
     // printf("Autocorrected %s to %s (original: %s)\n", typo, correct, str);
     autocorrect_str_has_changed = true;
-#    if defined(WPM_ENABLE) && defined(WPM_ALLOW_COUNT_REGRESSION)
-    for (uint8_t i = 0; i < backspaces; i++) {
-        update_wpm(KC_BSPC);
-    }
-#    endif // WPM_ENABLE
 
 #    if defined(AUDIO_ENABLE)
     audio_play_melody(&autocorrect_song, NOTE_ARRAY_SIZE(autocorrect_song), false);
@@ -164,26 +122,12 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
             case OS_IOS:
                 xprintf("Apple OS Detected\n");
                 os_detection_config = (os_detection_config_t){
-                    .swap_ctl_gui = true,
+                    .swap_ctl_gui = false,
 #    ifdef UNICODE_COMMON_ENABLE
                     .unicode_input_mode = UNICODE_MODE_MACOS,
 #    endif // UNICODE_COMMON_ENABLE
                 };
                 break;
-#    if 0
-            case OS_PS5:
-                xprintf("PlayStation 5 Detected\n");
-#        ifdef UNICODE_COMMON_ENABLE
-                os_detection_config.unicode_input_mode = UNICODE_MODE_LINUX;
-#        endif // UNICODE_COMMON_ENABLE
-                break;
-            case OS_HANDHELD:
-                xprintf("Nintend Switch/Quest 2 Detected\n");
-#        ifdef UNICODE_COMMON_ENABLE
-                os_detection_config.unicode_input_mode = UNICODE_MODE_LINUX;
-#        endif
-                break;
-#    endif
             default:
                 xprintf("Unknown OS Detected\n");
                 break;

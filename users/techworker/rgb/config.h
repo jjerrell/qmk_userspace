@@ -4,6 +4,9 @@
 
 #pragma once
 
+// Custom implementations
+#define ANIMATED_LAYER_INDICATION // or SIMPLE_LAYER_INDICATION
+
 // Control which default effects are available
 #define RGB_MATRIX_SLEEP // turn off effects when suspended
 
@@ -59,9 +62,6 @@
 
 #define ENABLE_RGB_MATRIX_TYPING_HEATMAP
 #define ENABLE_RGB_MATRIX_CYCLE_OUT_IN_DUAL
-
-// Custom implementations
-#define ANIMATED_LAYER_INDICATION
 
 // Deprecation warning: https://docs.qmk.fm/features/rgblight#keycodes
 #if defined(RGBLIGHT_ENABLE) && defined(RGB_MATRIX_ENABLE)

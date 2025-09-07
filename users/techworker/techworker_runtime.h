@@ -12,46 +12,24 @@
 #include <led.h>
 #include "debug.h"
 
-typedef struct PACKED {
-    hsv_t primary;
-    hsv_t secondary;
-} dual_hsv_t;
-
 typedef union PACKED {
     uint8_t raw[EECONFIG_USER_DATA_SIZE];
     struct {
         struct {
             bool layer_change : 1;
-            bool idle_anim    : 1;
+            // bool idle_anim    : 1; // Unused
         } rgb;
         struct {
             bool i2c_scanner_enable : 1;
             bool matrix_scan_print  : 1;
-            bool console_keylogger  : 1;
+            bool check              : 1;
         } debug;
-        bool nuke_switch : 1;
-        bool check       : 1;
     };
 } userspace_config_t;
 
 _Static_assert(sizeof(userspace_config_t) <= EECONFIG_USER_DATA_SIZE, "User EECONFIG block is not large enough.");
 
 extern userspace_config_t userspace_config;
-
-#if defined(COMMUNITY_MODULE_DISPLAY_MENU_ENABLE)
-#    include "display_menu.h"
-#else
-typedef struct PACKED {
-    bool    is_in_menu;
-    uint8_t selected_child;
-    uint8_t menu_stack[8];
-} menu_state_t;
-
-typedef struct PACKED {
-    bool dirty        : 1;
-    bool has_rendered : 1;
-} menu_state_runtime_t;
-#endif // CUSTOM_QUANTUM_PAINTER_ENABLE
 
 typedef struct PACKED {
     uint8_t mods;
@@ -64,12 +42,6 @@ typedef struct PACKED {
     layer_state_t layer_state;
     layer_state_t default_layer_state;
 } sync_layer_t;
-
-typedef struct PACKED {
-    uint8_t wpm_count : 8;
-    uint8_t wpm_peak  : 8;
-    uint8_t wpm_avg   : 8;
-} wpm_sync_data_t;
 
 typedef struct PACKED {
     struct {
@@ -90,18 +62,11 @@ typedef struct PACKED {
         uint8_t mode        : 3;
         uint8_t typing_mode : 4;
     } unicode;
-    struct {
-        menu_state_t         menu_state;
-        menu_state_runtime_t menu_state_runtime;
-    } display;
     sync_mods_t     mods;
     sync_layer_t    layers;
     led_t           leds;
     keymap_config_t keymap_config;
     debug_config_t  debug_config;
-    wpm_sync_data_t wpm;
-    uint16_t        last_keycode : 16;
-    keyevent_t      last_key_event;
 } user_runtime_config_t;
 
 extern user_runtime_config_t userspace_runtime_state;

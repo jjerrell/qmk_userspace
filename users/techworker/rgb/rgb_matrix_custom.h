@@ -10,6 +10,11 @@
 #include "techworker_util.h"
 #include "rgb_matrix.h"
 
+// typedef struct PACKED {
+//     hsv_t primary;
+//     hsv_t secondary;
+// } dual_hsv_t;
+
 // For efficient array lookups
 typedef struct {
     bool lookup[256];  // Supports LED indices 0-255

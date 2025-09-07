@@ -7,7 +7,18 @@ Features:
     - Home Layer: Home-Row Mods
     - LOWER: Numpad and Arrows
     - RAISE: All keys
-    - ADJUST: All keys
+    - ADJUST: All keysj
+
+## General Knowledge
+
+### LED Flags
+
+| Flag               | Example (Planck)                        |
+| ------------------ | --------------------------------------- |
+| LED_FLAG_KEYLIGHT  | Spacebar + All Alpha Keys               |
+| LED_FLAG_INDICATOR | None                                    |
+| LED_FLAG_UNDERGLOW | None                                    |
+| LED_FLAG_MODIFIER  | All outer keys sans spacebar and tab(?) |
 
 ## Feature control
 

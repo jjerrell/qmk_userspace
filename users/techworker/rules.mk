@@ -54,10 +54,6 @@ ifeq ($(strip $(CUSTOM_BOOTMAGIC_ENABLE)), yes)
     endif
 endif
 
-ifeq ($(strip $(WPM_ENABLE)), yes)
-    SRC += $(USER_PATH)/wpm.c
-endif
-
 
 ifeq ($(strip $(HARDWARE_DEBUG_ENABLE)), yes)
     LTO_ENABLE := no

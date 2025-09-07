@@ -94,18 +94,6 @@ void autocorrect_string_sync(uint8_t initiator2target_buffer_size, const void* i
 }
 
 /**
- * @brief Sync keylogger string between halves of split keyboard
- *
- * @param initiator2target_buffer_size
- * @param initiator2target_buffer
- * @param target2initiator_buffer_size
- * @param target2initiator_buffer
- */
-void keylogger_string_sync(uint8_t initiator2target_buffer_size, const void* initiator2target_buffer,
-                           uint8_t target2initiator_buffer_size, void* target2initiator_buffer) {
-}
-
-/**
  * @brief Send the suspend state to the other half of the split keyboard
  *
  * @param status
@@ -166,9 +154,6 @@ void update_master_state(void) {
         .default_layer_state = default_layer_state,
     };
     userspace_runtime_state.leds = host_keyboard_led_state();
-#ifdef WPM_ENABLE
-    userspace_runtime_state.wpm.wpm_count = get_current_wpm();
-#endif // WPM_ENABLE
     userspace_runtime_state.keymap_config = keymap_config;
     userspace_runtime_state.debug_config  = debug_config;
 }

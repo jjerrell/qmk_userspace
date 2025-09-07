@@ -4,9 +4,6 @@
 #include "print.h"
 #include "timer.h"
 
-#ifdef SEGGER_RTT_ENABLE
-#    include "SEGGER_RTT.h"
-#endif // SEGGER_RTT_ENABLE
 #ifdef VIRTSER_ENABLE
 #    include "virtser.h"
 #endif // VIRTSER_ENABLE
@@ -19,15 +16,8 @@ int8_t drashna_sendchar(uint8_t c) {
 
     extern int8_t sendchar(uint8_t c);
     ret = sendchar(c);
-#ifdef SEGGER_RTT_ENABLE
-    ret = SEGGER_RTT_PutChar(0, (char)c);
-#endif // SEGGER_RTT_ENABLE
 #ifdef VIRTSER_ENABLE
     virtser_send(c);
 #endif // VIRTSER_ENABLE
-#if defined(DISPLAY_DRIVER_ENABLE)
-    void display_sendchar_hook(uint8_t c);
-    display_sendchar_hook(c);
-#endif // DISPLAY_DRIVER_ENABLE
     return ret;
 }

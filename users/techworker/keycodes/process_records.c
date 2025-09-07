@@ -7,10 +7,6 @@
 #include "process_records.h"
 #include "version.h"
 
-#if defined(RGB_MATRIX_ENABLE)
-#   include "rgb/rgb_matrix_custom.h"
-#endif // RGB_MATRIX_ENABLE
-
 #ifdef UNICODE_COMMON_ENABLE
 #    include "keycodes/unicode.h"
 #endif // UNICODE_COMMON_ENABLE
