@@ -22,7 +22,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          _________________RAISE_L1__________________, UC_FLIP, UC_TABL, _________________RAISE_R1__________________,
          _________________RAISE_L2__________________, UC_SHRG, _______, _________________RAISE_R2__________________,
          _________________RAISE_L3__________________, UC_DISA, UC_IRNY, _________________RAISE_R3__________________,
-         _______, KC_NORM, KC_SUPR, KC_SCPT, LWR_BSP, SFT_SPC, XXXXXXX, _______, KC_AUSS, KC_WIDE, KC_BLCK, _______
+         _______, _______, _______, _______, _______, SFT_SPC, XXXXXXX, _______, _______, _______, _______, _______
      ), // Has toggles in the center column
      [_ADJUST] = LAYOUT_4x12_base(
          _________________ADJUST_L1_________________, _______, _______, _________________ADJUST_R1_________________,

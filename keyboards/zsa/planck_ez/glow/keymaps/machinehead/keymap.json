@@ -1,6 +1,5 @@
 {
-    "keyboard": "zsa/planck_ez/base",
+    "keyboard": "zsa/planck_ez/glow",
     "modules": [
-        "drashna/unicode_typing"
     ]
 }
