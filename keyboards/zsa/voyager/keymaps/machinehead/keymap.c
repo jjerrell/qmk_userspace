@@ -1,0 +1,106 @@
+// Copyright 2023 ZSA Technology Labs, Inc <@zsa>
+// Copyright 2023 Christopher Courtney, aka Drashna Jael're  (@drashna) <drashna@live.com>
+// Copyright 2025 Jacob Jerrell (@jjerrell)
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+#include "keymap.h"
+
+#undef TOG_LWR
+#define TOG_LWR TG(_MOUSE)
+
+// clang-format off
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    [_WORKMAN] = LAYOUT_modifiers_wrapper(
+        KC_GRV,  _________________WORKMAN_L1________________,        _________________WORKMAN_R1________________, KC_BSLS,
+        CW_TOGG, _________________WORKMAN_L2________________,        _________________WORKMAN_R2________________, KC_QUOT,
+        KC_LSFT, _________________WORKMAN_L3________________,        _________________WORKMAN_R3________________, KC_RSFT,
+        TOG_LWR, _______, _______, _______, _______, QK_LEAD,        KC_CCCV, _______, _______, _______, _______, TOG_RSE
+    ),
+    [_LOWER] = LAYOUT_modifiers_wrapper(
+        _______, _________________LOWER_L1__________________,        _________________LOWER_R1__________________, _______,
+        _______, _________________LOWER_L2__________________,        _________________LOWER_R2__________________, _______,
+        _______, _________________LOWER_L3__________________,        _________________LOWER_R3__________________, _______,
+        _______, ___________________BLANK___________________,        ___________________BLANK___________________, _______
+    ),
+    [_RAISE] = LAYOUT_modifiers_wrapper(
+        _______, _________________RAISE_L1__________________,        _________________RAISE_R1__________________, _______,
+        _______, _________________RAISE_L2__________________,        _________________RAISE_R2__________________, _______,
+        _______, _________________RAISE_L3__________________,        _________________RAISE_R3__________________, _______,
+        _______, ___________________BLANK___________________,        ___________________BLANK___________________, _______
+    ),
+    [_ADJUST] = LAYOUT_base_wrapper(
+        _______, _________________ADJUST_L1_________________,        _________________ADJUST_R1_________________, _______,
+        _______, _________________ADJUST_L2_________________,        _________________ADJUST_R2_________________, KC_RGBT,
+        _______, _________________ADJUST_L3_________________,        _________________ADJUST_R3_________________, RGB_TOG,
+        _______, ___________________BLANK___________________,        ___________________BLANK___________________, RM_TOGG
+    ),
+    [_MOUSE] = LAYOUT_wrapper(
+        _______, OM_W_U,  OM_HLDS, OM_U,    OM_RELS,  OM_W_U,        _______, _______, _______, _______, _______, _______,
+        _______, OM_W_D,  OM_L,    OM_D,    OM_R,     OM_W_D,        _______, KC_RALT, KC_RGUI, KC_RSFT, _______, _______,
+        _______, _______, OM_SEL1, OM_SEL2, OM_SEL3, KC_CCCV,        _______, _______, _______, _______, KC_RCTL, _______,
+        _______, _______, _______, _______, _______, _______,        _______, _______, _______, _______, _______, _______,
+                                            OM_BTNS, OM_DBLS,        _______, _______
+    )
+};
+// clang-format on
+
+#ifdef VOYAGER_USER_LEDS
+layer_state_t layer_state_set_keymap(layer_state_t state) {
+    // All indicators OFF
+    STATUS_LED_1(false);
+    STATUS_LED_2(false);
+    STATUS_LED_3(false);
+    STATUS_LED_4(false);
+
+    switch (get_highest_layer(state)) {
+        case _LOWER:
+            STATUS_LED_2(true); // Left-bottom indicator ON
+            STATUS_LED_4(true); // Right-bottom indicator ON
+            break;
+        case _RAISE:
+            STATUS_LED_1(true); // Left-top indicator ON
+            STATUS_LED_3(true); // Right-top indicator ON
+            break;
+        case _ADJUST:
+            // All indicators ON
+            STATUS_LED_1(true);
+            STATUS_LED_2(true);
+            STATUS_LED_3(true);
+            STATUS_LED_4(true);
+            break;
+        case _MOUSE:
+            STATUS_LED_2(true);
+            STATUS_LED_3(true);
+            break;
+        default:
+            break;
+    }
+
+    return state;
+}
+#endif
+
+#ifdef RGB_MATRIX_CUSTOM_USER
+const uint8_t home_led_mapping[] = {};
+const uint8_t fn_led_mapping[] = {};
+const uint8_t mod_led_mapping[] = {
+    // shift
+    8,
+    35,
+    // command
+    9,
+    35,
+    // option/alt
+    10,
+    33,
+    // control
+    13,
+    42
+};
+const uint8_t arrow_led_mapping[] = {3, 8, 9, 10};
+const uint8_t numpad_led_mapping[] = {
+        27, 28, 29,
+        33, 34, 35,
+    38, 39, 40, 41, 42
+};
+#endif // RGB_MATRIX_CUSTOM_USER
