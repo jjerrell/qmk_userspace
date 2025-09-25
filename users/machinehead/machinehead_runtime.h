@@ -17,6 +17,7 @@ typedef union PACKED {
     struct {
         struct {
             bool layer_change : 1;
+            bool action_indicator: 1;
             // bool idle_anim    : 1; // Unused
         } rgb;
         struct {

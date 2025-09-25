@@ -4,6 +4,8 @@
 #include "keymap.h"
 #include "rgb_matrix.h"
 
+userspace_config_t userspace_config;
+
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      [_WORKMAN] = LAYOUT_4x12_mods(
@@ -38,6 +40,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      )
  };
 // clang-format on
+
+bool rgb_matrix_indicators_advanced_keymap(uint8_t led_min, uint8_t led_max) {
+    if (IS_LAYER_ON(_WORKMAN) && userspace_config.rgb.action_indicator) {
+        planck_ez_right_led_on();
+        planck_ez_left_led_on();
+    } else {
+        planck_ez_right_led_off();
+        planck_ez_left_led_off();
+    }
+    return true;
+};
 
 layer_state_t layer_state_set_keymap(layer_state_t state) {
     planck_ez_right_led_level(10);
