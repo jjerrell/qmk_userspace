@@ -62,17 +62,3 @@ void rgb_layer_indication_toggle(void);
 #define TOG_LWR TG(_LOWER)
 #define TOG_RSE TG(_RAISE)
 
-#ifndef COMMUNITY_MODULE_KEYBOARD_LOCK_ENABLE
-#    define KEYLOCK KC_NO
-#endif // COMMUNITY_MODULE_KEYBOARD_LOCK_ENABLE
-#ifndef COMMUNITY_MODULE_UNICODE_TYPING_ENABLE
-#    define KC_NOMODE   KC_NO
-#    define KC_WIDE     KC_NO
-#    define KC_SCRIPT   KC_NO
-#    define KC_BLOCKS   KC_NO
-#    define KC_REGIONAL KC_NO
-#    define KC_AUSSIE   KC_NO
-#    define KC_ZALGO    KC_NO
-#    define KC_SUPER    KC_NO
-#    define KC_COMIC    KC_NO
-#endif // COMMUNITY_MODULE_UNICODE_TYPING_ENABLE

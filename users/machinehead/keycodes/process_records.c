@@ -328,7 +328,6 @@ bool process_autocorrect_user(uint16_t *keycode, keyrecord_t *record, uint8_t *t
 
 void rgb_layer_indication_toggle(void) {
     userspace_config.rgb.layer_change ^= 1;
-    dprintf("rgblight layer change [EEPROM]: %u\n", userspace_config.rgb.layer_change);
     eeconfig_update_user_datablock_handler(&userspace_config, 0, EECONFIG_USER_DATA_SIZE);
     if (userspace_config.rgb.layer_change) {
 #if defined(RGB_MATRIX_CUSTOM_USER)
