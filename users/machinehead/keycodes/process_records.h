@@ -6,8 +6,7 @@
 #include "action.h"
 
 enum userspace_custom_keycodes {
-    KC_MAKE = QK_USER, // Runs the keyboard's make command
-    KC_ARRW,           // ->
+    KC_ARRW = QK_USER, // ->
     KC_VRSN,           // Print QMK Firmware and board info
     KC_CCCV,           // Copy-pasta button
     KC_RGBT,          // Toggles RGB Layer Indication mode

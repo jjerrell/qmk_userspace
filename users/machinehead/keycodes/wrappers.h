@@ -84,7 +84,7 @@
 #define _________________RAISE_R3__________________  KC_TILD, KC_DQUO, KC_QUOT, KC_UNDS, KC_QUES
 
 // Adjust
-#define _________________ADJUST_L1_________________  KC_MAKE, DB_TOGG, QK_BOOT, KC_QWERTY, KC_WRKMAN
+#define _________________ADJUST_L1_________________  QK_MAKE, DB_TOGG, QK_BOOT, KC_QWERTY, KC_WRKMAN
 #define _________________ADJUST_L2_________________  KC_MUTE, KC_VOLD, KC_VOLU, KC_MPLY,   KC_MNXT
 #define _________________ADJUST_L3_________________  KC_VRSN, AU_ON,   AU_OFF,  CG_SWAP,   CG_NORM
 

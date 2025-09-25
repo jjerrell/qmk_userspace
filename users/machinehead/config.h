@@ -4,6 +4,8 @@
 
 #pragma once
 
+// Comes from Drashna's userspace (as most things).
+// Currently unused in here. Could be useful for special macros or something.
 #ifdef IS_COMMAND
 #    undef IS_COMMAND
 #endif // IS_COMMAND

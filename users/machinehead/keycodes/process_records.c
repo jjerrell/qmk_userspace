@@ -120,13 +120,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     switch (keycode) {
-        case KC_MAKE:
-            if (record->event.pressed) {
-                send_string_with_delay_P(PSTR("qmk compile -kb " QMK_KEYBOARD " -km " QMK_KEYMAP), TAP_CODE_DELAY);
-                send_string_with_delay_P(PSTR(SS_TAP(X_ENTER)), TAP_CODE_DELAY);
-            }
-            return false;
-            break;
         case KC_ARRW:
             if (record->event.pressed) {
                 SEND_STRING("->");
