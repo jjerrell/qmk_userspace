@@ -70,7 +70,8 @@
 *   - Common general use symbols.
 *   - Generally feeling disatified about the position of `@` due to its frequency in chat
 *
-* The symetry seems nice, on paper. The symbols I theoretically feel unhappy about
+* The symetry seems nice, on paper. I generally feel unhappy about "non-primary" symbols.
+* Having separate programming and general-symbol layers seems like cognitive overload
 */
 
 #define _________________RAISE_L1__________________  KC_BSLS, KC_SLSH, KC_PIPE, KC_AMPR, KC_MINS
