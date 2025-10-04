@@ -55,3 +55,20 @@ void rgb_layer_indication_toggle(void);
 #define TOG_LWR TG(_LOWER)
 #define TOG_RSE TG(_RAISE)
 
+#pragma region SCREEN_LAYOUT
+#define LF_LQTR HYPR(KC_Q) // Left quarter
+#define LF_CQTR HYPR(KC_D) // Left-center quarter
+#define RT_CQTR HYPR(KC_R) // Right-center quarter
+#define RT_RQTR HYPR(KC_W) // Right quarter
+
+#define LF_TTRD HYPR(KC_A) // Left two-thirds
+#define LF_THRD HYPR(KC_S) // Left third
+#define CN_THRD HYPR(KC_H) // Center third
+#define RT_THRD HYPR(KC_T) // Right third
+#define RT_TTRD HYPR(KC_G) // Right two-thirds
+
+#define LF_HALF HYPR(KC_X)
+#define CT_HALF HYPR(KC_M)
+#define RT_HALF HYPR(KC_C)
+#pragma endregion SCREEN_LAYOUT
+
