@@ -12,7 +12,7 @@ LEADER_ENABLE                 ?= yes
 
 DEBOUNCE_TYPE                 ?= asym_eager_defer_pk
 DEFERRED_EXEC_ENABLE          ?= yes
-OS_DETECTION_ENABLE           ?= yes
+OS_DETECTION_ENABLE           ?= no
 GRAVE_ESC_ENABLE              := no
 SPACE_CADET_ENABLE            := no
 DEBUG_MATRIX_SCAN_RATE_ENABLE := no

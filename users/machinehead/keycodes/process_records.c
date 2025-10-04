@@ -62,13 +62,17 @@ bool process_record_mod_intercept(uint16_t keycode, keyrecord_t *record) {
         switch (keycode) {
             case CTL_T(KC_HASH):
             case CTL_T(KC_CIRC):
-            case CTL_T(KC_QUES):
             case ALT_T(KC_RPRN):
             case ALT_T(KC_LCBR):
             case ALT_T(KC_RCBR):
             case GUI_T(KC_RCBR):
             case GUI_T(KC_LPRN):
             case GUI_T(KC_RPRN):
+#           ifdef ENABLE_RAISE_MIGRATION
+                case SFT_T(KC_RABK):
+#           else // !ENABLE_RAISE_MIGRATION
+                case CTL_T(KC_QUES):
+#           endif // ENABLE_RAISE_MIGRATION
                 // Check tap.count to make sure we aren't processing a modifier
                 if (record->tap.count && record->event.pressed) {
                     // Apply shift
@@ -138,28 +142,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 copy_paste_timer = timer_read();
             } else if (timer_elapsed(copy_paste_timer) > TAPPING_TERM) {
                 // Hold, copy
-                switch (detected_host_os()) {
-                    case OS_LINUX:
-                    case OS_WINDOWS:
-                    case OS_UNSURE:
-                        SEND_STRING(SS_LCTL("c"));
-                        break;
-                    default:
-                        SEND_STRING(SS_LGUI("c"));
-                        break;
-                }
+                SEND_STRING(SS_LGUI("c"));
             } else {
                 // Tap, paste
-                switch (detected_host_os()) {
-                    case OS_LINUX:
-                    case OS_WINDOWS:
-                    case OS_UNSURE:
-                        SEND_STRING(SS_LCTL("v"));
-                        break;
-                    default:
-                        SEND_STRING(SS_LGUI("v"));
-                        break;
-                }
+                SEND_STRING(SS_LGUI("v"));
             }
             return false;
             break;

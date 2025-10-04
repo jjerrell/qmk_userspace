@@ -42,12 +42,6 @@ bool process_record_unicode(uint16_t keycode, keyrecord_t *record);
 #endif // CUSTOM_UNICODE_ENABLE
 void rgb_layer_indication_toggle(void);
 
-#define KC_SEC1 MACRO_1
-#define KC_SEC2 MACRO_2
-#define KC_SEC3 MACRO_3
-#define KC_SEC4 MACRO_4
-#define KC_SEC5 MACRO_5
-
 #define GUI_SPC GUI_T(KC_SPC)
 
 #define SFT_SPC SFT_T(KC_SPC)
