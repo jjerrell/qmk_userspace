@@ -102,8 +102,10 @@ bool process_record_mod_intercept(uint16_t keycode, keyrecord_t *record) {
  * @return false Stop process keycode and do not send to host
  */
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!(process_record_mod_intercept(keycode, record) && process_record_keymap(keycode, record) &&
-          process_record_secrets(keycode, record)
+    if (!(process_record_secrets(keycode, record) && process_record_keymap(keycode, record)
+#ifndef COMMUNITY_MODULE_SHIFTED_MOD_TAP_ENABLE
+          && process_record_mod_intercept(keycode, record)
+#endif
 #ifdef RGB_MATRIX_CUSTOM_USER
           && process_record_user_rgb_matrix(keycode, record)
 #endif // RGB_MATRIX_CUSTOM_USER
@@ -142,10 +144,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 copy_paste_timer = timer_read();
             } else if (timer_elapsed(copy_paste_timer) > TAPPING_TERM) {
                 // Hold, copy
-                SEND_STRING(SS_LGUI("c"));
+                if (keymap_config.swap_lctl_lgui) {
+                    SEND_STRING(SS_LCTL("c"));
+                } else {
+                    SEND_STRING(SS_LGUI("c"));
+                }
             } else {
                 // Tap, paste
-                SEND_STRING(SS_LGUI("v"));
+                if (keymap_config.swap_lctl_lgui) {
+                    SEND_STRING(SS_LCTL("v"));
+                } else {
+                    SEND_STRING(SS_LGUI("v"));
+                }
             }
             return false;
             break;

@@ -19,7 +19,11 @@ void leader_end_user(void) {
     if (leader_end_keymap()) {
         if (leader_sequence_one_key(KC_R)) {
             // Rebuild / Run
-            SEND_STRING(SS_LGUI("r"));
+            if (keymap_config.swap_lctl_lgui) {
+                SEND_STRING(SS_LCTL("r"));
+            } else {
+                SEND_STRING(SS_LGUI("r"));
+            }
         } else if (leader_sequence_two_keys(KC_B, KC_D)) {
             // Build info
             send_string_with_delay_P(PSTR(QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION " Built at: " QMK_BUILDDATE),
