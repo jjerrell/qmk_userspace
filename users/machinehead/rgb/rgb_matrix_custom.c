@@ -11,12 +11,13 @@ extern led_config_t g_led_config;
 // LED mappings (Defined in each keymap. See the readme section for "Layer Indication".)
 extern uint8_t home_led_mapping[HOME_LED_COUNT];
 extern uint8_t mod_led_mapping[MOD_LED_COUNT];
+extern uint8_t lower_led_mapping[LOWER_LED_COUNT];
 extern uint8_t arrow_led_mapping[ARROW_LED_COUNT];
 extern uint8_t numpad_led_mapping[NUMPAD_LED_COUNT];
 extern uint8_t fn_led_mapping[FN_LED_COUNT];
 
 // Lookup helpers
-led_bitmap_t home_bitmap, mod_bitmap, arrow_bitmap, numpad_bitmap, fn_bitmap;
+led_bitmap_t home_bitmap, mod_bitmap, arrow_bitmap, numpad_bitmap, fn_bitmap, lower_bitmap;
 
 void build_led_bitmap(led_bitmap_t *bitmap, const uint8_t *group, uint8_t count) {
     // Clear bitmap
@@ -38,6 +39,7 @@ void init_led_bitmaps(void) {
     build_led_bitmap(&home_bitmap, home_led_mapping, HOME_LED_COUNT);
     build_led_bitmap(&mod_bitmap, mod_led_mapping, MOD_LED_COUNT);
     build_led_bitmap(&arrow_bitmap, arrow_led_mapping, ARROW_LED_COUNT);
+    build_led_bitmap(&lower_bitmap, lower_led_mapping, LOWER_LED_COUNT);
     build_led_bitmap(&numpad_bitmap, numpad_led_mapping, NUMPAD_LED_COUNT);
     build_led_bitmap(&fn_bitmap, fn_led_mapping, FN_LED_COUNT);
 }
@@ -57,6 +59,8 @@ void enable_simple_mappings(
     for (uint8_t i = led_min; i < led_max; i++) {
         if (led_in_group(&bitmap, i)) {
             rgb_matrix_set_color(i, r, g, b);
+        } else {
+            rgb_matrix_set_color(i, RGB_OFF);
         }
     }
 }
@@ -72,14 +76,9 @@ void simple_layer_indication(uint8_t led_min, uint8_t led_max) {
             break;
         case _LOWER:
             enable_simple_mappings(
-                arrow_bitmap, ARROW_LED_COUNT,
+                lower_bitmap, LOWER_LED_COUNT,
                 led_min, led_max, 
                 RGB_BLUE
-            );
-            enable_simple_mappings(
-                numpad_bitmap, NUMPAD_LED_COUNT,
-                led_min, led_max, 
-                RGB_GOLD
             );
             break;
         case _RAISE:
@@ -122,6 +121,8 @@ void breathing_group_animation(
             hsv_t   hsv  = {new_hue, sat, val};
             rgb_t   rgb  = hsv_to_rgb(hsv);
             rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
+        } else {
+            rgb_matrix_set_color(i, RGB_OFF);
         }
     }
 }
@@ -160,13 +161,8 @@ void animated_layer_indication(uint8_t led_min, uint8_t led_max) {
         case _LOWER:
             breathing_group_animation(
                 led_min, led_max,
-                arrow_bitmap, ARROW_LED_COUNT,
+                lower_bitmap, LOWER_LED_COUNT,
                 HSV_BLUE
-            );
-            breathing_group_animation(
-                led_min, led_max,
-                numpad_bitmap, NUMPAD_LED_COUNT,
-                HSV_GOLDENROD
             );
             break;
         case _RAISE: 

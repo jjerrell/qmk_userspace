@@ -21,6 +21,9 @@
 #   ifndef NUMPAD_LED_COUNT
 #      define NUMPAD_LED_COUNT 10
 #   endif
+#   ifndef LOWER_LED_COUNT
+#       define LOWER_LED_COUNT 14
+#   endif
 #endif // RGB_MATRIX_CUSTOM_USER
 
 #ifndef RGB_MATRIX_REST_MODE
