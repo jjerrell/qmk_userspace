@@ -62,13 +62,17 @@ bool process_record_mod_intercept(uint16_t keycode, keyrecord_t *record) {
         switch (keycode) {
             case CTL_T(KC_HASH):
             case CTL_T(KC_CIRC):
-            case CTL_T(KC_QUES):
             case ALT_T(KC_RPRN):
             case ALT_T(KC_LCBR):
             case ALT_T(KC_RCBR):
             case GUI_T(KC_RCBR):
             case GUI_T(KC_LPRN):
             case GUI_T(KC_RPRN):
+#           ifdef ENABLE_RAISE_MIGRATION
+                case SFT_T(KC_RABK):
+#           else // !ENABLE_RAISE_MIGRATION
+                case CTL_T(KC_QUES):
+#           endif // ENABLE_RAISE_MIGRATION
                 // Check tap.count to make sure we aren't processing a modifier
                 if (record->tap.count && record->event.pressed) {
                     // Apply shift
@@ -98,8 +102,10 @@ bool process_record_mod_intercept(uint16_t keycode, keyrecord_t *record) {
  * @return false Stop process keycode and do not send to host
  */
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!(process_record_mod_intercept(keycode, record) && process_record_keymap(keycode, record) &&
-          process_record_secrets(keycode, record)
+    if (!(process_record_secrets(keycode, record) && process_record_keymap(keycode, record)
+#ifndef COMMUNITY_MODULE_SHIFTED_MOD_TAP_ENABLE
+          && process_record_mod_intercept(keycode, record)
+#endif
 #ifdef RGB_MATRIX_CUSTOM_USER
           && process_record_user_rgb_matrix(keycode, record)
 #endif // RGB_MATRIX_CUSTOM_USER
@@ -120,13 +126,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     switch (keycode) {
-        case KC_MAKE:
-            if (record->event.pressed) {
-                send_string_with_delay_P(PSTR("qmk compile -kb " QMK_KEYBOARD " -km " QMK_KEYMAP), TAP_CODE_DELAY);
-                send_string_with_delay_P(PSTR(SS_TAP(X_ENTER)), TAP_CODE_DELAY);
-            }
-            return false;
-            break;
         case KC_ARRW:
             if (record->event.pressed) {
                 SEND_STRING("->");
@@ -145,27 +144,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 copy_paste_timer = timer_read();
             } else if (timer_elapsed(copy_paste_timer) > TAPPING_TERM) {
                 // Hold, copy
-                switch (detected_host_os()) {
-                    case OS_LINUX:
-                    case OS_WINDOWS:
-                    case OS_UNSURE:
-                        SEND_STRING(SS_LCTL("c"));
-                        break;
-                    default:
-                        SEND_STRING(SS_LGUI("c"));
-                        break;
+                if (keymap_config.swap_lctl_lgui) {
+                    SEND_STRING(SS_LCTL("c"));
+                } else {
+                    SEND_STRING(SS_LGUI("c"));
                 }
             } else {
                 // Tap, paste
-                switch (detected_host_os()) {
-                    case OS_LINUX:
-                    case OS_WINDOWS:
-                    case OS_UNSURE:
-                        SEND_STRING(SS_LCTL("v"));
-                        break;
-                    default:
-                        SEND_STRING(SS_LGUI("v"));
-                        break;
+                if (keymap_config.swap_lctl_lgui) {
+                    SEND_STRING(SS_LCTL("v"));
+                } else {
+                    SEND_STRING(SS_LGUI("v"));
                 }
             }
             return false;
@@ -328,7 +317,6 @@ bool process_autocorrect_user(uint16_t *keycode, keyrecord_t *record, uint8_t *t
 
 void rgb_layer_indication_toggle(void) {
     userspace_config.rgb.layer_change ^= 1;
-    dprintf("rgblight layer change [EEPROM]: %u\n", userspace_config.rgb.layer_change);
     eeconfig_update_user_datablock_handler(&userspace_config, 0, EECONFIG_USER_DATA_SIZE);
     if (userspace_config.rgb.layer_change) {
 #if defined(RGB_MATRIX_CUSTOM_USER)

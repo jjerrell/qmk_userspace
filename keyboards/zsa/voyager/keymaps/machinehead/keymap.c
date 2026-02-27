@@ -34,6 +34,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _________________ADJUST_L3_________________,        _________________ADJUST_R3_________________, RGB_TOG,
         _______, ___________________BLANK___________________,        ___________________BLANK___________________, RM_TOGG
     ),
+    [_MACRO] = LAYOUT_wrapper(
+        _______, LF_LQTR, LF_CQTR, CT_HALF, RT_CQTR, RT_RQTR,        _______, _______, _______, _______, _______, _______,
+        _______, LF_TTRD, LF_THRD, CN_THRD, RT_THRD, RT_TTRD,        _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______, _______,
+        MACRO_2, _______, _______, _______, _______, _______,        _______, _______, _______, _______, _______, _______,
+                                            LF_HALF, RT_HALF,        _______, _______
+    ),
     [_MOUSE] = LAYOUT_wrapper(
         _______, OM_W_U,  OM_HLDS, OM_U,    OM_RELS,  OM_W_U,        _______, _______, _______, _______, _______, _______,
         _______, OM_W_D,  OM_L,    OM_D,    OM_R,     OM_W_D,        _______, KC_RALT, KC_RGUI, KC_RSFT, _______, _______,
@@ -43,6 +50,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 // clang-format on
+
+void housekeeping_task_keymap(void) {
+    if (!is_transport_connected()) {
+        layer_move(_MACRO);
+    }
+}
 
 #ifdef VOYAGER_USER_LEDS
 layer_state_t layer_state_set_keymap(layer_state_t state) {

@@ -52,11 +52,11 @@
 
 /* RAISE - Alt
 ,---------------------------------------.  ,---------------------------------------.
-|   \   |   *   |   #   |   &   |   !   |  |   =   |   |   |   $   |   %   |   ^   |
+|   \   |   @   |   #   |   &   |   !   |  |   =   |   |   |   $   |   *   |   ^   |
 |-------+-------+-------+-------+-------|  |-------+-------+-------+-------+-------|
 |   <   |   >   |   (   |   )   |  ->   |  |   :   |   {   |   }   |   [   |   ]   |
 |-------+-------+-------+-------+-------|  |-------+-------+-------+-------+-------|
-|   /   |   @   |   +   |   "   |   `   |  |   ~   |   '   |   -   |   _   |   ?   |
+|   /   |   %   |   -   |   "   |   `   |  |   ~   |   '   |   +   |   _   |   ;   |
 `---------------------------------------'  `---------------------------------------'
 * Theory (Index/Middle = Primary; Ring/Pinky = Secondary):
 * - Home row
@@ -65,26 +65,29 @@
 * - Top row
 *   - Rolling or consistent operands on primaries: `!=`, `&&`, `||`
 *   - Common symbols in programming
-*   - Not fond of the `*` location
 * - Bottom row
 *   - Common general use symbols.
-*   - Generally feeling disatified about the position of `@` due to its frequency in chat
-*
-* The symetry seems nice, on paper. The symbols I theoretically feel unhappy about
 */
+#ifdef ENABLE_RAISE_MIGRATION
+#   define _________________RAISE_L1__________________  KC_BSLS, KC_AT,   KC_HASH, KC_AMPR, KC_EXLM
+#   define _________________RAISE_L2__________________  KC_LABK, KC_RABK, KC_LPRN, KC_RPRN, KC_ARRW
+#   define _________________RAISE_L3__________________  KC_SLSH, KC_PERC, KC_MINS, KC_DQUO, KC_GRV
 
-#define _________________RAISE_L1__________________  KC_BSLS, KC_SLSH, KC_PIPE, KC_AMPR, KC_MINS
-// #define _________________RAISE_L2__________________  KC_LABK, KC_LBRC, KC_LPRN, KC_LCBR, KC_ARRW
-#define _________________RAISE_L2__________________  KC_LABK, KC_LBRC, KC_LPRN, KC_LCBR, KC_ARRW
-#define _________________RAISE_L3__________________  KC_GRV,  KC_SCLN, KC_COLN, KC_PLUS, KC_EQL
+#   define _________________RAISE_R1__________________  KC_EQL,  KC_PIPE, KC_DLR,  KC_ASTR, KC_CIRC
+#   define _________________RAISE_R2__________________  KC_COLN, KC_LCBR, KC_RCBR, KC_LBRC, KC_RBRC
+#   define _________________RAISE_R3__________________  KC_TILD, KC_QUOT, KC_PLUS, KC_UNDS, KC_SCLN
+#else // !ENABLE_RAISE_MIGRATION
+#   define _________________RAISE_L1__________________  KC_BSLS, KC_SLSH, KC_PIPE, KC_AMPR, KC_MINS
+#   define _________________RAISE_L2__________________  KC_LABK, KC_LBRC, KC_LPRN, KC_LCBR, KC_ARRW
+#   define _________________RAISE_L3__________________  KC_GRV,  KC_SCLN, KC_COLN, KC_PLUS, KC_EQL
 
-#define _________________RAISE_R1__________________  KC_EXLM, KC_HASH, KC_DLR,  KC_PERC, KC_CIRC
-// #define _________________RAISE_R2__________________  KC_AT,   KC_RCBR, KC_RPRN, KC_RBRC, KC_RABK
-#define _________________RAISE_R2__________________  KC_AT,   KC_RCBR, KC_RPRN, KC_RBRC, KC_RABK
-#define _________________RAISE_R3__________________  KC_TILD, KC_DQUO, KC_QUOT, KC_UNDS, KC_QUES
+#   define _________________RAISE_R1__________________  KC_EXLM, KC_HASH, KC_DLR,  KC_PERC, KC_CIRC
+#   define _________________RAISE_R2__________________  KC_AT,   KC_RCBR, KC_RPRN, KC_RBRC, KC_RABK
+#   define _________________RAISE_R3__________________  KC_TILD, KC_DQUO, KC_QUOT, KC_UNDS, KC_QUES
+#endif // ENABLE_RAISE_MIGRATION
 
 // Adjust
-#define _________________ADJUST_L1_________________  KC_MAKE, DB_TOGG, QK_BOOT, KC_QWERTY, KC_WRKMAN
+#define _________________ADJUST_L1_________________  QK_MAKE, DB_TOGG, QK_BOOT, KC_QWERTY, KC_WRKMAN
 #define _________________ADJUST_L2_________________  KC_MUTE, KC_VOLD, KC_VOLU, KC_MPLY,   KC_MNXT
 #define _________________ADJUST_L3_________________  KC_VRSN, AU_ON,   AU_OFF,  CG_SWAP,   CG_NORM
 

@@ -6,8 +6,7 @@
 #include "action.h"
 
 enum userspace_custom_keycodes {
-    KC_MAKE = QK_USER, // Runs the keyboard's make command
-    KC_ARRW,           // ->
+    KC_ARRW = QK_USER, // ->
     KC_VRSN,           // Print QMK Firmware and board info
     KC_CCCV,           // Copy-pasta button
     KC_RGBT,          // Toggles RGB Layer Indication mode
@@ -43,12 +42,6 @@ bool process_record_unicode(uint16_t keycode, keyrecord_t *record);
 #endif // CUSTOM_UNICODE_ENABLE
 void rgb_layer_indication_toggle(void);
 
-#define KC_SEC1 MACRO_1
-#define KC_SEC2 MACRO_2
-#define KC_SEC3 MACRO_3
-#define KC_SEC4 MACRO_4
-#define KC_SEC5 MACRO_5
-
 #define GUI_SPC GUI_T(KC_SPC)
 
 #define SFT_SPC SFT_T(KC_SPC)
@@ -62,17 +55,20 @@ void rgb_layer_indication_toggle(void);
 #define TOG_LWR TG(_LOWER)
 #define TOG_RSE TG(_RAISE)
 
-#ifndef COMMUNITY_MODULE_KEYBOARD_LOCK_ENABLE
-#    define KEYLOCK KC_NO
-#endif // COMMUNITY_MODULE_KEYBOARD_LOCK_ENABLE
-#ifndef COMMUNITY_MODULE_UNICODE_TYPING_ENABLE
-#    define KC_NOMODE   KC_NO
-#    define KC_WIDE     KC_NO
-#    define KC_SCRIPT   KC_NO
-#    define KC_BLOCKS   KC_NO
-#    define KC_REGIONAL KC_NO
-#    define KC_AUSSIE   KC_NO
-#    define KC_ZALGO    KC_NO
-#    define KC_SUPER    KC_NO
-#    define KC_COMIC    KC_NO
-#endif // COMMUNITY_MODULE_UNICODE_TYPING_ENABLE
+#pragma region SCREEN_LAYOUT
+#define LF_LQTR HYPR(KC_Q) // Left quarter
+#define LF_CQTR HYPR(KC_D) // Left-center quarter
+#define RT_CQTR HYPR(KC_R) // Right-center quarter
+#define RT_RQTR HYPR(KC_W) // Right quarter
+
+#define LF_TTRD HYPR(KC_A) // Left two-thirds
+#define LF_THRD HYPR(KC_S) // Left third
+#define CN_THRD HYPR(KC_H) // Center third
+#define RT_THRD HYPR(KC_T) // Right third
+#define RT_TTRD HYPR(KC_G) // Right two-thirds
+
+#define LF_HALF HYPR(KC_X)
+#define CT_HALF HYPR(KC_M)
+#define RT_HALF HYPR(KC_C)
+#pragma endregion SCREEN_LAYOUT
+
