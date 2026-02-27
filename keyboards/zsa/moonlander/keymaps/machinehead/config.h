@@ -24,3 +24,12 @@
 
 #define RGBLIGHT_LED_COUNT (16 + 16)
 #define RGBLIGHT_STARTUP_ANIMATION
+
+#define CHORDAL_HOLD_LAYOUT LAYOUT_moonlander_wrapper( \
+    'L', 'L', 'L', 'L', 'L', 'L', 'L',   'R', 'R', 'R', 'R', 'R', 'R', 'R', \
+    'L', 'L', 'L', 'L', 'L', 'L', 'L',   'R', 'R', 'R', 'R', 'R', 'R', 'R', \
+    'L', 'L', 'L', 'L', 'L', 'L', 'L',   'R', 'R', 'R', 'R', 'R', 'R', 'R', \
+    'L', 'L', 'L', 'L', 'L', 'L',             'R', 'R', 'R', 'R', 'R', 'R', \
+    'L', 'L', 'L', 'L', 'L',      '*',   '*',      'R', 'R', 'R', 'R', 'R', \
+                        '*', '*', '*',   '*', '*', '*'                      \
+)
