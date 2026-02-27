@@ -94,8 +94,9 @@ const uint8_t mod_led_mapping[] = {
     8,
     44
 };
-const uint8_t arrow_led_mapping[] = {12, 16, 17, 22};
-const uint8_t numpad_led_mapping[] = { 47, 48, 49, 52, 53, 54, 57, 58, 59, 60 };
+const uint8_t arrow_led_mapping[] = {}; //{ 12, 16, 17, 22 };
+const uint8_t numpad_led_mapping[] = {}; //{ 47, 48, 49, 52, 53, 54, 57, 58, 59, 60 };
+const uint8_t lower_led_mapping[] = { 12, 16, 17, 22, 47, 48, 49, 52, 53, 54, 57, 58, 59, 64 };
 #endif // RGB_MATRIX_CUSTOM_USER
 
 // void housekeeping_task_user(void) {
